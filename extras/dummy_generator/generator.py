@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Module docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -31,14 +32,14 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 django.setup()
 
 # Must happen after calling django.setup()
-from django.contrib.auth.models import User
-from wger.core.models import DaysOfWeek
-from wger.exercises.models import Exercise
-from wger.gym.models import (
+from django.contrib.auth.models import User  # noqa
+from wger.core.models import DaysOfWeek  # noqa
+from wger.exercises.models import Exercise  # noqa
+from wger.gym.models import (  # noqa
     GymUserConfig,
     Gym
 )
-from wger.manager.models import (
+from wger.manager.models import (  # noqa
     Workout,
     Day,
     Set,
@@ -48,22 +49,22 @@ from wger.manager.models import (
     WorkoutLog,
     WorkoutSession
 )
-from wger.weight.models import WeightEntry
+from wger.weight.models import WeightEntry  # noqa
 
-from wger.core.models import Language
+from wger.core.models import Language  # noqa
 
 # Nutrition import //_c
-from wger.nutrition.models import (
+from wger.nutrition.models import (  # noqa
     Ingredient,
-    IngredientWeightUnit,
-    WeightUnit,
     NutritionPlan,
     Meal,
     MealItem
 )
 
-parser = argparse.ArgumentParser(description='Data generator. Please consult the documentation')
-subparsers = parser.add_subparsers(help='The kind of entries you want to generate')
+parser = argparse.ArgumentParser(
+    description='Data generator. Please consult the documentation')
+subparsers = parser.add_subparsers(
+    help='The kind of entries you want to generate')
 
 # User options
 user_parser = subparsers.add_parser('users', help='Create users')
@@ -74,12 +75,14 @@ user_parser.add_argument('number_users',
 user_parser.add_argument('--add-to-gym',
                          action='store',
                          default='auto',
-                         help='Gym to assign the users to. Allowed values: auto, none, <gym_id>. '
-                              'Default: auto')
+                         help=('Gym to assign the users to.'
+                                 ' Allowed values: auto,none, <gym_id>. '
+                                 'Default: auto'))
 user_parser.add_argument('--country',
                          action='store',
                          default='germany',
-                         help='What country the generated users should belong to. Default: Germany',
+                         help=('What country the generated users should '
+                               'belong to. Default: Germany'),
                          choices=['germany', 'ukraine', 'spain'])
 
 # Workout options
@@ -90,7 +93,8 @@ workouts_parser.add_argument('number_workouts',
                              type=int)
 workouts_parser.add_argument('--add-to-user',
                              action='store',
-                             help='Add to the specified user-ID, not all existing users')
+                             help='Add to the specified user-ID,'
+                             ' not all existing users')
 
 # Gym options
 gym_parser = subparsers.add_parser('gyms', help='Create gyms')
@@ -109,7 +113,8 @@ logs_parser.add_argument('number_logs',
 session_parser = subparsers.add_parser('sessions', help='Create sessions')
 session_parser.add_argument('impression_sessions',
                             action='store',
-                            help='Impression for the sessions, default: random',
+                            help='Impression for the sessions, '
+                            ' default: random',
                             default='random',
                             choices=['random', 'good', 'neutral', 'bad'])
 
@@ -121,22 +126,26 @@ weight_parser.add_argument('number_weight',
                            type=int)
 weight_parser.add_argument('--add-to-user',
                            action='store',
-                           help='Add to the specified user-ID, not all existing users')
+                           help='Add to the specified user-ID, not '
+                           ' all existing users')
 weight_parser.add_argument('--base-weight',
                            action='store',
-                           help='Default weight for the entry generation, default = 80',
+                           help='Default weight for the entry generation,'
+                           ' default = 80',
                            type=int,
                            default=80)
 
 # Nutrition options
-nutrition_parser = subparsers.add_parser('nutrition', help='Creates a meal plan')
+nutrition_parser = subparsers.add_parser('nutrition',
+                                         help='Creates a meal plan')
 nutrition_parser.add_argument('number_nutrition_plans',
-                         action='store',
-                         help='Number of meal plans to create',
-                         type=int)
+                              action='store',
+                              help='Number of meal plans to create',
+                              type=int)
 nutrition_parser.add_argument('--add-to-user',
-                           action='store',
-                           help='Add to the specified user-ID, not all existing users')
+                              action='store',
+                              help='Add to the specified user-ID,'
+                              ' not all existing users')
 
 args = parser.parse_args()
 # print(args)
@@ -158,12 +167,14 @@ if hasattr(args, 'number_users'):
     first_names = []
     last_names = []
 
-    with open(os.path.join('csv', 'first_names_{0}.csv'.format(args.country))) as name_file:
+    with open(os.path.join('csv', 'first_names_{0}.csv'.format(args.country)))\
+            as name_file:
         name_reader = csv.reader(name_file)
         for row in name_reader:
             first_names.append(row)
 
-    with open(os.path.join('csv', 'last_names_{0}.csv'.format(args.country))) as name_file:
+    with open(os.path.join('csv', 'last_names_{0}.csv'.format(args.country)))\
+            as name_file:
         name_reader = csv.reader(name_file)
         for row in name_reader:
             last_names.append(row[0])
@@ -266,7 +277,8 @@ if hasattr(args, 'number_workouts'):
         for i in range(1, args.number_workouts):
 
             uid = str(uuid.uuid4()).split('-')
-            start_date = datetime.date.today() - datetime.timedelta(days=random.randint(0, 100))
+            start_date = datetime.date.today() - datetime.timedelta(
+                days=random.randint(0, 100))
             workout = Workout(user=user,
                               comment='Dummy workout - {0}'.format(uid[1]),
                               creation_date=start_date)
@@ -284,7 +296,8 @@ if hasattr(args, 'number_workouts'):
                 uid = str(uuid.uuid4()).split('-')
                 weekday = DaysOfWeek.objects.get(pk=day)
 
-                day = Day(training=workout, description='Dummy day - {0}'.format(uid[0]))
+                day = Day(training=workout,
+                          description='Dummy day - {0}'.format(uid[0]))
                 day.save()
                 day.day.add(weekday)
 
@@ -301,7 +314,8 @@ if hasattr(args, 'number_workouts'):
                     day_set.save()
                     day_set.exercises.add(exercise)
 
-                    setting = Setting(set=day_set, exercise=exercise, reps=reps, order=order)
+                    setting = Setting(set=day_set, exercise=exercise,
+                                      reps=reps, order=order)
                     setting.save()
 
                     order += 1
@@ -311,7 +325,8 @@ if hasattr(args, 'number_workouts'):
         user_workouts = [i for i in Workout.objects.filter(user=user)]
         for i in range(0, nr_of_schedules):
             uid = str(uuid.uuid4()).split('-')
-            start_date = datetime.date.today() - datetime.timedelta(days=random.randint(0, 30))
+            start_date = datetime.date.today() - datetime.timedelta(
+                days=random.randint(0, 30))
 
             random.shuffle(user_workouts)
 
@@ -351,12 +366,14 @@ if hasattr(args, 'number_logs'):
                     for setting in set.setting_set.all():
                         for reps in (8, 10, 12):
                             for i in range(1, args.number_logs):
-                                date = datetime.date.today() - datetime.timedelta(weeks=i)
+                                date = datetime.date.today() \
+                                 - datetime.timedelta(weeks=i)
                                 log = WorkoutLog(user=user,
                                                  exercise=setting.exercise,
                                                  workout=workout,
                                                  reps=reps,
-                                                 weight=50 - reps + random.randint(1, 10),
+                                                 weight=50 - reps
+                                                 + random.randint(1, 10),
                                                  date=date)
                                 weight_log.append(log)
 
@@ -377,11 +394,14 @@ if hasattr(args, 'impression_sessions'):
         for date in WorkoutLog.objects.filter(user=user).dates('date', 'day'):
 
             # Only process for dates for which there isn't already a session
-            if not WorkoutSession.objects.filter(user=user, date=date).exists():
+            if not WorkoutSession.objects.filter(user=user,
+                                                 date=date).exists():
 
-                workout = WorkoutLog.objects.filter(user=user, date=date).first().workout
-                start = datetime.time(hour=random.randint(8, 20), minute=random.randint(0, 59))
-                end = datetime.datetime.combine(datetime.date.today(), start)  \
+                workout = WorkoutLog.objects.filter(user=user,
+                                                    date=date).first().workout
+                start = datetime.time(hour=random.randint(8, 20),
+                                      minute=random.randint(0, 59))
+                end = datetime.datetime.combine(datetime.date.today(), start) \
                     + datetime.timedelta(minutes=random.randint(40, 120))
                 end = datetime.time(hour=end.hour, minute=end.minute)
 
@@ -399,9 +419,10 @@ if hasattr(args, 'impression_sessions'):
                 elif args.impression_sessions == 'bad':
                     session.impression = WorkoutSession.IMPRESSION_BAD
                 else:
-                    session.impression = random.choice([WorkoutSession.IMPRESSION_GOOD,
-                                                        WorkoutSession.IMPRESSION_NEUTRAL,
-                                                        WorkoutSession.IMPRESSION_BAD])
+                    session.impression =\
+                     random.choice([WorkoutSession.IMPRESSION_GOOD,
+                                   WorkoutSession.IMPRESSION_NEUTRAL,
+                                   WorkoutSession.IMPRESSION_BAD])
 
                 session_list.append(session)
 
@@ -412,7 +433,8 @@ if hasattr(args, 'impression_sessions'):
 # Weight entry generator
 #
 if hasattr(args, 'number_weight'):
-    print("** Generating {0} weight entries per user".format(args.number_weight))
+    print("** Generating {0} weight entries per user".format(
+        args.number_weight))
 
     if args.add_to_user:
         userlist = [User.objects.get(pk=args.add_to_user)]
@@ -423,7 +445,8 @@ if hasattr(args, 'number_weight'):
         new_entries = []
         print('   - generating for {0}'.format(user.username))
 
-        existing_entries = [i.date for i in WeightEntry.objects.filter(user=user)]
+        existing_entries = [i.date for i in WeightEntry.objects.filter(
+            user=user)]
 
         # Weight entries
         for i in range(1, args.number_weight):
@@ -431,7 +454,8 @@ if hasattr(args, 'number_weight'):
             creation_date = datetime.date.today() - datetime.timedelta(days=i)
             if creation_date not in existing_entries:
                 entry = WeightEntry(user=user,
-                                    weight=args.base_weight + 0.5 * i + random.randint(1, 3),
+                                    weight=args.base_weight + 0.5 * i +
+                                    random.randint(1, 3),
                                     date=creation_date)
                 new_entries.append(entry)
 
@@ -440,7 +464,8 @@ if hasattr(args, 'number_weight'):
 
 # Nutrition Generator
 if hasattr(args, 'number_nutrition_plans'):
-    print("** Generating {0} nutrition plan(s) per user".format(args.number_nutrition_plans))
+    print("** Generating {0} nutrition plan(s) per user".format(
+        args.number_nutrition_plans))
 
     if args.add_to_user:
         userlist = [User.objects.get(pk=args.add_to_user)]
@@ -452,16 +477,18 @@ if hasattr(args, 'number_nutrition_plans'):
 
     # Total meals per plan
     total_meals = 4
-    
+
     for user in userlist:
         print('   - generating for {0}'.format(user.username))
 
         # Add nutrition plan
         for i in range(0, args.number_nutrition_plans):
             uid = str(uuid.uuid4()).split('-')
-            start_date = datetime.date.today() - datetime.timedelta(days=random.randint(0, 100))
-            nutrition_plan = NutritionPlan(language=Language.objects.all()[1], description='Dummy nutrition plan - {0}'.format(uid[1]),
-                              creation_date=start_date)
+            start_date = datetime.date.today() - datetime.timedelta(
+                days=random.randint(0, 100))
+            nutrition_plan = NutritionPlan(language=Language.objects.all(
+            )[1], description='Dummy nutrition plan - {0}'.format(uid[1]),
+             creation_date=start_date)
             nutrition_plan.user = user
 
             nutrition_plan.save()
@@ -471,8 +498,15 @@ if hasattr(args, 'number_nutrition_plans'):
             for j in range(0, total_meals):
                 meal = Meal(plan=nutrition_plan, order=order)
                 meal.save()
-                for k in range(0, random.randint(1,5)):
+                for k in range(0, random.randint(1, 5)):
                     ingredient = random.choice(ingredientList)
-                    meal_item = MealItem(meal=meal, ingredient=ingredient, weight_unit=None, order=order, amount=random.randint(10, 250))
+                    meal_item = MealItem(
+                        meal=meal,
+                        ingredient=ingredient,
+                        weight_unit=None,
+                        order=order,
+                        amount=random.randint(
+                            10,
+                            250))
                     meal_item.save()
                 order = order + 1

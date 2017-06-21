@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+"""Dosctring for module."""
+import json
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,16 +23,13 @@ Create the data.json e.g. with:
     python ../../manage.py dumpdata --indent 4 --natural-foreign > data.json
 '''
 
-import json
-
 
 def filter_dump(data, model_list, filename):
-    '''
-    Helper function
-    '''
+    """Is a helper function."""
     filter_data = [i for i in data if i['model'] in model_list]
     with open(filename, 'w') as outfile:
         json.dump(filter_data, outfile, indent=4)
+
 
 # This is a full dump of the DB
 fixture = open('data.json')
