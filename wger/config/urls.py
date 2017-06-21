@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url, include # noqa
 
 from wger.config.views import language_config
 from wger.config.views import gym_config
