@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -40,40 +40,31 @@ from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
-    '''
-    API endpoint for workout objects
-    '''
+    """API endpoint for workout objects."""
+
     is_private = True
     serializer_class = UserprofileSerializer
     permission_classes = (WgerPermission, UpdateOnlyPermission)
     ordering_fields = '__all__'
 
     def get_queryset(self):
-        '''
-        Only allow access to appropriate objects
-        '''
+        """Only allow access to appropriate objects."""
         return UserProfile.objects.filter(user=self.request.user)
 
     def get_owner_objects(self):
-        '''
-        Return objects to check for ownership permission
-        '''
+        """Return objects to check for ownership permission."""
         return [(User, 'user')]
 
     @detail_route()
     def username(self, request, pk):
-        '''
-        Return the username
-        '''
-
+        """Return the username."""
         user = self.get_object().user
         return Response(UsernameSerializer(user).data)
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
-    '''
-    API endpoint for workout objects
-    '''
+    """API endpoint for workout objects."""
+
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     ordering_fields = '__all__'
@@ -82,9 +73,8 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class DaysOfWeekViewSet(viewsets.ReadOnlyModelViewSet):
-    '''
-    API endpoint for workout objects
-    '''
+    """API endpoint for workout objects."""
+
     queryset = DaysOfWeek.objects.all()
     serializer_class = DaysOfWeekSerializer
     ordering_fields = '__all__'
@@ -92,9 +82,8 @@ class DaysOfWeekViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class LicenseViewSet(viewsets.ReadOnlyModelViewSet):
-    '''
-    API endpoint for workout objects
-    '''
+    """API endpoint for workout objects."""
+
     queryset = License.objects.all()
     serializer_class = LicenseSerializer
     ordering_fields = '__all__'
@@ -104,9 +93,8 @@ class LicenseViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class RepetitionUnitViewSet(viewsets.ReadOnlyModelViewSet):
-    '''
-    API endpoint for repetition units objects
-    '''
+    """API endpoint for repetition units objects."""
+
     queryset = RepetitionUnit.objects.all()
     serializer_class = RepetitionUnitSerializer
     ordering_fields = '__all__'
@@ -114,9 +102,8 @@ class RepetitionUnitViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class WeightUnitViewSet(viewsets.ReadOnlyModelViewSet):
-    '''
-    API endpoint for weight units objects
-    '''
+    """API endpoint for weight units objects."""
+
     queryset = WeightUnit.objects.all()
     serializer_class = WeightUnitSerializer
     ordering_fields = '__all__'

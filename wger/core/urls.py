@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 
 
-from django.conf.urls import (
+from django.conf.urls import ( # noqa
     patterns,
     url,
     include
@@ -35,19 +35,19 @@ from wger.core.views import (
 
 # sub patterns for languages
 patterns_language = [
-   url(r'^list$',
+    url(r'^list$',
         languages.LanguageListView.as_view(),
         name='overview'),
-   url(r'^(?P<pk>\d+)/view$',
+    url(r'^(?P<pk>\d+)/view$',
         languages.LanguageDetailView.as_view(),
         name='view'),
-   url(r'^(?P<pk>\d+)/delete$',
+    url(r'^(?P<pk>\d+)/delete$',
         languages.LanguageDeleteView.as_view(),
         name='delete'),
-   url(r'^(?P<pk>\d+)/edit',
+    url(r'^(?P<pk>\d+)/edit',
         languages.LanguageEditView.as_view(),
         name='edit'),
-   url(r'^add$',
+    url(r'^add$',
         languages.LanguageCreateView.as_view(),
         name='add'),
 ]
@@ -102,7 +102,7 @@ patterns_user = [
     url(r'^password/change$',
         views.password_change,
         {'template_name': 'user/change_password.html',
-          'post_change_redirect': reverse_lazy('core:user:preferences')},
+         'post_change_redirect': reverse_lazy('core:user:preferences')},
         name='change-password'),
     url(r'^password/reset/$',
         views.password_reset,
@@ -114,7 +114,8 @@ patterns_user = [
         views.password_reset_done,
         {'template_name': 'user/password_reset_done.html'},
         name='password_reset_done'),
-    url(r'^password/reset/check/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+    url(r'^password/reset/check/(?P<uidb64>[0-9A-Za-z_\-]+)\
+        /(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         views.password_reset_confirm,
         {'template_name': 'user/password_reset_confirm.html',
          'post_reset_redirect': reverse_lazy('core:user:password_reset_complete')},

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,14 +22,12 @@ from wger.core.models import UserProfile
 
 
 class Command(BaseCommand):
-    '''
-    Helper admin command to clean up demo users, to be called e.g. by cron
-    '''
+    """Helper admin command to clean up demo users, to be called e.g. by cron."""
 
     help = 'Deletes all temporary users older than 1 week'
 
     def handle(self, **options):
-
+        """Handle Docstring."""
         profile_list = UserProfile.objects.filter(is_temporary=True)
         counter = 0
         for profile in profile_list:

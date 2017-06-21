@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -49,9 +49,7 @@ logger = logging.getLogger(__name__)
 
 
 def create_temporary_user():
-    '''
-    Creates a temporary user
-    '''
+    """Create a temporary user."""
     username = uuid.uuid4().hex[:-2]
     password = uuid.uuid4().hex[:-2]
     email = ''
@@ -68,10 +66,7 @@ def create_temporary_user():
 
 
 def create_demo_entries(user):
-    '''
-    Creates some demo data for temporary users
-    '''
-
+    """Create some demo data for temporary users."""
     # (this is a bit ugly and long...)
     language = load_language()
 

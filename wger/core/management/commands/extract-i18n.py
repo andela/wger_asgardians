@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -25,14 +25,12 @@ from wger.exercises.models import (
 
 
 class Command(BaseCommand):
-    '''
-    Helper command to read out the strings to manually include in the .po files
-    '''
+    """Helper command to read out the strings to manually include in the .pofiles."""
 
     help = 'Read out all strings that have to be included manually in the .po file'
 
     def handle(self, **options):
-
+        """Handle docstring."""
         # Collect all translatable items
         out = []
         out += [i for i in ExerciseCategory.objects.all()]

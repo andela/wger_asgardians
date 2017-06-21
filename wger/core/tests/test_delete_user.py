@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,14 +24,10 @@ logger = logging.getLogger(__name__)
 
 
 class DeleteUserTestCase(WorkoutManagerTestCase):
-    '''
-    Tests deleting the user account and all his data
-    '''
+    """Tests deleting the user account and all his data."""
 
     def delete_user(self, fail=False):
-        '''
-        Helper function
-        '''
+        """Define Helper function."""
         response = self.client.get(reverse('core:user:delete'))
         self.assertEqual(User.objects.filter(username='test').count(), 1)
         if fail:
@@ -54,28 +51,20 @@ class DeleteUserTestCase(WorkoutManagerTestCase):
             self.assertEqual(User.objects.filter(username='test').count(), 0)
 
     def test_delete_user_logged_in(self):
-        '''
-        Tests deleting the own account as a logged in user
-        '''
+        """Tests deleting the own account as a logged in user."""
         self.user_login('test')
         self.delete_user(fail=False)
 
     def test_delete_user_anonymous(self):
-        '''
-        Tests deleting the own account as an anonymous user
-        '''
+        """Tests deleting the own account as an anonymous user."""
         self.delete_user(fail=True)
 
 
 class DeleteUserByAdminTestCase(WorkoutManagerTestCase):
-    '''
-    Tests deleting a user account by a gym administrator
-    '''
+    """Tests deleting a user account by a gym administrator."""
 
     def delete_user(self, fail=False):
-        '''
-        Helper function
-        '''
+        """Define Helper function."""
         response = self.client.get(reverse('core:user:delete', kwargs={'user_pk': 2}))
         self.assertEqual(User.objects.filter(username='test').count(), 1)
         if fail:
@@ -103,84 +92,60 @@ class DeleteUserByAdminTestCase(WorkoutManagerTestCase):
             self.assertEqual(User.objects.filter(username='test').count(), 0)
 
     def test_delete_user_manager(self):
-        '''
-        Tests deleting the user account as a gym manager
-        '''
+        """Tests deleting the user account as a gym manager."""
         self.user_login('manager1')
         self.delete_user(fail=False)
 
     def test_delete_user_manager2(self):
-        '''
-        Tests deleting the user account as a gym manager
-        '''
+        """Tests deleting the user account as a gym manager."""
         self.user_login('manager2')
         self.delete_user(fail=False)
 
     def test_delete_user_general_manager(self):
-        '''
-        Tests deleting the user account as a general manager
-        '''
+        """Tests deleting the user account as a general manager."""
         self.user_login('general_manager1')
         self.delete_user(fail=False)
 
     def test_delete_user_general_manager2(self):
-        '''
-        Tests deleting the user account as a general manager
-        '''
+        """Tests deleting the user account as a general manager."""
         self.user_login('general_manager2')
         self.delete_user(fail=False)
 
     def test_delete_user(self):
-        '''
-        Tests deleting the user account as a regular user
-        '''
+        """Tests deleting the user account as a regular user."""
         self.user_login('test')
         self.delete_user(fail=True)
 
     def test_delete_user_trainer(self):
-        '''
-        Tests deleting the user account as a gym trainer
-        '''
+        """Tests deleting the user account as a gym trainer."""
         self.user_login('trainer1')
         self.delete_user(fail=True)
 
     def test_delete_user_trainer2(self):
-        '''
-        Tests deleting the user account as a gym trainer
-        '''
+        """Tests deleting the user account as a gym trainer."""
         self.user_login('trainer4')
         self.delete_user(fail=True)
 
     def test_delete_user_trainer_other(self):
-        '''
-        Tests deleting the user account as a gym trainer of another gym
-        '''
+        """Tests deleting the user account as a gym trainer of another gym."""
         self.user_login('trainer4')
         self.delete_user(fail=True)
 
     def test_delete_user_manager_other(self):
-        '''
-        Tests deleting the user account as a gym manager of another gym
-        '''
+        """Tests deleting the user account as a gym manager of another gym."""
         self.user_login('manager3')
         self.delete_user(fail=True)
 
     def test_delete_user_member(self):
-        '''
-        Tests deleting the user account as a gym member
-        '''
+        """Tests deleting the user account as a gym member."""
         self.user_login('member1')
         self.delete_user(fail=True)
 
-    def test_delete_user_member(self):
-        '''
-        Tests deleting the user account as a gym member
-        '''
+    def test_delete_user_member(self): # noqa
+        """Tests deleting the user account as a gym member."""
         self.user_login('member4')
         self.delete_user(fail=True)
 
     def test_delete_user_anonymous(self):
-        '''
-        Tests deleting the user account as an anonymous user
-        '''
+        """Tests deleting the user account as an anonymous user."""
         self.delete_user(fail=True)

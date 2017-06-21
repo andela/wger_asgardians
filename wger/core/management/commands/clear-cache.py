@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ from django.core.cache import cache
 
 from wger.core.models import Language
 from wger.manager.models import Workout, WorkoutLog
-from wger.exercises.models import Exercise
+from wger.exercises.models import Exercise # noqa
 from wger.utils.cache import (
     reset_workout_canonical_form,
     reset_workout_log,
@@ -31,9 +31,7 @@ from wger.utils.cache import (
 
 
 class Command(BaseCommand):
-    '''
-    Clears caches (HTML, etc.)
-    '''
+    """Clears caches (HTML, etc.)."""
 
     option_list = BaseCommand.option_list + (
         make_option('--clear-template',
@@ -59,10 +57,7 @@ class Command(BaseCommand):
            'what exactly you want to clear. See available options.'
 
     def handle(self, **options):
-        '''
-        Process the options
-        '''
-
+        """Process the options."""
         if (not options['clear_template']
                 and not options['clear_workout']
                 and not options['clear_all']):

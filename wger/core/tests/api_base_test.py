@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -21,6 +22,8 @@ from wger.core.tests.base_testcase import BaseTestCase
 
 
 class ApiBaseTestCase(APITestCase):
+    """Docstring."""
+
     api_version = 'v2'
     '''
     The current API version to test
@@ -64,30 +67,25 @@ class ApiBaseTestCase(APITestCase):
     '''
 
     def get_resource_name(self):
-        '''
-        Returns the name of the resource. The default is the name of the model
-        class used in lower letters
-        '''
+        """Return the name of the resource.
+
+        The default is the name of the model class used in lower letters
+
+        """
         return self.resource.__name__.lower()
 
     @property
     def url(self):
-        '''
-        Return the URL to use for testing
-        '''
+        """Return the URL to use for testing."""
         return '/api/{0}/{1}/'.format(self.api_version, self.get_resource_name())
 
     @property
     def url_detail(self):
-        '''
-        Return the detail URL to use for testing
-        '''
+        """Return the detail URL to use for testing."""
         return '{0}{1}/'.format(self.url, self.pk)
 
     def get_credentials(self, username=None):
-        '''
-        Authenticates a user
-        '''
+        """Authenticate a user."""
         if not username:
             username = self.user_access
         user_obj = User.objects.get(username=username)
@@ -96,23 +94,16 @@ class ApiBaseTestCase(APITestCase):
 
 
 class ApiGetTestCase(object):
-    '''
-    Base test case for testing GET access to the API
-    '''
+    """Base test case for testing GET access to the API."""
+
     def test_ordering(self):
-        '''
-        Test that ordering the resource works
-        '''
+        """Test that ordering the resource works."""
         pass
 
         # TODO: implement this
 
     def test_get_detail(self):
-        '''
-        Tests accessing the detail view of a resource
-
-        '''
-
+        """Test accessing the detail view of a resource."""
         if self.private_resource:
             response = self.client.get(self.url_detail)
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -132,9 +123,7 @@ class ApiGetTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_overview(self):
-        '''
-        Test accessing the overview view of a resource
-        '''
+        """Test accessing the overview view of a resource."""
         if self.private_resource:
             response = self.client.get(self.url)
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -149,9 +138,7 @@ class ApiGetTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_special_endpoints(self):
-        '''
-        Test accessing any special endpoint the resource could have
-        '''
+        """Test accessing any special endpoint the resource could have."""
         for endpoint in self.special_endpoints:
             url = self.url_detail + endpoint + '/'
 
@@ -170,15 +157,10 @@ class ApiGetTestCase(object):
 
 
 class ApiPostTestCase(object):
-    '''
-    Base test case for testing POST access to the API
-    '''
+    """Base test case for testing POST access to the API."""
 
     def test_post_detail(self):
-        '''
-        POSTing to a detail view is not allowed
-        '''
-
+        """POST to a detail view is not allowed."""
         if self.private_resource:
             # Anonymous user
             response = self.client.post(self.url_detail, data=self.data)
@@ -209,10 +191,7 @@ class ApiPostTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_post(self):
-        '''
-        Tests POSTing (adding) a new object
-        '''
-
+        """Test POSTing (adding) a new object."""
         if self.private_resource:
             # Anonymous user
             response = self.client.post(self.url, data=self.data)
@@ -248,9 +227,7 @@ class ApiPostTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_post_special_endpoints(self):
-        '''
-        Tests that it's not possible to POST to the special endpoints
-        '''
+        """Tests that it's not possible to POST to the special endpoints."""
         for endpoint in self.special_endpoints:
             url = self.url_detail + endpoint + '/'
 
@@ -272,15 +249,10 @@ class ApiPostTestCase(object):
 
 
 class ApiPatchTestCase(object):
-    '''
-    Base test case for testing PATCH access to the API
-    '''
+    """Base test case for testing PATCH access to the API."""
 
     def test_patch_detail(self):
-        '''
-        Test PATCHING a detail view
-        '''
-
+        """Test PATCHING a detail view."""
         if self.private_resource:
             # Anonymous user
             response = self.client.patch(self.url_detail, data=self.data)
@@ -317,10 +289,7 @@ class ApiPatchTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_patch(self):
-        '''
-        PATCHING to the overview is not allowed
-        '''
-
+        """PATCHING to the overview is not allowed."""
         if self.private_resource:
             # Anonymous user
             response = self.client.patch(self.url, data=self.data)
@@ -341,9 +310,7 @@ class ApiPatchTestCase(object):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_patch_special_endpoints(self):
-        '''
-        Tests that it's not possible to patch to the special endpoints
-        '''
+        """Tests that it's not possible to patch to the special endpoints."""
         for endpoint in self.special_endpoints:
             url = self.url_detail + endpoint + '/'
 
@@ -365,15 +332,10 @@ class ApiPatchTestCase(object):
 
 
 class ApiPutTestCase(object):
-    '''
-    Base test case for testing PUT access to the API
-    '''
+    """Base test case for testing PUT access to the API."""
 
     def test_put_detail(self):
-        '''
-        PUTing to a detail view is allowed
-        '''
-
+        """PUT  a detail view is allowed."""
         if self.private_resource:
             # Anonymous user
             response = self.client.put(self.url_detail, data=self.data)
@@ -422,10 +384,7 @@ class ApiPutTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_put(self):
-        '''
-        Tests PUTTING (adding) a new object
-        '''
-
+        """Tests PUTTING (adding) a new object."""
         if self.private_resource:
             # Anonymous user
             response = self.client.put(self.url, data=self.data)
@@ -447,9 +406,7 @@ class ApiPutTestCase(object):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_put_special_endpoints(self):
-        '''
-        Tests that it's not possible to PUT to the special endpoints
-        '''
+        """Tests that it's not possible to PUT to the special endpoints."""
         for endpoint in self.special_endpoints:
             url = self.url_detail + endpoint + '/'
 
@@ -471,14 +428,10 @@ class ApiPutTestCase(object):
 
 
 class ApiDeleteTestCase(object):
-    '''
-    Base test case for testing DELETE access to the API
-    '''
+    """Base test case for testing DELETE access to the API."""
 
     def test_delete_detail(self):
-        '''
-        Tests DELETEing an object
-        '''
+        """Tests DELETEing an object."""
         if self.private_resource:
             # Anonymous user
             count_before = self.resource.objects.all().count()
@@ -516,9 +469,7 @@ class ApiDeleteTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_delete(self):
-        '''
-        DELETEing to the overview is not allowed
-        '''
+        """For DELETEing to the overview is not allowed."""
         if self.private_resource:
             # Anonymous user
             response = self.client.delete(self.url)
@@ -549,9 +500,7 @@ class ApiDeleteTestCase(object):
             self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_delete_special_endpoints(self):
-        '''
-        Tests that it's not possible to delete to the special endpoints
-        '''
+        """Tests that it's not possible to delete to the special endpoints."""
         for endpoint in self.special_endpoints:
             url = self.url_detail + endpoint + '/'
 
@@ -580,9 +529,10 @@ class ApiBaseResourceTestCase(BaseTestCase,
                               ApiDeleteTestCase,
                               ApiPutTestCase,
                               ApiPatchTestCase):
-    '''
-    Base test case for the REST API
+    """Base test case for the REST API.
 
     All logic happens in the Api*TestCase classes
-    '''
+
+    """
+
     pass

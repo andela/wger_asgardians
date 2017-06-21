@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
+"""Module Docstring."""
 from __future__ import unicode_literals
 
-from django.db import migrations, models
+from django.db import migrations, models # noqa
 
 
 def create_usercache(apps, schema_editor):
-    '''
-    Creates a usercache table for all users
-    '''
+    """Create a usercache table for all users."""
     User = apps.get_model("auth", "User")
     Usercache = apps.get_model("core", "Usercache")
     WorkoutLog = apps.get_model("manager", "WorkoutLog")
@@ -44,15 +43,14 @@ def create_usercache(apps, schema_editor):
 
 
 def delete_usercache(apps, schema_editor):
-    '''
-    Deletes the usercache table for all users
-    '''
+    """Delete the usercache table for all users."""
     Usercache = apps.get_model("core", "Usercache")
     for cache in Usercache.objects.all():
         cache.delete()
 
 
 class Migration(migrations.Migration):
+    """Docstring."""
 
     dependencies = [
         ('core', '0005_auto_20151025_2236'),

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -68,10 +69,7 @@ logger = logging.getLogger(__name__)
 
 
 def login(request):
-    '''
-    Small wrapper around the django login view
-    '''
-
+    """Small wrapper around the django login view."""
     context = {'active_tab': USER_TAB}
     if request.GET.get('next'):
         context['next'] = request.GET.get('next')
@@ -84,13 +82,12 @@ def login(request):
 
 @login_required()
 def delete(request, user_pk=None):
-    '''
-    Delete a user account and all his data, requires password confirmation first
+    """Delete a user account and all his data, requires password confirmation first.
 
-    If no user_pk is present, the user visiting the URL will be deleted, otherwise
-    a gym administrator is deleting a different user
-    '''
+    If no user_pk is present, the user visiting the URL will be deleted,
+    otherwise a gym administrator is deleting a different user
 
+    """
     if user_pk:
         user = get_object_or_404(User, pk=user_pk)
         form_action = reverse('core:user:delete', kwargs={'user_pk': user_pk})
@@ -133,9 +130,7 @@ def delete(request, user_pk=None):
 
 @login_required()
 def trainer_login(request, user_pk):
-    '''
-    Allows a trainer to 'log in' as the selected user
-    '''
+    """Allow a trainer to 'log in' as the selected user."""
     user = get_object_or_404(User, pk=user_pk)
     orig_user_pk = request.user.pk
 
@@ -182,9 +177,11 @@ def trainer_login(request, user_pk):
 
 
 def logout(request):
-    '''
-    Logout the user. For temporary users, delete them.
-    '''
+    """Logout the user.
+
+    For temporary users, delete them.
+
+    """
     user = request.user
     django_logout(request)
     if user.is_authenticated() and user.userprofile.is_temporary:
@@ -193,10 +190,7 @@ def logout(request):
 
 
 def registration(request):
-    '''
-    A form to allow for registration of new users
-    '''
-
+    """Form to allow for registration of new users."""
     # If global user registration is deactivated, redirect
     if not settings.WGER_SETTINGS['ALLOW_REGISTRATION']:
         return HttpResponseRedirect(reverse('software:features'))
@@ -265,9 +259,7 @@ def registration(request):
 
 @login_required
 def preferences(request):
-    '''
-    An overview of all user preferences
-    '''
+    """Overview of all user preferences."""
     template_data = {}
     template_data.update(csrf(request))
     redirect = False
@@ -310,17 +302,14 @@ def preferences(request):
 class UserDeactivateView(LoginRequiredMixin,
                          WgerMultiplePermissionRequiredMixin,
                          RedirectView):
-    '''
-    Deactivates a user
-    '''
+    """Deactivates a user."""
+
     permanent = False
     model = User
     permission_required = ('gym.manage_gym', 'gym.manage_gyms', 'gym.gym_trainer')
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Only managers and trainers for this gym can access the members
-        '''
+        """Only managers and trainers for this gym can access the members."""
         edit_user = get_object_or_404(User, pk=self.kwargs['pk'])
 
         if not request.user.is_authenticated():
@@ -333,6 +322,7 @@ class UserDeactivateView(LoginRequiredMixin,
         return super(UserDeactivateView, self).dispatch(request, *args, **kwargs)
 
     def get_redirect_url(self, pk):
+        """Docstring."""
         edit_user = get_object_or_404(User, pk=pk)
         edit_user.is_active = False
         edit_user.save()
@@ -343,17 +333,14 @@ class UserDeactivateView(LoginRequiredMixin,
 class UserActivateView(LoginRequiredMixin,
                        WgerMultiplePermissionRequiredMixin,
                        RedirectView):
-    '''
-    Activates a previously deactivated user
-    '''
+    """Activates a previously deactivated user."""
+
     permanent = False
     model = User
     permission_required = ('gym.manage_gym', 'gym.manage_gyms', 'gym.gym_trainer')
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Only managers and trainers for this gym can access the members
-        '''
+        """Only managers and trainers for this gym can access the members."""
         edit_user = get_object_or_404(User, pk=self.kwargs['pk'])
 
         if not request.user.is_authenticated():
@@ -366,6 +353,7 @@ class UserActivateView(LoginRequiredMixin,
         return super(UserActivateView, self).dispatch(request, *args, **kwargs)
 
     def get_redirect_url(self, pk):
+        """Docstring."""
         edit_user = get_object_or_404(User, pk=pk)
         edit_user.is_active = True
         edit_user.save()
@@ -377,9 +365,7 @@ class UserEditView(WgerFormMixin,
                    LoginRequiredMixin,
                    WgerMultiplePermissionRequiredMixin,
                    UpdateView):
-    '''
-    View to update the personal information of an user by an admin
-    '''
+    """View to update the personal information of an user by an admin."""
 
     model = User
     title = ugettext_lazy('Edit user')
@@ -387,12 +373,12 @@ class UserEditView(WgerFormMixin,
     form_class = UserPersonalInformationForm
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Check permissions
+        """Check permissions.
 
         - Managers can edit members of their own gym
         - General managers can edit every member
-        '''
+
+        """
         user = request.user
         if not user.is_authenticated():
             return HttpResponseForbidden()
@@ -405,12 +391,11 @@ class UserEditView(WgerFormMixin,
         return super(UserEditView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('core:user:overview', kwargs={'pk': self.kwargs['pk']})
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(UserEditView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('core:user:edit', kwargs={'pk': self.object.id})
         context['title'] = _('Edit {0}'.format(self.object))
@@ -419,10 +404,7 @@ class UserEditView(WgerFormMixin,
 
 @login_required
 def api_key(request):
-    '''
-    Allows the user to generate an API key for the REST API
-    '''
-
+    """Allow the user to generate an API key for the REST API."""
     context = {}
     context.update(csrf(request))
 
@@ -445,21 +427,20 @@ def api_key(request):
 
 
 class UserDetailView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, DetailView):
-    '''
-    User overview for gyms
-    '''
+    """User overview for gyms."""
+
     model = User
     permission_required = ('gym.manage_gym', 'gym.manage_gyms', 'gym.gym_trainer')
     template_name = 'user/overview.html'
     context_object_name = 'current_user'
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Check permissions
+        """Check permissions.
 
         - Only managers for this gym can access the members
         - General managers can access the detail page of all users
-        '''
+
+        """
         user = request.user
 
         if not user.is_authenticated():
@@ -473,9 +454,7 @@ class UserDetailView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, De
         return super(UserDetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(UserDetailView, self).get_context_data(**kwargs)
         out = []
         workouts = Workout.objects.filter(user=self.object).all()
@@ -496,17 +475,14 @@ class UserDetailView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, De
 
 
 class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    '''
-    Overview of all users in the instance
-    '''
+    """Overview of all users in the instance."""
+
     model = User
     permission_required = ('gym.manage_gyms',)
     template_name = 'user/list.html'
 
     def get_queryset(self):
-        '''
-        Return a list with the users, not really a queryset.
-        '''
+        """Return a list with the users, not really a queryset."""
         out = {'admins': [],
                'members': []}
 
@@ -517,9 +493,7 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return out
 
     def get_context_data(self, **kwargs):
-        '''
-        Pass other info to the template
-        '''
+        """Pass other info to the template."""
         context = super(UserListView, self).get_context_data(**kwargs)
         context['show_gym'] = True
         context['user_table'] = {'keys': [_('ID'),
