@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -32,10 +32,7 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def delete_meal_item(request, item_id):
-    '''
-    Deletes the meal ingredient with the given ID
-    '''
-
+    """Delete the meal ingredient with the given ID."""
     # Load the item
     item = get_object_or_404(MealItem, pk=item_id)
     plan = item.meal.plan
@@ -49,18 +46,14 @@ def delete_meal_item(request, item_id):
 
 
 class MealItemCreateView(WgerFormMixin, CreateView):
-    '''
-    Generic view to create a new meal item
-    '''
+    """Generic view to create a new meal item."""
 
     model = MealItem
     form_class = MealItemForm
     template_name = 'meal_item/edit.html'
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Check that the user owns the meal
-        '''
+        """Check that the user owns the meal."""
         meal = get_object_or_404(Meal, pk=kwargs['meal_id'])
         if meal.plan.user == request.user:
             self.meal = meal
@@ -69,12 +62,11 @@ class MealItemCreateView(WgerFormMixin, CreateView):
             return HttpResponseForbidden()
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('nutrition:plan:view', kwargs={'id': self.meal.plan.id})
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(MealItemCreateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('nutrition:meal_item:add',
                                          kwargs={'meal_id': self.meal.id})
@@ -82,18 +74,14 @@ class MealItemCreateView(WgerFormMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        '''
-        Manually set the corresponding meal
-        '''
+        """Manually set the corresponding meal."""
         form.instance.meal = self.meal
         form.instance.order = 1
         return super(MealItemCreateView, self).form_valid(form)
 
 
 class MealItemEditView(WgerFormMixin, UpdateView):
-    '''
-    Generic view to update an existing meal item
-    '''
+    """Generic view to update an existing meal item."""
 
     model = MealItem
     form_class = MealItemForm
@@ -102,12 +90,11 @@ class MealItemEditView(WgerFormMixin, UpdateView):
     template_name = 'meal_item/edit.html'
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('nutrition:plan:view', kwargs={'id': self.object.meal.plan.id})
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(MealItemEditView, self).get_context_data(**kwargs)
         context['ingredient_searchfield'] = self.object.ingredient.name
         return context

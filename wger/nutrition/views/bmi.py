@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -34,10 +34,7 @@ BMI views
 
 @login_required
 def view(request):
-    '''
-    The BMI calculator detail page
-    '''
-
+    """Show The BMI calculator detail page."""
     context = {}
     form_data = {'height': request.user.userprofile.height,
                  'weight': request.user.userprofile.weight}
@@ -47,10 +44,7 @@ def view(request):
 
 @login_required
 def calculate(request):
-    '''
-    Calculates the BMI
-    '''
-
+    """Calculate the BMI."""
     data = []
 
     form = BmiForm(request.POST, instance=request.user.userprofile)
@@ -71,14 +65,13 @@ def calculate(request):
 
 
 def chart_data(request):
-    '''
-    Returns the data to render the BMI chart
+    """Return the data to render the BMI chart.
 
     The individual values taken from
     * http://apps.who.int/bmi/index.jsp?introPage=intro_3.html
     * https://de.wikipedia.org/wiki/Body-Mass-Index
-    '''
 
+    """
     if request.user.userprofile.use_metric:
         data = json.dumps([
             {'key': 'filler', 'height': 150, 'weight': 30},

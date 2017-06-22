@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -21,9 +21,12 @@ from wger.utils.language import load_language
 
 
 class NutritionSitemap(Sitemap):
+    """Docstring."""
+
     changefreq = "monthly"
     priority = 0.5
 
     def items(self):
+        """Docstring."""
         return (Ingredient.objects.filter(language=load_language())
                                   .filter(status__in=Ingredient.INGREDIENT_STATUS_OK))

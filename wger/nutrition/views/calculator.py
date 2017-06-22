@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -38,10 +38,7 @@ Protein calculator views
 
 @login_required
 def view(request):
-    '''
-    The basal metabolic rate detail page
-    '''
-
+    """Show The basal metabolic rate detail page."""
     form_data = {'age': request.user.userprofile.age,
                  'height': request.user.userprofile.height,
                  'gender': request.user.userprofile.gender,
@@ -57,12 +54,11 @@ def view(request):
 
 @login_required
 def calculate_bmr(request):
-    '''
-    Calculates the basal metabolic rate.
+    """Calculate the basal metabolic rate.
 
     Currently only the Mifflin-St.Jeor-Formel is supported
-    '''
 
+    """
     data = []
 
     form = BmrForm(data=request.POST, instance=request.user.userprofile)
@@ -84,10 +80,7 @@ def calculate_bmr(request):
 
 @login_required
 def calculate_activities(request):
-    '''
-    Calculates the calories needed by additional physical activities
-    '''
-
+    """Calculate the calories needed by additional physical activities."""
     data = []
 
     form = PhysicalActivitiesForm(data=request.POST, instance=request.user.userprofile)

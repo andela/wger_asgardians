@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -32,9 +32,8 @@ logger = logging.getLogger(__name__)
 
 
 class UnitChooserForm(forms.Form):
-    '''
-    A small form to select an amount and a unit for an ingredient
-    '''
+    """A small form to select an amount and a unit for an ingredient."""
+
     amount = forms.DecimalField(decimal_places=2,
                                 max_digits=5,
                                 localize=True)
@@ -43,6 +42,7 @@ class UnitChooserForm(forms.Form):
                                   required=False)
 
     def __init__(self, *args, **kwargs):
+        """Docstring."""
         super(UnitChooserForm, self).__init__(*args, **kwargs)
 
         if len(args) and args[0].get('ingredient'):
@@ -59,6 +59,8 @@ class UnitChooserForm(forms.Form):
 
 
 class BmiForm(forms.ModelForm):
+    """Docstring."""
+
     height = forms.DecimalField(widget=Html5NumberInput(),
                                 max_value=999,
                                 label=_('Height (cm)'))
@@ -66,26 +68,30 @@ class BmiForm(forms.ModelForm):
                                 max_value=999)
 
     class Meta:
+        """Docstring."""
+
         model = UserProfile
         fields = ('height', )
 
 
 class BmrForm(forms.ModelForm):
-    '''
-    Form for the basal metabolic rate
-    '''
+    """Form for the basal metabolic rate."""
+
     weight = forms.DecimalField(widget=Html5NumberInput())
 
     class Meta:
+        """Docstring."""
+
         model = UserProfile
         fields = ('age', 'height', 'gender')
 
 
 class PhysicalActivitiesForm(forms.ModelForm):
-    '''
-    Form for the additional physical activities
-    '''
+    """Form for the additional physical activities."""
+
     class Meta:
+        """Docstring."""
+
         model = UserProfile
         fields = ('sleep_hours',
                   'work_hours',
@@ -97,9 +103,7 @@ class PhysicalActivitiesForm(forms.ModelForm):
 
 
 class DailyCaloriesForm(forms.ModelForm):
-    '''
-    Form for the total daily calories needed
-    '''
+    """Form for the total daily calories needed."""
 
     base_calories = forms.IntegerField(label=_('Basic caloric intake'),
                                        help_text=_('Your basic caloric intake as calculated for '
@@ -115,11 +119,15 @@ class DailyCaloriesForm(forms.ModelForm):
                                              widget=Html5NumberInput())
 
     class Meta:
+        """Docstring."""
+
         model = UserProfile
         fields = ('calories',)
 
 
 class MealItemForm(forms.ModelForm):
+    """Docstring."""
+
     weight_unit = forms.ModelChoiceField(queryset=IngredientWeightUnit.objects.none(),
                                          empty_label="g",
                                          required=False)
@@ -127,10 +135,13 @@ class MealItemForm(forms.ModelForm):
                                         widget=forms.HiddenInput)
 
     class Meta:
+        """Docstring."""
+
         model = MealItem
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
+        """Docstring."""
         super(MealItemForm, self).__init__(*args, **kwargs)
 
         # Get the ingredient_id

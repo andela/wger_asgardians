@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -49,36 +49,34 @@ logger = logging.getLogger(__name__)
 # Ingredient functions
 # ************************
 class IngredientListView(ListView):
-    '''
-    Show an overview of all ingredients
-    '''
+    """Show an overview of all ingredients."""
+
     model = Ingredient
     template_name = 'ingredient/overview.html'
     context_object_name = 'ingredients_list'
     paginate_by = PAGINATION_OBJECTS_PER_PAGE
 
     def get_queryset(self):
-        '''
-        Filter the ingredients the user will see by its language
+        """Filter the ingredients the user will see by its language.
 
-        (the user can also want to see ingredients in English, in addition to his
-        native language, see load_ingredient_languages)
-        '''
+        (the user can also want to see ingredients in English, in
+        addition to his native language, see load_ingredient_languages)
+
+        """
         languages = load_ingredient_languages(self.request)
         return (Ingredient.objects.filter(language__in=languages)
                                   .filter(status__in=Ingredient.INGREDIENT_STATUS_OK)
                                   .only('id', 'name'))
 
     def get_context_data(self, **kwargs):
-        '''
-        Pass additional data to the template
-        '''
+        """Pass additional data to the template."""
         context = super(IngredientListView, self).get_context_data(**kwargs)
         context['show_shariff'] = True
         return context
 
 
 def view(request, id, slug=None):
+    """Docstring."""
     template_data = {}
 
     ingredient = cache.get(cache_mapper.get_ingredient_key(int(id)))
@@ -98,9 +96,7 @@ class IngredientDeleteView(WgerDeleteMixin,
                            LoginRequiredMixin,
                            PermissionRequiredMixin,
                            DeleteView):
-    '''
-    Generic view to delete an existing ingredient
-    '''
+    """Generic view to delete an existing ingredient."""
 
     model = Ingredient
     fields = ('name',
@@ -119,6 +115,7 @@ class IngredientDeleteView(WgerDeleteMixin,
 
     # Send some additional data to the template
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(IngredientDeleteView, self).get_context_data(**kwargs)
 
         context['title'] = _(u'Delete {0}?').format(self.object)
@@ -129,9 +126,7 @@ class IngredientDeleteView(WgerDeleteMixin,
 
 
 class IngredientMixin(WgerFormMixin):
-    '''
-    Manually set the order of the fields
-    '''
+    """Manually set the order of the fields."""
 
     fields = ['name',
               'energy',
@@ -147,27 +142,21 @@ class IngredientMixin(WgerFormMixin):
 
 
 class IngredientEditView(IngredientMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    '''
-    Generic view to update an existing ingredient
-    '''
+    """Generic view to update an existing ingredient."""
 
     model = Ingredient
     form_action_urlname = 'nutrition:ingredient:edit'
     permission_required = 'nutrition.change_ingredient'
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(IngredientEditView, self).get_context_data(**kwargs)
         context['title'] = _(u'Edit {0}').format(self.object)
         return context
 
 
 class IngredientCreateView(IngredientMixin, CreateView):
-    '''
-    Generic view to add a new ingredient
-    '''
+    """Generic view to add a new ingredient."""
 
     model = Ingredient
     title = ugettext_lazy('Add a new ingredient')
@@ -175,7 +164,7 @@ class IngredientCreateView(IngredientMixin, CreateView):
     sidebar = 'ingredient/form.html'
 
     def form_valid(self, form):
-
+        """Docstring."""
         # set the submitter, if admin, set approrpiate status
         form.instance.user = self.request.user
         if self.request.user.has_perm('nutrition.add_ingredient'):
@@ -192,18 +181,14 @@ class IngredientCreateView(IngredientMixin, CreateView):
         return super(IngredientCreateView, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Demo users can't submit ingredients
-        '''
+        """Demo users can't submit ingredients."""
         if request.user.userprofile.is_temporary:
             return HttpResponseForbidden()
         return super(IngredientCreateView, self).dispatch(request, *args, **kwargs)
 
 
 class PendingIngredientListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    '''
-    List all ingredients pending review
-    '''
+    """List all ingredients pending review."""
 
     model = Ingredient
     template_name = 'ingredient/pending.html'
@@ -211,18 +196,14 @@ class PendingIngredientListView(LoginRequiredMixin, PermissionRequiredMixin, Lis
     permission_required = 'nutrition.change_ingredient'
 
     def get_queryset(self):
-        '''
-        Only show ingredients pending review
-        '''
+        """Only show ingredients pending review."""
         return Ingredient.objects.filter(status=Ingredient.INGREDIENT_STATUS_PENDING) \
             .order_by('-creation_date')
 
 
 @permission_required('nutrition.add_ingredient')
 def accept(request, pk):
-    '''
-    Accepts a pending user submitted ingredient
-    '''
+    """Accept a pending user submitted ingredient."""
     ingredient = get_object_or_404(Ingredient, pk=pk)
     ingredient.status = Ingredient.INGREDIENT_STATUS_ACCEPTED
     ingredient.save()
@@ -234,9 +215,7 @@ def accept(request, pk):
 
 @permission_required('nutrition.add_ingredient')
 def decline(request, pk):
-    '''
-    Declines and deletes a pending user submitted ingredient
-    '''
+    """Declines and deletes a pending user submitted ingredient."""
     ingredient = get_object_or_404(Ingredient, pk=pk)
     ingredient.status = Ingredient.INGREDIENT_STATUS_DECLINED
     ingredient.save()
