@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
-import os
+import os # noqa
 import sys
 from invoke import run
 
@@ -28,6 +28,7 @@ invoke_cmd = 'invoke '
 
 
 def main():
+    """Docstring."""
     args = sys.argv[1:]
     if len(args):
         run(invoke_cmd + ' '.join(args), pty=True)

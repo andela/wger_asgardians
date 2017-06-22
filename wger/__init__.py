@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-    :copyright: 2011, 2012 by OpenSlides team, see AUTHORS.
-    :license: GNU GPL, see LICENSE for more details.
+# -*- coding: utf-8 -*-\
+"""Module.
+
+:copyright: 2011, 2012 by OpenSlides team, see AUTHORS.
+:license: GNU GPL, see LICENSE for more details.
 """
 
 VERSION = (1, 8, 0, 'alpha', 3)
@@ -10,8 +11,7 @@ RELEASE = False
 
 
 def get_version(version=None, release=None):
-    """Derives a PEP386-compliant version number from VERSION."""
-
+    """Derive a PEP386-compliant version number from VERSION."""
     if version is None:
         version = VERSION
     if release is None:
