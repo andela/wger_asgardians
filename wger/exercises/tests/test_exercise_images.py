@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -25,14 +26,10 @@ from wger.exercises.models import Exercise, ExerciseImage
 
 
 class MainImageTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the methods to make sure there is always a main image per picture
-    '''
+    """Tests the methods to make sure there is always a main image per picture."""
 
     def save_image(self, exercise, filename, db_filename=None):
-        '''
-        Helper function to save an image to an exercise
-        '''
+        """Define Helper function to save an image to an exercise."""
         if not db_filename:
             db_filename = filename
         image = ExerciseImage()
@@ -46,10 +43,7 @@ class MainImageTestCase(WorkoutManagerTestCase):
         return(image.pk)
 
     def test_auto_main_image(self):
-        '''
-        Tests that the first uploaded image is automatically a main image
-        '''
-
+        """Tests that the first uploaded image is automatically a main image."""
         exercise = Exercise.objects.get(pk=2)
         pk = self.save_image(exercise, 'protestschwein.jpg')
 
@@ -57,10 +51,7 @@ class MainImageTestCase(WorkoutManagerTestCase):
         self.assertTrue(image.is_main)
 
     def test_auto_main_image_multiple(self):
-        '''
-        Tests that there is always a main image after deleting one
-        '''
-
+        """Tests that there is always a main image after deleting one."""
         exercise = Exercise.objects.get(pk=2)
         pk1 = self.save_image(exercise, 'protestschwein.jpg')
         pk2 = self.save_image(exercise, 'wildschwein.jpg')
@@ -72,10 +63,7 @@ class MainImageTestCase(WorkoutManagerTestCase):
         self.assertFalse(image.is_main)
 
     def test_delete_main_image(self):
-        '''
-        Tests that there is always a main image after deleting one
-        '''
-
+        """Tests that there is always a main image after deleting one."""
         exercise = Exercise.objects.get(pk=2)
         pk1 = self.save_image(exercise, 'protestschwein.jpg')
         pk2 = self.save_image(exercise, 'protestschwein.jpg')
@@ -102,9 +90,7 @@ class MainImageTestCase(WorkoutManagerTestCase):
 
 
 class AddExerciseImageTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding an image to an exercise
-    '''
+    """Tests adding an image to an exercise."""
 
     object_class = ExerciseImage
     url = reverse('exercise:image:add', kwargs={'exercise_pk': 1})
@@ -115,9 +101,7 @@ class AddExerciseImageTestCase(WorkoutManagerAddTestCase):
 
 
 class EditExerciseImageTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing an image to an exercise
-    '''
+    """Tests editing an image to an exercise."""
 
     object_class = ExerciseImage
     url = 'exercise:image:edit'
@@ -127,9 +111,7 @@ class EditExerciseImageTestCase(WorkoutManagerEditTestCase):
 
 
 class DeleteExerciseImageTestCase(WorkoutManagerDeleteTestCase):
-    '''
-    Tests deleting an image to an exercise
-    '''
+    """Tests deleting an image to an exercise."""
 
     object_class = ExerciseImage
     url = reverse('exercise:image:delete', kwargs={'exercise_pk': 1, 'pk': 1})

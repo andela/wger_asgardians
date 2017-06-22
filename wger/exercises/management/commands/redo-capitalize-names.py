@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -21,17 +21,16 @@ from wger.utils.helpers import smart_capitalize
 
 
 class Command(BaseCommand):
-    '''
-    Re-calculates the capitalized exercise names
+    """Re-calculates the capitalized exercise names.
 
     This is a safe operation, since the original names (as entered by the user)
     are still available.
-    '''
+    """
 
     help = 'Re-calculates the capitalized exercise names'
 
     def handle(self, **options):
-
+        """Docstring."""
         exercises = Exercise.objects.all()
         for exercise in exercises:
             if options['verbosity'] > 1:

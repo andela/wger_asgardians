@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -32,13 +32,12 @@ from wger.exercises.models import Exercise, ExerciseImage
 
 
 class Command(BaseCommand):
-    '''
-    Download exercise images from wger.de and updates the local database
+    """Download exercise images from wger.de and updates the local database.
 
     The script assumes that the local IDs correspond to the remote ones, which
     is the case if the user installed the exercises from the JSON fixtures.
-    Otherwise, the exercise is simply skipped
-    '''
+    Otherwise, the exercise is simply skipped.
+    """
 
     option_list = BaseCommand.option_list + (
         make_option('--remote-url',
@@ -56,7 +55,7 @@ class Command(BaseCommand):
             '           the script will not be able to match them.')
 
     def handle(self, **options):
-
+        """Docstring."""
         if not settings.MEDIA_ROOT:
             raise ImproperlyConfigured('Please set MEDIA_ROOT in your settings file')
 

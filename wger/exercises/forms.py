@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of Workout Manager.
 #
 # Workout Manager is free software: you can redistribute it and/or modify
@@ -20,7 +20,11 @@ from wger.exercises.models import ExerciseImage, ExerciseComment
 
 
 class ExerciseImageForm(forms.ModelForm):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         model = ExerciseImage
         fields = ('image',
                   'is_main',
@@ -29,6 +33,10 @@ class ExerciseImageForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         model = ExerciseComment
         exclude = ('exercise',)

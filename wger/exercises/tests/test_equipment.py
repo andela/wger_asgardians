@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -29,23 +30,18 @@ from wger.utils.constants import PAGINATION_OBJECTS_PER_PAGE
 
 
 class EquipmentRepresentationTestCase(WorkoutManagerTestCase):
-    '''
-    Test the representation of a model
-    '''
+    """Test the representation of a model."""
 
     def test_representation(self):
-        '''
-        Test that the representation of an object is correct
-        '''
+        """Test that the representation of an object is correct."""
         self.assertEqual("{0}".format(Equipment.objects.get(pk=1)), 'Dumbbells')
 
 
 class EquipmentShareButtonTestCase(WorkoutManagerTestCase):
-    '''
-    Test that the share button is correctly displayed and hidden
-    '''
+    """Test that the share button is correctly displayed and hidden."""
 
     def test_share_button(self):
+        """Docstring."""
         url = reverse('exercise:equipment:overview')
 
         response = self.client.get(url)
@@ -61,9 +57,7 @@ class EquipmentShareButtonTestCase(WorkoutManagerTestCase):
 
 
 class AddEquipmentTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding a new equipment
-    '''
+    """Tests adding a new equipment."""
 
     object_class = Equipment
     url = 'exercise:equipment:add'
@@ -71,9 +65,7 @@ class AddEquipmentTestCase(WorkoutManagerAddTestCase):
 
 
 class DeleteEquipmentTestCase(WorkoutManagerDeleteTestCase):
-    '''
-    Tests deleting an equipment
-    '''
+    """Tests deleting an equipment."""
 
     object_class = Equipment
     url = 'exercise:equipment:delete'
@@ -81,9 +73,7 @@ class DeleteEquipmentTestCase(WorkoutManagerDeleteTestCase):
 
 
 class EditEquipmentTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing an equipment
-    '''
+    """Tests editing an equipment."""
 
     object_class = Equipment
     url = 'exercise:equipment:edit'
@@ -92,12 +82,10 @@ class EditEquipmentTestCase(WorkoutManagerEditTestCase):
 
 
 class EquipmentListTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the equipment list page (admin view)
-    '''
+    """Tests the equipment list page (admin view)."""
 
     def test_overview(self):
-
+        """Docstring."""
         # Add more equipments so we can test the pagination
         self.user_login('admin')
         data = {"name": "A new entry"}
@@ -131,14 +119,10 @@ class EquipmentListTestCase(WorkoutManagerTestCase):
 
 
 class EquipmentCacheTestCase(WorkoutManagerTestCase):
-    '''
-    Equipment cache test case
-    '''
+    """Equipment cache test case."""
 
     def test_equipment_overview(self):
-        '''
-        Test the equipment overview cache is correctly generated on visit
-        '''
+        """Test the equipment overview cache is correctly generated on visit."""
         if self.is_mobile:
             self.client.get(reverse('exercise:equipment:overview'))
         else:
@@ -147,11 +131,10 @@ class EquipmentCacheTestCase(WorkoutManagerTestCase):
             self.assertTrue(cache.get(get_template_cache_name('equipment-overview', 2)))
 
     def test_equipmet_cache_update(self):
-        '''
-        Test that the template cache for the overview is correctly reseted when
-        performing certain operations
-        '''
+        """Test that the template cache for the overview is correctly reseted.
 
+        when performing certain operations.
+        """
         self.assertFalse(cache.get(get_template_cache_name('equipment-overview', 2)))
 
         self.client.get(reverse('exercise:equipment:overview'))
@@ -176,9 +159,8 @@ class EquipmentCacheTestCase(WorkoutManagerTestCase):
 
 
 class EquipmentApiTestCase(api_base_test.ApiBaseResourceTestCase):
-    '''
-    Tests the equipment overview resource
-    '''
+    """Tests the equipment overview resource."""
+
     pk = 1
     resource = Equipment
     private_resource = False

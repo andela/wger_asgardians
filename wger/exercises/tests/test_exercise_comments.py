@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -27,21 +28,15 @@ from wger.utils.cache import cache_mapper
 
 
 class ExerciseCommentRepresentationTestCase(WorkoutManagerTestCase):
-    '''
-    Test the representation of a model
-    '''
+    """Test the representation of a model."""
 
     def test_representation(self):
-        '''
-        Test that the representation of an object is correct
-        '''
+        """Test that the representation of an object is correct."""
         self.assertEqual("{0}".format(ExerciseComment.objects.get(pk=1)), 'test 123')
 
 
 class AddExerciseCommentTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding a comment to an exercise
-    '''
+    """Tests adding a comment to an exercise."""
 
     object_class = ExerciseComment
     url = reverse('exercise:comment:add', kwargs={'exercise_pk': 1})
@@ -50,9 +45,7 @@ class AddExerciseCommentTestCase(WorkoutManagerAddTestCase):
 
 
 class EditExerciseCommentTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a comment to an exercise
-    '''
+    """Tests editing a comment to an exercise."""
 
     object_class = ExerciseComment
     url = 'exercise:comment:edit'
@@ -61,12 +54,10 @@ class EditExerciseCommentTestCase(WorkoutManagerEditTestCase):
 
 
 class ExercisecommentsTestCase(WorkoutManagerTestCase):
+    """Docstring."""
 
     def exercise_delete_comment(self, fail=True):
-        '''
-        Tests the deletion of exercise comments
-        '''
-
+        """Test the deletion of exercise comments."""
         # Load the exercise
         exercise_1 = Exercise.objects.get(pk=1)
 
@@ -90,39 +81,26 @@ class ExercisecommentsTestCase(WorkoutManagerTestCase):
             self.assertEqual(len(comments), 0)
 
     def test_exercise_delete_comment_no_authorized(self):
-        '''
-        Tests the exercise comments
-        '''
-
+        """Test the exercise comments."""
         self.user_login('test')
         self.exercise_delete_comment(fail=True)
         self.user_logout()
 
     def test_exercise_delete_comment_not_logged_in(self):
-        '''
-        Tests the exercise comments
-        '''
-
+        """Tests the exercise comments."""
         self.exercise_delete_comment(fail=True)
 
     def test_exercise_delete_comment_authorized(self):
-        '''
-        Tests the exercise comments
-        '''
-
+        """Tests the exercise comments."""
         self.user_login()
         self.exercise_delete_comment(fail=False)
 
 
 class WorkoutCacheTestCase(WorkoutManagerTestCase):
-    '''
-    Workout cache test case
-    '''
+    """Workout cache test case."""
 
     def test_canonical_form_cache_save(self):
-        '''
-        Tests the workout cache when saving
-        '''
+        """Tests the workout cache when saving."""
         comment = ExerciseComment.objects.get(pk=1)
         for set in comment.exercise.set_set.all():
             set.exerciseday.training.canonical_representation
@@ -133,9 +111,7 @@ class WorkoutCacheTestCase(WorkoutManagerTestCase):
             self.assertFalse(cache.get(cache_mapper.get_workout_canonical(workout_id)))
 
     def test_canonical_form_cache_delete(self):
-        '''
-        Tests the workout cache when deleting
-        '''
+        """Tests the workout cache when deleting."""
         comment = ExerciseComment.objects.get(pk=1)
 
         workout_ids = []
@@ -151,9 +127,8 @@ class WorkoutCacheTestCase(WorkoutManagerTestCase):
 
 
 class ExerciseCommentApiTestCase(api_base_test.ApiBaseResourceTestCase):
-    '''
-    Tests the exercise comment overview resource
-    '''
+    """Tests the exercise comment overview resource."""
+
     pk = 1
     resource = ExerciseComment
     private_resource = False

@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -27,21 +28,16 @@ from wger.utils.cache import get_template_cache_name
 
 
 class ExerciseCategoryRepresentationTestCase(WorkoutManagerTestCase):
-    '''
-    Test the representation of a model
-    '''
+    """Test the representation of a model."""
 
     def test_representation(self):
-        '''
-        Test that the representation of an object is correct
-        '''
+        """Test that the representation of an object is correct."""
         self.assertEqual("{0}".format(ExerciseCategory.objects.get(pk=1)), 'Category')
 
 
 class CategoryOverviewTestCase(WorkoutManagerAccessTestCase):
-    '''
-    Test that only admins see the edit links
-    '''
+    """Test that only admins see the edit links."""
+
     url = 'exercise:category:list'
     anonymous_fail = True
     user_success = 'admin'
@@ -59,9 +55,7 @@ class CategoryOverviewTestCase(WorkoutManagerAccessTestCase):
 
 
 class DeleteExerciseCategoryTestCase(WorkoutManagerDeleteTestCase):
-    '''
-    Exercise category delete test case
-    '''
+    """Exercise category delete test case."""
 
     object_class = ExerciseCategory
     url = 'exercise:category:delete'
@@ -71,9 +65,7 @@ class DeleteExerciseCategoryTestCase(WorkoutManagerDeleteTestCase):
 
 
 class EditExerciseCategoryTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing an exercise category
-    '''
+    """Tests editing an exercise category."""
 
     object_class = ExerciseCategory
     url = 'exercise:category:edit'
@@ -82,9 +74,7 @@ class EditExerciseCategoryTestCase(WorkoutManagerEditTestCase):
 
 
 class AddExerciseCategoryTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding an exercise category
-    '''
+    """Tests adding an exercise category."""
 
     object_class = ExerciseCategory
     url = 'exercise:category:add'
@@ -92,16 +82,13 @@ class AddExerciseCategoryTestCase(WorkoutManagerAddTestCase):
 
 
 class ExerciseCategoryCacheTestCase(WorkoutManagerTestCase):
-    '''
-    Cache test case
-    '''
+    """Cache test case."""
 
     def test_overview_cache_update(self):
-        '''
-        Test that the template cache for the overview is correctly reseted when
-        performing certain operations
-        '''
+        """Test that the template cache for the overview is correctly reseted.
 
+        when performing certain operations.
+        """
         self.client.get(reverse('exercise:exercise:overview'))
         self.client.get(reverse('exercise:exercise:view', kwargs={'id': 2}))
 
@@ -131,9 +118,8 @@ class ExerciseCategoryCacheTestCase(WorkoutManagerTestCase):
 
 
 class ExerciseCategoryApiTestCase(api_base_test.ApiBaseResourceTestCase):
-    '''
-    Tests the exercise category overview resource
-    '''
+    """Tests the exercise category overview resource."""
+
     pk = 2
     resource = ExerciseCategory
     private_resource = False

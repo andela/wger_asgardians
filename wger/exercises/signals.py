@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -27,10 +27,7 @@ from wger.exercises.models import ExerciseImage
 
 @receiver(post_delete, sender=ExerciseImage)
 def delete_exercise_image_on_delete(sender, instance, **kwargs):
-    '''
-    Delete the image, along with its thumbnails, from the disk
-    '''
-
+    """Delete the image, along with its thumbnails, from the disk."""
     thumbnailer = get_thumbnailer(instance.image)
     thumbnailer.delete_thumbnails()
     instance.image.delete(save=False)
@@ -38,10 +35,10 @@ def delete_exercise_image_on_delete(sender, instance, **kwargs):
 
 @receiver(pre_save, sender=ExerciseImage)
 def delete_exercise_image_on_update(sender, instance, **kwargs):
-    '''
-    Delete the corresponding image from the filesystem when the an ExerciseImage
-    object was changed
-    '''
+    """Delete the corresponding image.
+
+    from the filesystem when the an ExerciseImage object was changed.
+    """
     if not instance.pk:
         return False
 

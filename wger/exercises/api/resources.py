@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -33,6 +33,8 @@ from wger.exercises.models import (
 
 
 class ExerciseResource(ModelResource):
+    """Docstring."""
+
     category = fields.ToOneField('wger.exercises.api.resources.ExerciseCategoryResource',
                                  'category')
     muscles = fields.ToManyField('wger.exercises.api.resources.MuscleResource', 'muscles')
@@ -50,6 +52,8 @@ class ExerciseResource(ModelResource):
     creation_date = fields.DateField(attribute='creation_date', null=True)
 
     class Meta:
+        """Docstring."""
+
         queryset = Exercise.objects.all()
         filtering = {'id': ALL,
                      "uuid": ALL,
@@ -66,26 +70,36 @@ class ExerciseResource(ModelResource):
 
 
 class EquipmentResource(ModelResource):
+    """Docstring."""
 
     class Meta:
+        """Docstring."""
+
         queryset = Equipment.objects.all()
         filtering = {'id': ALL,
                      "name": ALL}
 
 
 class ExerciseCategoryResource(ModelResource):
+    """Docstring."""
 
     class Meta:
+        """Docstring."""
+
         queryset = ExerciseCategory.objects.all()
         filtering = {'id': ALL,
                      "name": ALL}
 
 
 class ExerciseImageResource(ModelResource):
+    """Docstring."""
+
     exercise = fields.ToOneField('wger.exercises.api.resources.ExerciseResource', 'exercise')
     license = fields.ToOneField(LicenseResource, 'license')
 
     class Meta:
+        """Docstring."""
+
         queryset = ExerciseImage.objects.all()
         filtering = {'id': ALL,
                      "image": ALL,
@@ -94,9 +108,7 @@ class ExerciseImageResource(ModelResource):
                      "license_author": ALL}
 
     def dehydrate(self, bundle):
-        '''
-        Also send the URLs for the thumbnailed pictures
-        '''
+        """Also send the URLs for the thumbnailed pictures."""
         thumbnails = {}
         for alias in aliases.all():
             t = get_thumbnailer(bundle.obj.image)
@@ -108,9 +120,13 @@ class ExerciseImageResource(ModelResource):
 
 
 class ExerciseCommentResource(ModelResource):
+    """Docstring."""
+
     exercise = fields.ToOneField('wger.exercises.api.resources.ExerciseResource', 'exercise')
 
     class Meta:
+        """Docstring."""
+
         queryset = ExerciseComment.objects.all()
         filtering = {'id': ALL,
                      "comment": ALL,
@@ -118,7 +134,11 @@ class ExerciseCommentResource(ModelResource):
 
 
 class MuscleResource(ModelResource):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         queryset = Muscle.objects.all()
         filtering = {'id': ALL,
                      "name": ALL,
