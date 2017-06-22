@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -42,35 +42,35 @@ logger = logging.getLogger(__name__)
 #
 
 class Html5DateInput(DateInput):
-    '''
-    Custom Input class that is rendered with an HTML5 type="date"
+    """Custom Input class that is rendered with an HTML5 type="date".
 
     This is specially useful in mobile devices
-    '''
+
+    """
+
     input_type = 'date'
 
 
 class Html5FormDateField(fields.DateField):
-    '''
-    HTML5 form date field
-    '''
+    """HTML5 form date field."""
+
     widget = Html5DateInput
 
 
 class Html5TimeInput(TextInput):
-    '''
-    Custom Input class that is rendered with an HTML5 type="time"
+    """Custom Input class that is rendered with an HTML5 type="time".
 
-    This is specially useful in mobile devices and not available
-    with older versions of django.
-    '''
+    This is specially useful in mobile devices and not available with
+    older versions of django.
+
+    """
+
     input_type = 'time'
 
 
 class Html5FormTimeField(fields.TimeField):
-    '''
-    HTML5 form time field
-    '''
+    """HTML5 form time field."""
+
     widget = Html5TimeInput
 
 
@@ -79,12 +79,13 @@ class Html5FormTimeField(fields.TimeField):
 #
 
 class Html5NumberInput(TextInput):
-    '''
-    Custom Input class that is rendered with an HTML5 type="number"
+    """Custom Input class that is rendered with an HTML5 type="number".
 
-    This is specially useful in mobile devices and not available
-    with older versions of django.
-    '''
+    This is specially useful in mobile devices and not available with
+    older versions of django.
+
+    """
+
     input_type = 'number'
 
 
@@ -92,13 +93,14 @@ class Html5NumberInput(TextInput):
 # Others
 #
 class ExerciseAjaxSelect(SelectMultiple):
-    '''
-    Custom widget that allows to select exercises from an autocompleter
+    """Custom widget that allows to select exercises from an autocompleter.
 
     This is basically a modified MultipleSelect widget
-    '''
+
+    """
 
     def render(self, name, value, attrs=None, choices=()):
+        """Docstring."""
         if value is None:
             value = []
 
@@ -115,7 +117,7 @@ class ExerciseAjaxSelect(SelectMultiple):
         return mark_safe(u'\n'.join(output))
 
     def render_options(self, choices, selected_choices):
-        # Normalize to strings.
+        """Normalize to strings."""
         selected_choices = set(force_text(v) for v in selected_choices)
         output = []
         for option_value, option_label in chain(self.choices, choices):
@@ -123,6 +125,7 @@ class ExerciseAjaxSelect(SelectMultiple):
         return u'\n'.join(output)
 
     def render_option(self, selected_choices, option_value, option_label):
+        """Docstring."""
         option_value = force_text(option_value)
         if option_value in selected_choices:
 
@@ -145,29 +148,33 @@ class ExerciseAjaxSelect(SelectMultiple):
 
 
 class CheckboxChoiceInputTranslated(CheckboxChoiceInput):
-    '''
-    Overwritten CheckboxChoiceInput
+    """Overwritten CheckboxChoiceInput.
 
     This only translated the text for the select widgets
-    '''
+
+    """
+
     input_type = 'checkbox'
 
     def __init__(self, name, value, attrs, choice, index):
+        """Docstring."""
         choice = (choice[0], _(choice[1]))
 
         super(CheckboxChoiceInputTranslated, self).__init__(name, value, attrs, choice, index)
 
 
 class CheckboxChoiceInputTranslatedOriginal(CheckboxChoiceInput):
-    '''
-    Overwritten CheckboxChoiceInput
+    """Overwritten CheckboxChoiceInput.
 
-    This only translated the text for the select widgets, showing the original
-    string as well.
-    '''
+    This only translated the text for the select widgets, showing the
+    original string as well.
+
+    """
+
     input_type = 'checkbox'
 
     def __init__(self, name, value, attrs, choice, index):
+        """Docstring."""
         if _(choice[1]) != choice[1]:
             choice = (choice[0], u"{0} ({1})".format(choice[1], _(choice[1])))
         else:
@@ -181,53 +188,65 @@ class CheckboxChoiceInputTranslatedOriginal(CheckboxChoiceInput):
 
 
 class CheckboxFieldRendererTranslated(ChoiceFieldRenderer):
+    """Docstring."""
+
     choice_input_class = CheckboxChoiceInputTranslated
 
 
 class CheckboxFieldRendererTranslatedOriginal(ChoiceFieldRenderer):
+    """Docstring."""
+
     choice_input_class = CheckboxChoiceInputTranslatedOriginal
 
 
 class CheckboxBootstrapRenderer(CheckboxFieldRendererTranslated):
+    """Docstring."""
+
     outer_html = u'<div{id_attr}>{content}</div>'
     inner_html = u'<div class="checkbox">{choice_value}{sub_widgets}</div>'
 
 
 class CheckboxBootstrapRendererTranslatedOriginal(CheckboxFieldRendererTranslatedOriginal):
+    """Docstring."""
+
     outer_html = u'<div{id_attr}>{content}</div>'
     inner_html = u'<div class="checkbox">{choice_value}{sub_widgets}</div>'
 
 
 class BootstrapSelectMultiple(CheckboxSelectMultiple):
+    """Docstring."""
+
     renderer = CheckboxBootstrapRenderer
 
 
 class BootstrapSelectMultipleTranslatedOriginal(CheckboxSelectMultiple):
+    """Docstring."""
+
     renderer = CheckboxBootstrapRendererTranslatedOriginal
 
 
 class TranslatedSelectMultiple(BootstrapSelectMultiple):
-    '''
-    A SelectMultiple widget that translates the options
-    '''
+    """A SelectMultiple widget that translates the options."""
+
     pass
 
 
 class TranslatedOriginalSelectMultiple(BootstrapSelectMultipleTranslatedOriginal):
-    '''
-    A SelectMultiple widget that translates the options, showing the original
-    string as well. This is currently only used in the muscle list, where the
-    translated muscles as well as the latin names are shown.
-    '''
+    """A SelectMultiple widget that translates the options, showing the original string as well.
+
+    This is currently only used in the muscle list, where the translated
+    muscles as well as the latin names are shown.
+
+    """
+
     pass
 
 
 class TranslatedSelect(Select):
-    '''
-    A Select widget that translates the options
-    '''
+    """A Select widget that translates the options."""
 
     def render_option(self, selected_choices, option_value, option_label):
+        """Docstring."""
         return super(TranslatedSelect, self).render_option(selected_choices,
                                                            option_value,
                                                            _(option_label))

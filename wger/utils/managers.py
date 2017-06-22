@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -27,21 +28,30 @@ Custom managers and querysets
 
 
 class SubmissionQuerySet(QuerySet):
+    """Docstring."""
+
     def accepted(self):
+        """Docstring."""
         return self.filter(status=AbstractSubmissionModel.STATUS_ACCEPTED)
 
     def pending(self):
+        """Docstring."""
         return self.filter(status=AbstractSubmissionModel.STATUS_PENDING)
 
 
 class SubmissionManager(models.Manager):
+    """Docstring."""
+
     use_for_related_fields = True
 
     def get_queryset(self):
+        """Docstring."""
         return SubmissionQuerySet(self.model, using=self._db)
 
     def accepted(self):
+        """Docstring."""
         return self.get_queryset().accepted()
 
     def pending(self):
+        """Docstring."""
         return self.get_queryset().pending()
