@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,9 +24,7 @@ from wger.gym.models import Contract
 
 
 class AddContractTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests creating a new contract
-    '''
+    """Tests creating a new contract."""
 
     object_class = Contract
     url = reverse('gym:contract:add', kwargs={'user_pk': 14})
@@ -46,9 +45,8 @@ class AddContractTestCase(WorkoutManagerAddTestCase):
 
 
 class AccessContractTestCase(WorkoutManagerAccessTestCase):
-    '''
-    Test accessing the detail page of a contract
-    '''
+    """Test accessing the detail page of a contract."""
+
     url = reverse('gym:contract:view', kwargs={'pk': 1})
     user_success = ('manager1',
                     'manager2')
@@ -65,9 +63,8 @@ class AccessContractTestCase(WorkoutManagerAccessTestCase):
 
 
 class AccessContractOverviewTestCase(WorkoutManagerAccessTestCase):
-    '''
-    Test accessing the contract list page
-    '''
+    """Test accessing the contract list page."""
+
     url = reverse('gym:contract:list', kwargs={'user_pk': 4})
     user_success = ('manager1',
                     'manager2')
@@ -84,9 +81,7 @@ class AccessContractOverviewTestCase(WorkoutManagerAccessTestCase):
 
 
 class EditContractTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a contract
-    '''
+    """Tests editing a contract."""
 
     pk = 1
     object_class = Contract

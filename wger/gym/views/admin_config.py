@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -28,24 +28,18 @@ logger = logging.getLogger(__name__)
 
 
 class ConfigUpdateView(WgerFormMixin, UpdateView):
-    '''
-    View to update an existing admin gym configuration
-    '''
+    """View to update an existing admin gym configuration."""
 
     model = GymAdminConfig
     fields = '__all__'
     permission_required = 'gym.change_gymadminconfig'
 
     def get_success_url(self):
-        '''
-        Return to the gym user overview
-        '''
+        """Return to the gym user overview."""
         return reverse('gym:gym:user-list', kwargs={'pk': self.object.gym.pk})
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(ConfigUpdateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('gym:admin_config:edit', kwargs={'pk': self.object.id})
         context['title'] = _('Configuration')

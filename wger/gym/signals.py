@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -27,9 +27,7 @@ from wger.gym.models import (
 
 @receiver(post_save, sender=Gym)
 def gym_config(sender, instance, created, **kwargs):
-    '''
-    Creates a configuration entry for newly added gyms
-    '''
+    """Create a configuration entry for newly added gyms."""
     if not created or kwargs['raw']:
         return
 
@@ -40,8 +38,5 @@ def gym_config(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=UserDocument)
 def delete_user_document_on_delete(sender, instance, **kwargs):
-    '''
-    Deletes the document from the disk as well
-    '''
-
+    """Delete the document from the disk as well."""
     instance.document.delete(save=False)

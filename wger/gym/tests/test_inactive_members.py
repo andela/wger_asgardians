@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -19,15 +20,10 @@ from wger.core.tests.base_testcase import WorkoutManagerTestCase
 
 
 class EmailInactiveUserTestCase(WorkoutManagerTestCase):
-    '''
-    Test email reminders for inactive users
-    '''
+    """Test email reminders for inactive users."""
 
     def test_reminder(self, fail=False):
-        '''
-        Test email reminders for inactive users
-        '''
-
+        """Test email reminders for inactive users."""
         call_command('inactive-members')
         self.assertEqual(len(mail.outbox), 6)
 

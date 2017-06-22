@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -29,11 +29,11 @@ from wger.gym.managers import GymManager
 
 @python_2_unicode_compatible
 class Gym(m.Model):
-    '''
-    Model for a gym
-    '''
+    """Model for a gym."""
 
     class Meta:
+        """Docstring."""
+
         permissions = (
             ("gym_trainer", _("Trainer: can see the users for a gym")),
             ("manage_gym", _("Admin: can manage users for a gym")),
@@ -86,16 +86,11 @@ class Gym(m.Model):
     '''Street'''
 
     def __str__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         return self.name
 
     def delete(self, using=None):
-        '''
-        Make sure that there are no users with this gym in their profiles
-        '''
-
+        """Make sure that there are no users with this gym in their profiles."""
         # Not accessing the profile directly to avoid cyclic import problems
         for user in User.objects.filter(userprofile__gym=self).all():
             user.userprofile.gym = None
@@ -103,23 +98,17 @@ class Gym(m.Model):
         super(Gym, self).delete(using)
 
     def get_absolute_url(self):
-        '''
-        Return the URL for this object
-        '''
+        """Return the URL for this object."""
         return reverse('gym:gym:user-list', kwargs={'pk': self.pk})
 
     def get_owner_object(self):
-        '''
-        Gym has no owner information
-        '''
+        """Gym has no owner information."""
         return None
 
 
 @python_2_unicode_compatible
 class GymConfig(m.Model):
-    '''
-    Configuration options for a gym
-    '''
+    """Configuration options for a gym."""
 
     gym = m.OneToOneField(Gym,
                           related_name='config',
@@ -128,33 +117,29 @@ class GymConfig(m.Model):
     Gym this configuration belongs to
     '''
 
-    weeks_inactive = m.PositiveIntegerField(verbose_name=_('Reminder of inactive members'),
-                                            help_text=_('Number of weeks since the last time a '
-                                            'user logged his presence to be considered inactive'),
-                                            default=4)
+    weeks_inactive = m.PositiveIntegerField(
+        verbose_name=_('Reminder of inactive members'), help_text=_(
+            'Number of weeks since the last time a '
+            'user logged his presence to be considered inactive'), default=4)
     '''
     Reminder of inactive members
     '''
 
     def __str__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         return ugettext(u'Configuration for {}'.format(self.gym.name))
 
     def get_owner_object(self):
-        '''
-        Config has no user owner
-        '''
+        """Config has no user owner."""
         return None
 
 
 class AbstractGymUserConfigModel(m.Model):
-    '''
-    Abstract class for member and admin gym configuration models
-    '''
+    """Abstract class for member and admin gym configuration models."""
 
     class Meta:
+        """Docstring."""
+
         abstract = True
 
     gym = m.ForeignKey(Gym,
@@ -171,11 +156,11 @@ class AbstractGymUserConfigModel(m.Model):
 
 
 class GymAdminConfig(AbstractGymUserConfigModel, m.Model):
-    '''
-    Administrator/trainer configuration options for a specific gym
-    '''
+    """Administrator/trainer configuration options for a specific gym."""
 
     class Meta:
+        """Docstring."""
+
         unique_together = ('gym', 'user')
         '''
         Only one entry per user and gym
@@ -189,18 +174,16 @@ class GymAdminConfig(AbstractGymUserConfigModel, m.Model):
     '''
 
     def get_owner_object(self):
-        '''
-        Returns the object that has owner information
-        '''
+        """Return the object that has owner information."""
         return self
 
 
 class GymUserConfig(AbstractGymUserConfigModel, m.Model):
-    '''
-    Gym member configuration options for a specific gym
-    '''
+    """Gym member configuration options for a specific gym."""
 
     class Meta:
+        """Docstring."""
+
         unique_together = ('gym', 'user')
         '''
         Only one entry per user and gym
@@ -208,29 +191,23 @@ class GymUserConfig(AbstractGymUserConfigModel, m.Model):
 
     include_inactive = m.BooleanField(verbose_name=_('Include in inactive overview'),
                                       help_text=_('Include this user in the email list with '
-                                      'inactive members'),
+                                                  'inactive members'),
                                       default=True)
     '''
     Include user in inactive overview
     '''
 
     def get_owner_object(self):
-        '''
-        While the model has a user foreign key, this is editable by all
-        trainers in the gym.
-        '''
+        """While the model has a user foreign key, this is editable by all trainers in the gym."""
         return None
 
 
 class AdminUserNote(m.Model):
-    '''
-    Administrator notes about a member
-    '''
+    """Administrator notes about a member."""
 
     class Meta:
-        '''
-        Order by time
-        '''
+        """Order by time."""
+
         ordering = ["-timestamp_created", ]
 
     user = m.ForeignKey(User,
@@ -263,17 +240,12 @@ class AdminUserNote(m.Model):
     '''
 
     def get_owner_object(self):
-        '''
-        While the model has a user foreign key, this is editable by all
-        trainers in the gym.
-        '''
+        """While the model has a user foreign key, this is editable by all trainers in the gym."""
         return None
 
 
 def gym_document_upload_dir(instance, filename):
-    '''
-    Returns the upload target for documents
-    '''
+    """Return the upload target for documents."""
     return "gym/documents/{0}/{1}/{2}".format(instance.member.userprofile.gym.id,
                                               instance.member.id,
                                               uuid.uuid4())
@@ -281,14 +253,11 @@ def gym_document_upload_dir(instance, filename):
 
 @python_2_unicode_compatible
 class UserDocument(m.Model):
-    '''
-    Model for a document
-    '''
+    """Model for a document."""
 
     class Meta:
-        '''
-        Order by time
-        '''
+        """Order by time."""
+
         ordering = ["-timestamp_created", ]
 
     user = m.ForeignKey(User,
@@ -343,35 +312,29 @@ class UserDocument(m.Model):
     '''
 
     def __str__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         if self.name != self.original_name:
             return "{} ({})".format(self.name, self.original_name)
         else:
             return "{}".format(self.name)
 
     def get_owner_object(self):
-        '''
-        While the model has a user foreign key, this is editable by all
-        trainers in the gym.
-        '''
+        """While the model has a user foreign key, this is editable by all trainers in the gym."""
         return None
 
 
 @python_2_unicode_compatible
 class ContractType(m.Model):
-    '''
-    Model for a contract's type
+    """Model for a contract's type.
 
     A contract type is a user-editable way of enhancing the contract to
     specify types, such as e.g. 'with personal trainer', 'regular', etc.
-    '''
+
+    """
 
     class Meta:
-        '''
-        Order by name
-        '''
+        """Order by name."""
+
         ordering = ["name", ]
 
     gym = m.ForeignKey(Gym,
@@ -394,33 +357,28 @@ class ContractType(m.Model):
     '''
 
     def __str__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         return u"{}".format(self.name)
 
     def get_owner_object(self):
-        '''
-        Contract type has no owner information
-        '''
+        """Contract type has no owner information."""
         return None
 
 
 @python_2_unicode_compatible
 class ContractOption(m.Model):
-    '''
-    Model for a contract Option
+    """Model for a contract Option.
 
-    A contract option is a user-editable way of enhancing the contract to
-    specify options, such as e.g. 'cash', 'bank withdrawal', etc. The
-    difference with a contract type is that a contract can only be of one
-    type but can have different options.
-    '''
+    A contract option is a user-editable way of enhancing the contract
+    to specify options, such as e.g. 'cash', 'bank withdrawal', etc. The
+    difference with a contract type is that a contract can only be of
+    one type but can have different options.
+
+    """
 
     class Meta:
-        '''
-        Order by name
-        '''
+        """Order by name."""
+
         ordering = ["name", ]
 
     gym = m.ForeignKey(Gym,
@@ -443,23 +401,17 @@ class ContractOption(m.Model):
     '''
 
     def __str__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         return u"{}".format(self.name)
 
     def get_owner_object(self):
-        '''
-        Contract type has no owner information
-        '''
+        """Contract type has no owner information."""
         return None
 
 
 @python_2_unicode_compatible
 class Contract(m.Model):
-    '''
-    Model for a member's contract in a gym
-    '''
+    """Model for a member's contract in a gym."""
 
     AMOUNT_TYPE_YEARLY = '1'
     AMOUNT_TYPE_HALFYEARLY = '2'
@@ -478,9 +430,8 @@ class Contract(m.Model):
     )
 
     class Meta:
-        '''
-        Order by time
-        '''
+        """Order by time."""
+
         ordering = ["-date_start", ]
 
     user = m.ForeignKey(User,
@@ -605,20 +556,13 @@ class Contract(m.Model):
     '''
 
     def __str__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         return "#{}".format(self.id)
 
     def get_absolute_url(self):
-        '''
-        Return the URL for this object
-        '''
+        """Return the URL for this object."""
         return reverse('gym:contract:view', kwargs={'pk': self.pk})
 
     def get_owner_object(self):
-        '''
-        While the model has a user foreign key, this is editable by all
-        managers in the gym.
-        '''
+        """While the model has a user foreign key, this is editable by all managers in the gym."""
         return None
