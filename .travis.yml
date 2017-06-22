@@ -68,3 +68,6 @@ script:
 
  notifications:
     slack: andela:Yfr3Fxa7VEmsVE1iVgEmtrGS
+
+after success:
+  coveralls
