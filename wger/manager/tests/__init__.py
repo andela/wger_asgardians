@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 
 # This file is part of wger Workout Manager.
 #

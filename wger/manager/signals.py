@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -15,18 +15,15 @@
 # You should have received a copy of the GNU Affero General Public License
 
 
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete # noqa
 
 from wger.gym.helpers import get_user_last_activity
 from wger.manager.models import WorkoutLog, WorkoutSession
-from wger.core.models import UserCache
+from wger.core.models import UserCache # noqa
 
 
 def update_activity_cache(sender, instance, **kwargs):
-    '''
-    Update the user's cached last activity date
-    '''
-
+    """Update the user's cached last activity date."""
     user = instance.user
     user.usercache.last_activity = get_user_last_activity(user)
     user.usercache.save()

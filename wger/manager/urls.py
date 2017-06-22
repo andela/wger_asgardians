@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url, include # noqa
 from django.contrib.auth.decorators import login_required
 
 from wger.manager.views import (
@@ -79,28 +79,35 @@ patterns_workout = [
     url(r'^calendar/(?P<username>[\w.@+-]+)/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})$',
         log.day,
         name='calendar-day'),
-    url(r'^(?P<pk>\d+)/ical/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+    url(r'^(?P<pk>\d+)/ical/(?P<uidb64>[0-9A-Za-z_\-]+)/\
+        (?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         ical.export,
         name='ical'),
     url(r'^(?P<pk>\d+)/ical$',
         ical.export,
         name='ical'),
-    url(r'^(?P<id>\d+)/pdf/log/(?P<images>[01]+)/(?P<comments>[01]+)/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+    url(r'^(?P<id>\d+)/pdf/log/(?P<images>[01]+)/\
+        (?P<comments>[01]+)/(?P<uidb64>[0-9A-Za-z_\-]+)/\
+        (?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         pdf.workout_log,
-        name='pdf-log'), #JS!
-    url(r'^(?P<id>\d+)/pdf/log/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+        name='pdf-log'),  # JS!
+    url(r'^(?P<id>\d+)/pdf/log/(?P<uidb64>[0-9A-Za-z_\-]+)/\
+        (?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         pdf.workout_log,
         name='pdf-log'),
-    url(r'^(?P<id>\d+)/pdf/log/(?P<images>[01]+)/(?P<comments>[01]+)$',
+    url(r'^(?P<id>\d+)/pdf/log/(?P<images>[01]+)/\
+        (?P<comments>[01]+)$',
         pdf.workout_log,
         name='pdf-log'),
     url(r'^(?P<id>\d+)/pdf/log$',
         pdf.workout_log,
         name='pdf-log'),
-    url(r'^(?P<id>\d+)/pdf/table/(?P<images>[01]+)/(?P<comments>[01]+)/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+    url(r'^(?P<id>\d+)/pdf/table/(?P<images>[01]+)/(?P<comments>[01]+)/\
+        (?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         pdf.workout_view,
-        name='pdf-table'), #JS!
-    url(r'^(?P<id>\d+)/pdf/table/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+        name='pdf-table'),  # JS!
+    url(r'^(?P<id>\d+)/pdf/table/(?P<uidb64>[0-9A-Za-z_\-]+)/\
+        (?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         pdf.workout_view,
         name='pdf-table'),
     url(r'^(?P<id>\d+)/pdf/table/(?P<images>[01]+)/(?P<comments>[01]+)$',
@@ -185,7 +192,8 @@ patterns_schedule = [
     url(r'^(?P<pk>\d+)/delete/$',
         schedule.ScheduleDeleteView.as_view(),
         name='delete'),
-    url(r'^(?P<pk>\d+)/ical/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+    url(r'^(?P<pk>\d+)/ical/(?P<uidb64>[0-9A-Za-z_\-]+)/\
+        (?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         ical.export_schedule,
         name='ical'),
     url(r'^(?P<pk>\d+)/ical$',
@@ -193,10 +201,12 @@ patterns_schedule = [
         name='ical'),
 
     url(
-        r'^(?P<pk>\d+)/pdf/log/(?P<images>[01]+)/(?P<comments>[01]+)/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+        r'^(?P<pk>\d+)/pdf/log/(?P<images>[01]+)/(?P<comments>[01]+)/\
+        (?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         schedule.export_pdf_log,
         name='pdf-log'),  # JS!
-    url(r'^(?P<pk>\d+)/pdf/log/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+    url(r'^(?P<pk>\d+)/pdf/log/(?P<uidb64>[0-9A-Za-z_\-]+)/\
+        (?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         schedule.export_pdf_log,
         name='pdf-log'),
     url(r'^(?P<pk>\d+)/pdf/log/(?P<images>[01]+)/(?P<comments>[01]+)$',
@@ -206,10 +216,12 @@ patterns_schedule = [
         schedule.export_pdf_log,
         name='pdf-log'),
     url(
-        r'^(?P<pk>\d+)/pdf/table/(?P<images>[01]+)/(?P<comments>[01]+)/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+        r'^(?P<pk>\d+)/pdf/table/(?P<images>[01]+)/(?P<comments>[01]+)/\
+        (?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         schedule.export_pdf_table,
         name='pdf-table'),  # JS!
-    url(r'^(?P<pk>\d+)/pdf/table/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+    url(r'^(?P<pk>\d+)/pdf/table/(?P<uidb64>[0-9A-Za-z_\-]+)/\
+        (?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         schedule.export_pdf_table,
         name='pdf-table'),
     url(r'^(?P<pk>\d+)/pdf/table/(?P<images>[01]+)/(?P<comments>[01]+)$',
@@ -233,7 +245,6 @@ patterns_step = [
         schedule_step.StepDeleteView.as_view(),
         name='delete'),
 ]
-
 
 
 urlpatterns = [

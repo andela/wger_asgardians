@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,21 +24,15 @@ from wger.utils.cache import cache_mapper
 
 
 class DayRepresentationTestCase(WorkoutManagerTestCase):
-    '''
-    Test the representation of a model
-    '''
+    """Test the representation of a model."""
 
     def test_representation(self):
-        '''
-        Test that the representation of an object is correct
-        '''
+        """Test that the representation of an object is correct."""
         self.assertEqual("{0}".format(Day.objects.get(pk=1)), 'A day')
 
 
 class AddWorkoutDayTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding a day to a workout
-    '''
+    """Tests adding a day to a workout."""
 
     object_class = Day
     url = reverse('manager:day:add', kwargs={'workout_pk': 3})
@@ -48,15 +43,10 @@ class AddWorkoutDayTestCase(WorkoutManagerAddTestCase):
 
 
 class DeleteWorkoutDayTestCase(WorkoutManagerTestCase):
-    '''
-    Tests deleting a day
-    '''
+    """Tests deleting a day."""
 
     def delete_day(self, fail=False):
-        '''
-        Helper function to test deleting a day
-        '''
-
+        """Define Helper function to test deleting a day."""
         # Fetch the day edit page
         count_before = Day.objects.count()
         response = self.client.get(reverse('manager:day:delete', kwargs={'pk': 5}))
@@ -73,33 +63,22 @@ class DeleteWorkoutDayTestCase(WorkoutManagerTestCase):
             self.assertEqual(count_before - 1, count_after)
 
     def test_delete_day_anonymous(self):
-        '''
-        Test deleting a day as an anonymous user
-        '''
-
+        """Test deleting a day as an anonymous user."""
         self. delete_day(fail=True)
 
     def test_delete_workout_owner(self):
-        '''
-        Test deleting a day as the owner user
-        '''
-
+        """Test deleting a day as the owner user."""
         self.user_login('test')
         self.delete_day(fail=False)
 
     def test_delete_workout_other(self):
-        '''
-        Test deleting a day as a different logged in user
-        '''
-
+        """Test deleting a day as a different logged in user."""
         self.user_login('admin')
         self.delete_day(fail=True)
 
 
 class EditWorkoutDayTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing the day of a Workout
-    '''
+    """Tests editing the day of a Workout."""
 
     object_class = Day
     url = 'manager:day:edit'
@@ -111,15 +90,10 @@ class EditWorkoutDayTestCase(WorkoutManagerEditTestCase):
 
 
 class RenderWorkoutDayTestCase(WorkoutManagerTestCase):
-    '''
-    Tests rendering a single workout day
-    '''
+    """Tests rendering a single workout day."""
 
     def render_day(self, fail=False):
-        '''
-        Helper function to test rendering a single workout day
-        '''
-
+        """Define Helper function to test rendering a single workout day."""
         # Fetch the day edit page
         response = self.client.get(reverse('manager:day:view', kwargs={'id': 5}))
 
@@ -132,38 +106,25 @@ class RenderWorkoutDayTestCase(WorkoutManagerTestCase):
             self.assertTemplateUsed('day/view.html')
 
     def test_render_day_anonymous(self):
-        '''
-        Test rendering a single workout day as an anonymous user
-        '''
-
+        """Test rendering a single workout day as an anonymous user."""
         self.render_day(fail=True)
 
     def test_render_workout_owner(self):
-        '''
-        Test rendering a single workout day as the owner user
-        '''
-
+        """Test rendering a single workout day as the owner user."""
         self.user_login('test')
         self.render_day(fail=False)
 
     def test_render_workout_other(self):
-        '''
-        Test rendering a single workout day as a different logged in user
-        '''
-
+        """Test rendering a single workout day as a different logged in user."""
         self.user_login('admin')
         self.render_day(fail=True)
 
 
 class WorkoutCacheTestCase(WorkoutManagerTestCase):
-    '''
-    Workout cache test case
-    '''
+    """Workout cache test case."""
 
     def test_canonical_form_cache_save(self):
-        '''
-        Tests the workout cache when saving
-        '''
+        """Tests the workout cache when saving."""
         day = Day.objects.get(pk=1)
         day.canonical_representation
         self.assertTrue(cache.get(cache_mapper.get_workout_canonical(day.training_id)))
@@ -172,9 +133,7 @@ class WorkoutCacheTestCase(WorkoutManagerTestCase):
         self.assertFalse(cache.get(cache_mapper.get_workout_canonical(day.training_id)))
 
     def test_canonical_form_cache_delete(self):
-        '''
-        Tests the workout cache when deleting
-        '''
+        """Tests the workout cache when deleting."""
         day = Day.objects.get(pk=1)
         day.canonical_representation
         self.assertTrue(cache.get(cache_mapper.get_workout_canonical(day.training_id)))
@@ -184,15 +143,10 @@ class WorkoutCacheTestCase(WorkoutManagerTestCase):
 
 
 class DayTestCase(WorkoutManagerTestCase):
-    '''
-    Other tests
-    '''
+    """Other tests."""
 
     def test_day_id_property(self):
-        '''
-        Test that the attribute get_first_day_id works correctly
-        '''
-
+        """Test that the attribute get_first_day_id works correctly."""
         day = Day.objects.get(pk=5)
         self.assertEqual(day.get_first_day_id, 3)
 

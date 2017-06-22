@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -29,16 +29,12 @@ from wger.manager.models import Schedule
 
 
 class Command(BaseCommand):
-    '''
-    Helper admin command to send out email reminders
-    '''
+    """Helper admin command to send out email reminders."""
 
     help = 'Send out automatic email reminders for workouts'
 
     def handle(self, **options):
-        '''
-        Find if the currently active workout is overdue
-        '''
+        """Find if the currently active workout is overdue."""
         profile_list = UserProfile.objects.filter(workout_reminder_active=True)
         counter = 0
         for profile in profile_list:
@@ -96,14 +92,13 @@ class Command(BaseCommand):
 
     @staticmethod
     def send_email(user, workout, delta):
-        '''
-        Notify a user that a workout is about to expire
+        """Notify a user that a workout is about to expire.
 
         :type user User
         :type workout Workout
         :type delta datetime.timedelta
-        '''
 
+        """
         # Update the last notification date field
         user.userprofile.last_workout_notification = datetime.date.today()
         user.userprofile.save()

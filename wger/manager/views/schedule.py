@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -56,10 +56,7 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def overview(request):
-    '''
-    An overview of all the user's schedules
-    '''
-
+    """Is An overview of all the user's schedules."""
     template_data = {}
     template_data['schedules'] = (Schedule.objects
                                   .filter(user=request.user)
@@ -68,9 +65,7 @@ def overview(request):
 
 
 def view(request, pk):
-    '''
-    Show the workout schedule
-    '''
+    """Show the workout schedule."""
     template_data = {}
     schedule = get_object_or_404(Schedule, pk=pk)
     user = schedule.user
@@ -99,9 +94,7 @@ def view(request, pk):
 
 
 def export_pdf_log(request, pk, images=False, comments=False, uidb64=None, token=None):
-    '''
-    Show the workout schedule
-    '''
+    """Show the workout schedule."""
     user = request.user
 
     comments = bool(int(comments))
@@ -164,9 +157,7 @@ def export_pdf_log(request, pk, images=False, comments=False, uidb64=None, token
 
 
 def export_pdf_table(request, pk, images=False, comments=False, uidb64=None, token=None):
-    '''
-    Show the workout schedule
-    '''
+    """Show the workout schedule."""
     user = request.user
 
     comments = bool(int(comments))
@@ -231,13 +222,12 @@ def export_pdf_table(request, pk, images=False, comments=False, uidb64=None, tok
 
 @login_required
 def start(request, pk):
-    '''
-    Starts a schedule
+    """Start a schedule.
 
-    This simply sets the start date to today and the schedule is marked as
-    being active.
-    '''
+    This simply sets the start date to today and the schedule is marked
+    as being active.
 
+    """
     schedule = get_object_or_404(Schedule, pk=pk, user=request.user)
     schedule.is_active = True
     schedule.start_date = datetime.date.today()
@@ -246,9 +236,7 @@ def start(request, pk):
 
 
 class ScheduleCreateView(WgerFormMixin, CreateView, PermissionRequiredMixin):
-    '''
-    Creates a new workout schedule
-    '''
+    """Creates a new workout schedule."""
 
     model = Schedule
     fields = '__all__'
@@ -257,18 +245,17 @@ class ScheduleCreateView(WgerFormMixin, CreateView, PermissionRequiredMixin):
     form_action = reverse_lazy('manager:schedule:add')
 
     def form_valid(self, form):
-        '''set the submitter'''
+        """Set the submitter."""
         form.instance.user = self.request.user
         return super(ScheduleCreateView, self).form_valid(form)
 
     def get_success_url(self):
+        """Docstring."""
         return reverse_lazy('manager:schedule:view', kwargs={'pk': self.object.id})
 
 
 class ScheduleDeleteView(WgerDeleteMixin, DeleteView, PermissionRequiredMixin):
-    '''
-    Generic view to delete a schedule
-    '''
+    """Generic view to delete a schedule."""
 
     model = Schedule
     fields = ('name', 'start_date', 'is_active', 'is_loop')
@@ -277,27 +264,21 @@ class ScheduleDeleteView(WgerDeleteMixin, DeleteView, PermissionRequiredMixin):
     messages = ugettext_lazy('Successfully deleted')
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(ScheduleDeleteView, self).get_context_data(**kwargs)
         context['title'] = _(u'Delete {0}?').format(self.object)
         return context
 
 
 class ScheduleEditView(WgerFormMixin, UpdateView, PermissionRequiredMixin):
-    '''
-    Generic view to update an existing workout routine
-    '''
+    """Generic view to update an existing workout routine."""
 
     model = Schedule
     fields = '__all__'
     form_action_urlname = 'manager:schedule:edit'
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(ScheduleEditView, self).get_context_data(**kwargs)
         context['title'] = _(u'Edit {0}').format(self.object)
         return context

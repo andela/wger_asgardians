@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy, ugettext as _
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin # noqa
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DeleteView, UpdateView
 
@@ -58,10 +58,7 @@ logger = logging.getLogger(__name__)
 # ************************
 @login_required
 def overview(request):
-    '''
-    An overview of all the user's workouts
-    '''
-
+    """Is An overview of all the user's workouts."""
     template_data = {}
 
     workouts = Workout.objects.filter(user=request.user)
@@ -73,9 +70,7 @@ def overview(request):
 
 
 def view(request, pk):
-    '''
-    Show the workout with the given ID
-    '''
+    """Show the workout with the given ID."""
     template_data = {}
     workout = get_object_or_404(Workout, pk=pk)
     user = workout.user
@@ -123,10 +118,7 @@ def view(request, pk):
 
 @login_required
 def copy_workout(request, pk):
-    '''
-    Makes a copy of a workout
-    '''
-
+    """Make a copy of a workout."""
     workout = get_object_or_404(Workout, pk=pk)
     user = workout.user
     is_owner = request.user == user
@@ -205,9 +197,7 @@ def copy_workout(request, pk):
 
 @login_required
 def add(request):
-    '''
-    Add a new workout and redirect to its page
-    '''
+    """Add a new workout and redirect to its page."""
     workout = Workout()
     workout.user = request.user
     workout.save()
@@ -216,9 +206,7 @@ def add(request):
 
 
 class WorkoutDeleteView(WgerDeleteMixin, LoginRequiredMixin, DeleteView):
-    '''
-    Generic view to delete a workout routine
-    '''
+    """Generic view to delete a workout routine."""
 
     model = Workout
     fields = ('comment',)
@@ -226,6 +214,7 @@ class WorkoutDeleteView(WgerDeleteMixin, LoginRequiredMixin, DeleteView):
     messages = ugettext_lazy('Successfully deleted')
 
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(WorkoutDeleteView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('manager:workout:delete', kwargs={'pk': self.object.id})
         context['title'] = _(u'Delete {0}?').format(self.object)
@@ -234,15 +223,14 @@ class WorkoutDeleteView(WgerDeleteMixin, LoginRequiredMixin, DeleteView):
 
 
 class WorkoutEditView(WgerFormMixin, LoginRequiredMixin, UpdateView):
-    '''
-    Generic view to update an existing workout routine
-    '''
+    """Generic view to update an existing workout routine."""
 
     model = Workout
     form_class = WorkoutForm
     form_action_urlname = 'manager:workout:edit'
 
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(WorkoutEditView, self).get_context_data(**kwargs)
         context['title'] = _(u'Edit {0}').format(self.object)
 
@@ -250,25 +238,27 @@ class WorkoutEditView(WgerFormMixin, LoginRequiredMixin, UpdateView):
 
 
 class LastWeightHelper:
-    '''
-    Small helper class to retrieve the last workout log for a certain
-    user, exercise and repetition combination.
-    '''
+    """Small helper class to retrieve the last workout log for a certain user.
+
+    exercise and repetition combination.
+    """
+
     user = None
     last_weight_list = {}
 
     def __init__(self, user):
+        """Docstring."""
         self.user = user
 
     def get_last_weight(self, exercise, reps, default_weight):
-        '''
-        Returns an emtpy string if no entry is found
+        """Return an emtpy string if no entry is found.
 
         :param exercise:
         :param reps:
         :param default_weight:
         :return: WorkoutLog or '' if none is found
-        '''
+
+        """
         key = (self.user.pk, exercise.pk, reps, default_weight)
         if self.last_weight_list.get(key) is None:
             last_log = WorkoutLog.objects.filter(user=self.user,
@@ -283,10 +273,7 @@ class LastWeightHelper:
 
 @login_required
 def timer(request, day_pk):
-    '''
-    The timer view ("gym mode") for a workout
-    '''
-
+    """Is The timer view ("gym mode") for a workout."""
     day = get_object_or_404(Day, pk=day_pk, training__user=request.user)
     canonical_day = day.canonical_representation
     context = {}
