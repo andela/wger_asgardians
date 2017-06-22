@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,9 +22,8 @@ from wger.weight.models import WeightEntry
 
 
 class WeightEntryViewSet(viewsets.ModelViewSet):
-    '''
-    API endpoint for nutrition plan objects
-    '''
+    """API endpoint for nutrition plan objects."""
+
     serializer_class = WeightEntrySerializer
     is_private = True
     ordering_fields = '__all__'
@@ -32,13 +31,9 @@ class WeightEntryViewSet(viewsets.ModelViewSet):
                      'weight')
 
     def get_queryset(self):
-        '''
-        Only allow access to appropriate objects
-        '''
+        """Only allow access to appropriate objects."""
         return WeightEntry.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        '''
-        Set the owner
-        '''
+        """Set the owner."""
         serializer.save(user=self.request.user)

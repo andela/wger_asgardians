@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,7 +24,10 @@ from wger.weight.models import WeightEntry
 
 
 class EmailWeightReminderTestCase(WorkoutManagerTestCase):
+    """Docstring."""
+
     def test_without_email(self):
+        """Docstring."""
         user = User.objects.get(pk=2)
         user.email = ''
         user.num_days_weight_reminder = 3
@@ -33,6 +37,7 @@ class EmailWeightReminderTestCase(WorkoutManagerTestCase):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_without_num_days_weight_reminder(self):
+        """Docstring."""
         user = User.objects.get(pk=2)
         user.email = 'test@test.com'
         user.save()
@@ -44,6 +49,7 @@ class EmailWeightReminderTestCase(WorkoutManagerTestCase):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_with_num_days_weight_reminder(self):
+        """Docstring."""
         user = User.objects.get(pk=2)
         user.email = 'test@test.com'
         user.save()
@@ -55,6 +61,7 @@ class EmailWeightReminderTestCase(WorkoutManagerTestCase):
         self.assertEqual(len(mail.outbox), 1)
 
     def test_send_email(self):
+        """Docstring."""
         user = User.objects.get(pk=2)
         user.email = 'test@test.com'
         user.save()
@@ -70,6 +77,7 @@ class EmailWeightReminderTestCase(WorkoutManagerTestCase):
         self.assertEqual(len(mail.outbox), 1)
 
     def test_send_email_zero_days_diff(self):
+        """Docstring."""
         user = User.objects.get(pk=2)
         user.email = 'test@test.com'
         user.save()
@@ -85,6 +93,7 @@ class EmailWeightReminderTestCase(WorkoutManagerTestCase):
         self.assertEqual(len(mail.outbox), 1)
 
     def test_not_send_email(self):
+        """Docstring."""
         user = User.objects.get(pk=2)
         user.email = 'test@test.com.br'
         user.save()

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 
 
 def parse_weight_csv(request, cleaned_data):
-
+    """Docstring."""
     try:
         dialect = csv.Sniffer().sniff(cleaned_data['csv_input'])
     except csv.Error:
@@ -85,9 +85,10 @@ def parse_weight_csv(request, cleaned_data):
 
 
 def group_log_entries(user, year, month, day=None):
-    '''
-    Processes and regroups a list of log entries so they can be more easily
-    used in the different calendar pages
+    """Process and regroups a list of log entries.
+
+    so they can be more easily
+    used in the different calendar pages.
 
     :param user: the user to filter the logs for
     :param year: year
@@ -95,7 +96,8 @@ def group_log_entries(user, year, month, day=None):
     :param day: optional, day
 
     :return: a dictionary with grouped logs by date and exercise
-    '''
+
+    """
     if day:
         log_hash = hash((user.pk, year, month, day))
     else:
@@ -150,11 +152,10 @@ def group_log_entries(user, year, month, day=None):
 
 
 def process_log_entries(logs):
-    '''
-    Processes and regroups a list of log entries so they can be rendered
-    and passed to the D3 library to render a chart
-    '''
+    """Process and regroups a list of log entries so they can be rendered.
 
+    and passed to the D3 library to render a chart.
+    """
     entry_log = OrderedDict()
     entry_list = {}
     chart_data = []
@@ -201,13 +202,12 @@ def process_log_entries(logs):
 
 
 def get_last_entries(user, amount=5):
-        '''
-        Get the last weight entries as well as the difference to the last
+        """Get the last weight entries as well as the difference to the last.
 
-        This can be used e.g. to present a list where the last entries and
-        their changes are presented.
-         '''
+        This can be used e.g. to present a list where the last entries
+        and their changes are presented.
 
+        """
         last_entries = WeightEntry.objects.filter(user=user).order_by('-date')[:5]
         last_entries_details = []
 

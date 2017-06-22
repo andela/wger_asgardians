@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.utils import formats
+from django.utils import formats # noqa
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from django.db.models import Min
@@ -48,46 +48,41 @@ logger = logging.getLogger(__name__)
 
 
 class WeightAddView(WgerFormMixin, CreateView):
-    '''
-    Generic view to add a new weight entry
-    '''
+    """Generic view to add a new weight entry."""
+
     model = WeightEntry
     form_class = WeightForm
     title = ugettext_lazy('Add weight entry')
     form_action = reverse_lazy('weight:add')
 
     def get_initial(self):
-        '''
-        Set the initial data for the form.
+        """Set the initial data for the form.
 
-        Read the comment on weight/models.py WeightEntry about why we need
-        to pass the user here.
-        '''
+        Read the comment on weight/models.py WeightEntry about why we
+        need to pass the user here.
+
+        """
         return {'user': self.request.user,
                 'date': datetime.date.today()}
 
     def form_valid(self, form):
-        '''
-        Set the owner of the entry here
-        '''
+        """Set the owner of the entry here."""
         form.instance.user = self.request.user
         return super(WeightAddView, self).form_valid(form)
 
     def get_success_url(self):
-        '''
-        Return to overview with username
-        '''
+        """Return to overview with username."""
         return reverse('weight:overview', kwargs={'username': self.object.user.username})
 
 
 class WeightUpdateView(WgerFormMixin, UpdateView):
-    '''
-    Generic view to edit an existing weight entry
-    '''
+    """Generic view to edit an existing weight entry."""
+
     model = WeightEntry
     form_class = WeightForm
 
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(WeightUpdateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('weight:edit', kwargs={'pk': self.object.id})
         context['title'] = _('Edit weight entry for the %s') % self.object.date
@@ -95,18 +90,13 @@ class WeightUpdateView(WgerFormMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        '''
-        Return to overview with username
-        '''
+        """Return to overview with username."""
         return reverse('weight:overview', kwargs={'username': self.object.user.username})
 
 
 @login_required
 def export_csv(request):
-    '''
-    Exports the saved weight data as a CSV file
-    '''
-
+    """Export the saved weight data as a CSV file."""
     # Prepare the response headers
     response = HttpResponse(content_type='text/csv')
 
@@ -126,13 +116,13 @@ def export_csv(request):
 
 
 def overview(request, username=None):
-    '''
-    Shows a plot with the weight data
+    """Show a plot with the weight data.
 
     More info about the D3 library can be found here:
         * https://github.com/mbostock/d3
         * http://d3js.org/
-    '''
+
+    """
     is_owner, user = check_access(request.user, username)
 
     template_data = {}
@@ -163,10 +153,7 @@ def overview(request, username=None):
 
 @api_view(['GET'])
 def get_weight_data(request, username=None):
-    '''
-    Process the data to pass it to the JS libraries to generate an SVG image
-    '''
-
+    """Process the data to pass it to the JS libraries to generate an SVG image."""
     is_owner, user = check_access(request.user, username)
 
     date_min = request.GET.get('date_min', False)
@@ -189,25 +176,26 @@ def get_weight_data(request, username=None):
 
 
 class WeightCsvImportFormPreview(FormPreview):
+    """Docstring."""
+
     preview_template = 'import_csv_preview.html'
     form_template = 'import_csv_form.html'
 
     def get_context(self, request, form):
-        '''
-        Context for template rendering.
-        '''
-
+        """Context for template rendering."""
         return {'form': form,
                 'stage_field': self.unused_name('stage'),
                 'state': self.state,
                 'form_action': reverse('weight:import-csv')}
 
     def process_preview(self, request, form, context):
+        """Docstring."""
         context['weight_list'], context['error_list'] = helpers.parse_weight_csv(request,
                                                                                  form.cleaned_data)
         return context
 
     def done(self, request, cleaned_data):
+        """Docstring."""
         weight_list, error_list = helpers.parse_weight_csv(request, cleaned_data)
         WeightEntry.objects.bulk_create(weight_list)
         return HttpResponseRedirect(reverse('weight:overview',

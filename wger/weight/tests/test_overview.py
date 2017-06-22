@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,35 +23,25 @@ logger = logging.getLogger(__name__)
 
 
 class WeightOverviewTestCase(WorkoutManagerTestCase):
-    '''
-    Test case for the weight overview page
-    '''
+    """Test case for the weight overview page."""
 
     def weight_overview(self):
-        '''
-        Helper function to test the weight overview page
-        '''
+        """Define Helper function to test the weight overview page."""
         response = self.client.get(reverse('weight:overview',
                                            kwargs={'username': self.current_user}))
         self.assertEqual(response.status_code, 200)
 
     def test_weight_overview_loged_in(self):
-        '''
-        Test the weight overview page by a logged in user
-        '''
+        """Test the weight overview page by a logged in user."""
         self.user_login('test')
         self.weight_overview()
 
 
 class WeightExportCsvTestCase(WorkoutManagerTestCase):
-    '''
-    Tests exporting the saved weight entries as a CSV file
-    '''
+    """Tests exporting the saved weight entries as a CSV file."""
 
     def csv_export(self):
-        '''
-        Helper function to test exporting the saved weight entries as a CSV file
-        '''
+        """Define Helper function to test exporting the saved weight entries as a CSV file."""
         response = self.client.get(reverse('weight:export-csv'))
 
         self.assertEqual(response.status_code, 200)
@@ -59,8 +50,6 @@ class WeightExportCsvTestCase(WorkoutManagerTestCase):
         self.assertLessEqual(len(response.content), 150)
 
     def test_csv_export_loged_in(self):
-        '''
-        Test exporting the saved weight entries as a CSV file by a logged in user
-        '''
+        """Test exporting the saved weight entries as a CSV file by a logged in user."""
         self.user_login('test')
         self.csv_export()

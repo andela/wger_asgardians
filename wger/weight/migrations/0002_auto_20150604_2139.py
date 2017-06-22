@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import models, migrations # noqa
 
 
 class Migration(migrations.Migration):
+    """Docstring."""
 
     dependencies = [
         ('weight', '0001_initial'),

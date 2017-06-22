@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 from __future__ import unicode_literals
 
 from django.db import models, migrations
@@ -7,6 +8,7 @@ import django.core.validators
 
 
 class Migration(migrations.Migration):
+    """Docstring."""
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -16,9 +18,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='WeightEntry',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False,
+                                        auto_created=True, primary_key=True)),
                 ('creation_date', models.DateField(verbose_name='Date')),
-                ('weight', models.DecimalField(verbose_name='Weight', max_digits=5, decimal_places=2, validators=[django.core.validators.MinValueValidator(30), django.core.validators.MaxValueValidator(300)])),
+                ('weight', models.DecimalField(verbose_name='Weight', max_digits=5,
+                                               decimal_places=2,
+                                               validators=[
+                                                   django.core.validators.MinValueValidator(30),
+                                                   django.core.validators.MaxValueValidator(300)])),
                 ('user', models.ForeignKey(verbose_name='User', to=settings.AUTH_USER_MODEL)),
             ],
             options={

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -29,14 +29,12 @@ from wger.weight.models import WeightEntry
 
 
 class Command(BaseCommand):
-    '''
-    Helper admin command to send out email reminders
-    '''
+    """Helper admin command to send out email reminders."""
 
     help = 'Send out automatic emails to remind the user to enter the weight'
 
     def handle(self, **options):
-
+        """Docstring."""
         profile_list = UserProfile.objects.filter(num_days_weight_reminder__gt=0)
 
         for profile in profile_list:
@@ -59,13 +57,12 @@ class Command(BaseCommand):
 
     @staticmethod
     def send_email(user, last_entry, datediff):
-        '''
-        Notify a user to input the weight entry
+        """Notify a user to input the weight entry.
 
         :type user User
         :type last_entry Date
-        '''
 
+        """
         # Compose and send the email
         translation.activate(user.userprofile.notification_language.short_name)
 

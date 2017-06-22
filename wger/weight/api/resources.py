@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,17 +23,15 @@ from wger.utils.resources import UserObjectsOnlyAuthorization
 
 
 class WeightEntryResource(ModelResource):
-    '''
-    Resource for weight entries
-    '''
+    """Resource for weight entries."""
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = WeightEntry.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
