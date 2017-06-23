@@ -46,7 +46,7 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 # environment_db = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(environment_db)
 
-DATABASES = {'default' : dj_database_url.config() }
+DATABASES = {'default' : dj_database_url.config(default=os.environ["DATABASE_URL"]) }
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
