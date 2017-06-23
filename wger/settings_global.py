@@ -19,8 +19,6 @@
 import os
 import re
 import sys
-<<<<<<< HEAD
-<<<<<<< HEAD
 import dj_database_url
 =======
 >>>>>>> [Feature #147322077] add settings_global.py
@@ -38,21 +36,21 @@ For a full list of options, visit:
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
-DATABASES = {
-    'default': {
-        'ENGINE': '',
-        'NAME': '',
-        'USER': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'TEST': {
-            'CHARSET': 'UTF8'
-        }
-    }
-}
-
-environment_db = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(environment_db)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': '',
+#         'NAME': '',
+#         'USER': '',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#         'TEST': {
+#             'CHARSET': 'UTF8'
+#         }
+#     }
+# }
+#
+# environment_db = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(environment_db)
 
 DATABASES = {'default': dj_database_url.config(default=os.environ["DATABASE_URL"])}
 
@@ -113,12 +111,9 @@ INSTALLED_APPS = (
 
     # django-bower for installing bower packages
     'djangobower',
-<<<<<<< HEAD
 
     # Python Social Auth Setup
     'social_django',
-=======
->>>>>>> [Feature #147322077] add settings_global.py
 )
 
 # added list of external libraries to be installed by bower
@@ -159,8 +154,6 @@ MIDDLEWARE_CLASSES = (
     # Django mobile
     'django_mobile.middleware.MobileDetectionMiddleware',
     'django_mobile.middleware.SetFlavourMiddleware',
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     # social authentication django
     'social_django.middleware.SocialAuthExceptionMiddleware',
@@ -172,12 +165,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
 
-=======
-)
-
-AUTHENTICATION_BACKENDS = (
->>>>>>> [Feature #147322077] add settings_global.py
-=======
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -207,19 +194,12 @@ TEMPLATES = [
                 'django_mobile.context_processors.flavour',
 
                 # Breadcrumbs
-<<<<<<< HEAD
-<<<<<<< HEAD
                 'django.template.context_processors.request',
 
                 # Python Social Auth Setup
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
-=======
                 'django.template.context_processors.request'
->>>>>>> [Feature #147322077] add settings_global.py
-=======
-                'django.template.context_processors.request'
->>>>>>> [Feature #147322077] add settings_global.py
             ],
             'loaders': [
                 # Django mobile
@@ -381,11 +361,7 @@ THUMBNAIL_ALIASES = {
 #
 # Django compressor
 #
-<<<<<<< HEAD
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-=======
-STATIC_ROOT = ''
->>>>>>> [Feature #147322077] add settings_global.py
 STATIC_URL = '/static/'
 
 # The default is not DEBUG, override if needed
@@ -463,8 +439,6 @@ WGER_SETTINGS = {
     'EMAIL_FROM': 'wger Workout Manager <wger@example.com>',
     'TWITTER': False
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 SOCIAL_AUTH_TWITTER_KEY = 'NWUcF1SOfis7DK4qJWKdbiHH1'
 SOCIAL_AUTH_TWITTER_SECRET = 'zrI7dK3JObiZc4cW2JZt1OpndRFfChw4V9mR14nKbx7IFPLevp'
@@ -481,7 +455,3 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'locale': 'ru_RU',
     'fields': 'id, name, email, age_range'
 }
-=======
->>>>>>> [Feature #147322077] add settings_global.py
-=======
->>>>>>> [Feature #147322077] add settings_global.py
