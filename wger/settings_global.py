@@ -43,7 +43,6 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 #         'ENGINE': '',
 #         'NAME': '',
 #         'USER': '',
-#         'HOST': 'localhost',
 #         'PORT': '5432',
 #         'TEST': {
 #             'CHARSET': 'UTF8'
