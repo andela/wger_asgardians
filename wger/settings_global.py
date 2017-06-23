@@ -131,6 +131,7 @@ MIDDLEWARE_CLASSES = (
     # Django mobile
     'django_mobile.middleware.MobileDetectionMiddleware',
     'django_mobile.middleware.SetFlavourMiddleware',
+<<<<<<< HEAD
 
     # social authentication django
     'social_django.middleware.SocialAuthExceptionMiddleware',
@@ -142,6 +143,11 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
 
+=======
+)
+
+AUTHENTICATION_BACKENDS = (
+>>>>>>> [Feature #147322077] add settings_global.py
     'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend'
 )
@@ -167,11 +173,15 @@ TEMPLATES = [
                 'django_mobile.context_processors.flavour',
 
                 # Breadcrumbs
+<<<<<<< HEAD
                 'django.template.context_processors.request',
 
                 # Python Social Auth Setup
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
+=======
+                'django.template.context_processors.request'
+>>>>>>> [Feature #147322077] add settings_global.py
             ],
             'loaders': [
                 # Django mobile
@@ -411,6 +421,7 @@ WGER_SETTINGS = {
     'EMAIL_FROM': 'wger Workout Manager <wger@example.com>',
     'TWITTER': False
 }
+<<<<<<< HEAD
 
 SOCIAL_AUTH_TWITTER_KEY = 'NWUcF1SOfis7DK4qJWKdbiHH1'
 SOCIAL_AUTH_TWITTER_SECRET = 'zrI7dK3JObiZc4cW2JZt1OpndRFfChw4V9mR14nKbx7IFPLevp'
@@ -427,3 +438,5 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'locale': 'ru_RU',
     'fields': 'id, name, email, age_range'
 }
+=======
+>>>>>>> [Feature #147322077] add settings_global.py
