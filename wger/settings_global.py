@@ -36,6 +36,7 @@ DATABASES = {
         'ENGINE': '',
         'NAME': '',
         'USER': '',
+        'PORT': '5432',
         'TEST': {
             'CHARSET': 'UTF8'
         }
