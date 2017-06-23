@@ -21,24 +21,24 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(
                     auto_created=True,
                     verbose_name='ID',
-                    serialize=False, primary_key=True)),
-                ('timestamp_created', models.DateTimeField(
-                        auto_now_add=True)),
+                    serialize=False, primary_key=True)), ('timestamp_created',
+                                                          models.DateTimeField(
+                                                              auto_now_add=True)),
                 ('timestamp_edited',
                  models.DateTimeField(
-                            auto_now=True)),
+                     auto_now=True)),
                 ('amount', models.PositiveIntegerField(
-                                verbose_name='Amount',
-                                default=0)),
+                    verbose_name='Amount',
+                    default=0)),
                 ('payment', models.CharField(
-                                    verbose_name='Payment type',
-                                    default='3',
-                                    help_text='How often the amount will be charged to the member',
-                                    choices=[('1', 'Yearly'), ('2', 'Half yearly'),
-                                             ('3', 'Monthly'), ('4', 'Biweekly'), ('5', 'Weekly'),
-                                             ('6', 'Daily')],
-                                    max_length=2)), ('is_active', models.BooleanField(
-                                        verbose_name='Contract is active', default=True)),
+                    verbose_name='Payment type',
+                    default='3',
+                    help_text='How often the amount will be charged to the member',
+                    choices=[('1', 'Yearly'), ('2', 'Half yearly'),
+                             ('3', 'Monthly'), ('4', 'Biweekly'), ('5', 'Weekly'),
+                             ('6', 'Daily')],
+                    max_length=2)), ('is_active', models.BooleanField(
+                        verbose_name='Contract is active', default=True)),
                 ('date_start', models.DateField(verbose_name='Start date',
                                                 blank=True, default=datetime.date.today,
                                                 null=True)), ('date_end', models.DateField(
@@ -69,15 +69,15 @@ class Migration(migrations.Migration):
                     model_name='contract', name='contract_type', field=models.ForeignKey(
                         verbose_name='Contract type', blank=True, null=True,
                         to='gym.ContractType'),
-                    ), migrations.AddField(model_name='contract', name='member',
-                                           field=models.ForeignKey(
-                                               editable=False,
-                                               to=settings.AUTH_USER_MODEL,
-                                               related_name='contract_member'),
-                                           ), migrations.AddField(model_name='contract',
-                                                                  name='user',
-                                                                  field=models.ForeignKey(
-                                                                      editable=False,
-                                                                      to=settings.AUTH_USER_MODEL,
-                                                                      related_name='contract_user'),
-                                                                  ), ]
+        ), migrations.AddField(model_name='contract', name='member',
+                               field=models.ForeignKey(
+                                   editable=False,
+                                   to=settings.AUTH_USER_MODEL,
+                                   related_name='contract_member'),
+                               ), migrations.AddField(model_name='contract',
+                                                      name='user',
+                                                      field=models.ForeignKey(
+                                                          editable=False,
+                                                          to=settings.AUTH_USER_MODEL,
+                                                          related_name='contract_user'),
+                                                      ), ]
