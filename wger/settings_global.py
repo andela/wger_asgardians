@@ -45,7 +45,8 @@ DATABASES = {
 environment_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(environment_db)
 
-#
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 # Application definition
 #
 SITE_ID = 1
