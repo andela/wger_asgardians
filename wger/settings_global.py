@@ -20,9 +20,13 @@ import os
 import re
 import sys
 <<<<<<< HEAD
+<<<<<<< HEAD
 import dj_database_url
 =======
 >>>>>>> [Feature #147322077] add settings_global.py
+=======
+import dj_database_url
+>>>>>>> [Feature #147322077] add database configurations
 
 
 '''
