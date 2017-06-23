@@ -40,7 +40,7 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': '',
         'USER': '',
         'HOST': 'localhost',
