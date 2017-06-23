@@ -32,20 +32,32 @@ For a full list of options, visit:
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
+
 DATABASES = {
     'default': {
-        'ENGINE': '',
-        'NAME': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'database.sqlite',
         'USER': '',
-        'HOST': 'localhost',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
-        'TEST': {
-            'CHARSET': 'UTF8'
-        }
     }
 }
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': '',
+#         'NAME': '',
+#         'USER': '',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#         'TEST': {
+#             'CHARSET': 'UTF8'
+#         }
+#     }
+# }
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
 #
 # environment_db = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(environment_db)
