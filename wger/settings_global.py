@@ -19,7 +19,10 @@
 import os
 import re
 import sys
+<<<<<<< HEAD
 import dj_database_url
+=======
+>>>>>>> [Feature #147322077] add settings_global.py
 
 
 '''
@@ -106,9 +109,12 @@ INSTALLED_APPS = (
 
     # django-bower for installing bower packages
     'djangobower',
+<<<<<<< HEAD
 
     # Python Social Auth Setup
     'social_django',
+=======
+>>>>>>> [Feature #147322077] add settings_global.py
 )
 
 # added list of external libraries to be installed by bower
@@ -150,6 +156,7 @@ MIDDLEWARE_CLASSES = (
     'django_mobile.middleware.MobileDetectionMiddleware',
     'django_mobile.middleware.SetFlavourMiddleware',
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     # social authentication django
     'social_django.middleware.SocialAuthExceptionMiddleware',
@@ -161,6 +168,11 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
 
+=======
+)
+
+AUTHENTICATION_BACKENDS = (
+>>>>>>> [Feature #147322077] add settings_global.py
 =======
 )
 
@@ -192,11 +204,15 @@ TEMPLATES = [
 
                 # Breadcrumbs
 <<<<<<< HEAD
+<<<<<<< HEAD
                 'django.template.context_processors.request',
 
                 # Python Social Auth Setup
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
+=======
+                'django.template.context_processors.request'
+>>>>>>> [Feature #147322077] add settings_global.py
 =======
                 'django.template.context_processors.request'
 >>>>>>> [Feature #147322077] add settings_global.py
@@ -361,7 +377,11 @@ THUMBNAIL_ALIASES = {
 #
 # Django compressor
 #
+<<<<<<< HEAD
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+=======
+STATIC_ROOT = ''
+>>>>>>> [Feature #147322077] add settings_global.py
 STATIC_URL = '/static/'
 
 # The default is not DEBUG, override if needed
@@ -440,6 +460,7 @@ WGER_SETTINGS = {
     'TWITTER': False
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 SOCIAL_AUTH_TWITTER_KEY = 'NWUcF1SOfis7DK4qJWKdbiHH1'
 SOCIAL_AUTH_TWITTER_SECRET = 'zrI7dK3JObiZc4cW2JZt1OpndRFfChw4V9mR14nKbx7IFPLevp'
@@ -456,5 +477,7 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'locale': 'ru_RU',
     'fields': 'id, name, email, age_range'
 }
+=======
+>>>>>>> [Feature #147322077] add settings_global.py
 =======
 >>>>>>> [Feature #147322077] add settings_global.py
