@@ -49,9 +49,6 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 DATABASES = {'default': dj_database_url.config(default=os.environ["DATABASE_URL"])}
 
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
 # Application definition
 #
 SITE_ID = 1
