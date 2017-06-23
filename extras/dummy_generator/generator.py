@@ -32,14 +32,14 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 django.setup()
 
 # Must happen after calling django.setup()
-from django.contrib.auth.models import User  # noqa
-from wger.core.models import DaysOfWeek  # noqa
-from wger.exercises.models import Exercise  # noqa
-from wger.gym.models import (  # noqa
+from django.contrib.auth.models import User   # noqa
+from wger.core.models import DaysOfWeek   # noqa
+from wger.exercises.models import Exercise   # noqa
+from wger.gym.models import (   # noqa
     GymUserConfig,
     Gym
 )
-from wger.manager.models import (  # noqa
+from wger.manager.models import (   # noqa
     Workout,
     Day,
     Set,
@@ -49,12 +49,12 @@ from wger.manager.models import (  # noqa
     WorkoutLog,
     WorkoutSession
 )
-from wger.weight.models import WeightEntry  # noqa
+from wger.weight.models import WeightEntry   # noqa
 
-from wger.core.models import Language  # noqa
+from wger.core.models import Language   # noqa
 
 # Nutrition import //_c
-from wger.nutrition.models import (  # noqa
+from wger.nutrition.models import (   # noqa
     Ingredient,
     NutritionPlan,
     Meal,
@@ -366,8 +366,7 @@ if hasattr(args, 'number_logs'):
                     for setting in set.setting_set.all():
                         for reps in (8, 10, 12):
                             for i in range(1, args.number_logs):
-                                date = datetime.date.today() \
-                                 - datetime.timedelta(weeks=i)
+                                date = datetime.date.today() - datetime.timedelta(weeks=i)
                                 log = WorkoutLog(user=user,
                                                  exercise=setting.exercise,
                                                  workout=workout,
@@ -419,10 +418,9 @@ if hasattr(args, 'impression_sessions'):
                 elif args.impression_sessions == 'bad':
                     session.impression = WorkoutSession.IMPRESSION_BAD
                 else:
-                    session.impression =\
-                     random.choice([WorkoutSession.IMPRESSION_GOOD,
-                                   WorkoutSession.IMPRESSION_NEUTRAL,
-                                   WorkoutSession.IMPRESSION_BAD])
+                    session.impression = random.choice([WorkoutSession.IMPRESSION_GOOD,
+                                                       WorkoutSession.IMPRESSION_NEUTRAL,
+                                                       WorkoutSession.IMPRESSION_BAD])
 
                 session_list.append(session)
 
@@ -486,11 +484,10 @@ if hasattr(args, 'number_nutrition_plans'):
             uid = str(uuid.uuid4()).split('-')
             start_date = datetime.date.today() - datetime.timedelta(
                 days=random.randint(0, 100))
-            nutrition_plan = NutritionPlan(language=Language.objects.all(
-            )[1], description='Dummy nutrition plan - {0}'.format(uid[1]),
-             creation_date=start_date)
+            nutrition_plan = NutritionPlan(language=Language.objects.all()[1],
+                                           description='Dummy nutrition plan - {0}'.format(uid[1]),
+                                           creation_date=start_date)
             nutrition_plan.user = user
-
             nutrition_plan.save()
 
             # Add meals to plan

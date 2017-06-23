@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
-import six # noqa
+import six  # noqa
 import csv
 import datetime
 import logging

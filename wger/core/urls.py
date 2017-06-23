@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 
 
-from django.conf.urls import ( # noqa
+from django.conf.urls import (  # noqa
     patterns,
     url,
     include

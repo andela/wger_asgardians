@@ -129,7 +129,7 @@ router.register(r'mealitem', nutrition_api_views.MealItemViewSet, base_name='mea
 router.register(r'weightentry', weight_api_views.WeightEntryViewSet, base_name='weightentry')
 
 
-from django.contrib import admin # noqa
+from django.contrib import admin  # noqa
 admin.autodiscover()
 
 #

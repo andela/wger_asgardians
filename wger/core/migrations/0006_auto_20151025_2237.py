@@ -2,7 +2,7 @@
 """Module Docstring."""
 from __future__ import unicode_literals
 
-from django.db import migrations, models # noqa
+from django.db import migrations, models  # noqa
 
 
 def create_usercache(apps, schema_editor):

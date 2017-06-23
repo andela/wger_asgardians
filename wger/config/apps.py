@@ -25,4 +25,4 @@ class ConfigConfig(AppConfig):
 
     def ready(self):
         """Ready."""
-        import wger.config.signals # noqa
+        import wger.con5fig.signals   # noqa

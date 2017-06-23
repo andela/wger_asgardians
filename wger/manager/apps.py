@@ -25,4 +25,4 @@ class ManagerConfig(AppConfig):
 
     def ready(self):
         """Docstring."""
-        import wger.manager.signals # noqa
+        import wger.manager.signals  # noqa

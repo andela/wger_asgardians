@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 
 import logging
-import datetime # noqa
+import datetime  # noqa
 
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
@@ -29,16 +29,16 @@ from wger.utils.pdf import styleSheet
 from wger.utils.pdf import render_footer
 
 from reportlab.lib.pagesizes import A4, cm
-from reportlab.platypus import ( # noqa
+from reportlab.platypus import (  # noqa
     Paragraph,
     SimpleDocTemplate,
     Table,
     Spacer
 )
 
-from reportlab.lib import colors # noqa
+from reportlab.lib import colors  # noqa
 
-from wger import get_version  # noqa
+from wger import get_version   # noqa
 
 logger = logging.getLogger(__name__)
 

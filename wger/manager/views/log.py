@@ -18,7 +18,7 @@ import logging
 import uuid
 import datetime
 
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin # noqa
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin  # noqa
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden

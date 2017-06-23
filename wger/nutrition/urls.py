@@ -16,7 +16,7 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.decorators import login_required
-from django.conf.urls import ( # noqa
+from django.conf.urls import (  # noqa
     patterns,
     url,
     include

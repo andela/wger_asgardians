@@ -2,7 +2,7 @@
 """Docstring."""
 from __future__ import unicode_literals
 
-from django.db import migrations, models # noqa
+from django.db import migrations, models  # noqa
 
 
 def convert_logs(apps, schema_editor):

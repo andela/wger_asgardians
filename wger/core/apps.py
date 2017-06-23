@@ -25,4 +25,4 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         """Docstring."""
-        import wger.core.signals # noqa
+        import wger.core.signals   # noqa

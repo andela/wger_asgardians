@@ -25,4 +25,4 @@ class ExerciseConfig(AppConfig):
 
     def ready(self):
         """Docstring."""
-        import wger.exercises.signals # noqa
+        import wger.exercises.signals  # noqa

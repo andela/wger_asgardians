@@ -25,4 +25,4 @@ class GymConfig(AppConfig):
 
     def ready(self):
         """Docstring."""
-        import wger.gym.signals # noqa
+        import wger.gym.signals  # noqa

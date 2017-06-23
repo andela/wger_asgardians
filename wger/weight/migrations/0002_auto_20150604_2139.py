@@ -2,7 +2,7 @@
 """Docstring."""
 from __future__ import unicode_literals
 
-from django.db import models, migrations # noqa
+from django.db import models, migrations  # noqa
 
 
 class Migration(migrations.Migration):

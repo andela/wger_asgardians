@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models # noqa"
+from django.db import migrations, models  # noqa"
 
 
 def update_permission_names(apps, schema_editor):
