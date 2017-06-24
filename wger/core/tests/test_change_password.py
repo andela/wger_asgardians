@@ -59,10 +59,10 @@ class ChangePasswordTestCase(WorkoutManagerTestCase):
 
         self.change_password()
 
-    # def test_copy_workout_logged_in(self, fail=True):
-    #     '''
-    #     Test changing a password as a logged in user
-    #     '''
-    #
-    #     self.user_login('test')
-    #     self.change_password(fail=False)
+    def test_copy_workout_logged_in(self, fail=True):
+        '''
+        Test changing a password as a logged in user
+        '''
+
+        self.user_login('test')
+        self.change_password(fail=False)
