@@ -2,8 +2,6 @@
     :target: https://travis-ci.org/andela/wger_asgardians
 .. image:: https://coveralls.io/repos/github/andela/wger_asgardians/badge.svg?branch=develop
     :target: https://coveralls.io/github/andela/wger_asgardians?branch=master
-.. image:: https://coveralls.io/repos/github/andela/wger_asgardians/badge.svg?branch=develop
-    :target: https://coveralls.io/github/andela/wger_asgardians?branch=master
 
 
 
