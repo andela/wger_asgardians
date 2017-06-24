@@ -28,7 +28,6 @@ class GymConfigTestCase(WorkoutManagerTestCase):
     '''
     Test the system wide gym configuration
     '''
-    # 
     # def test_default_gym(self):
     #     '''
     #     Test that newly registered users get a gym
