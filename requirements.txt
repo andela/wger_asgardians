@@ -33,7 +33,7 @@ django-cors-headers
 six
 
 # heroku setup
-dj-database-url=0.4.2
+dj-database-url==0.4.2
 gunicorn==19.7.1
 Werkzeug==0.12.2
 whitenoise==3.3.0
