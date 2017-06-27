@@ -31,7 +31,8 @@ For a full list of options, visit:
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
-DATABASES = {'default': dj_database_url.config(default=os.environ["DATABASE_URL"])}
+databse_url = os.environ.get("DATABASE_URL")
+DATABASES = {'default': dj_database_url.config(default=databse_url)}
 
 # Application definition
 #
