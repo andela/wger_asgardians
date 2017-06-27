@@ -20,7 +20,6 @@ import os
 import re
 import sys
 import dj_database_url
-import dj_database_url
 
 
 '''
