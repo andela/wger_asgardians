@@ -147,7 +147,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 AUTHENTICATION_BACKENDS = (
->>>>>>> [Feature #147322077] add settings_global.py
     'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend'
 )
