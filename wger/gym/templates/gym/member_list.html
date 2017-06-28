@@ -3,9 +3,9 @@
 
 {% block title %}{{gym}}{% endblock %}
 
+
 {% block breadcrumbs %}
     {{ block.super }}
-
     {% if perms.gym.manage_gyms %}
         {% breadcrumb "Gyms" "gym:gym:list" %}
         {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
@@ -17,6 +17,10 @@
 {% if perms.gym.manage_gym or perms.gym.gym_trainer %}
     {% include 'gym/partial_user_list.html' %}
 {% endif %}
+<br>
+<hr>
+<a href="{% url 'gym:gym:inactive-user-list' gym.pk %}">Click here to see inactive members</a>
+<br> <br> <br>
 
 
 <h4>{% trans "Administrators and trainers" %}</h4>
