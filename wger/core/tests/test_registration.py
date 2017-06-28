@@ -54,8 +54,8 @@ class RegistrationTestCase(WorkoutManagerTestCase):
 
         # Fill in the registration form
         registration_data = {'username': 'myusername',
-                             'password1': 'secret',
-                             'password2': 'secret',
+                             'password1': 'secret1234secret',
+                             'password2': 'secret1234secret',
                              'email': 'not an email',
                              'g-recaptcha-response': 'PASSED', }
         count_before = User.objects.count()
