@@ -145,12 +145,10 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
 
-)
-
-AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend'
 )
+
 
 TEMPLATES = [
     {
