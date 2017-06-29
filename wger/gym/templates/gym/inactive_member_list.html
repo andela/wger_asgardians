@@ -9,6 +9,7 @@
     {% if perms.gym.manage_gyms %}
         {% breadcrumb "Gyms" "gym:gym:list" %}
         {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
+        {% breadcrumb_raw name "gym:gym:inactive-user-list" %}
     {% endif %}
 {% endblock %}
 

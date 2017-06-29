@@ -162,6 +162,7 @@ class GymUser2ListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, 
         """Pass other info to the template."""
         context = super(GymUser2ListView, self).get_context_data(**kwargs)
         context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
+        context['name'] = "Inactive Members"
         context['admin_count'] = len(context['object_list']['admins'])
         context['user_count'] = len(context['object_list']['members'])
         context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'),
@@ -169,7 +170,6 @@ class GymUser2ListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, 
                                  'users': context['object_list']['members'],
                                  'is_inactive': 'True'}
         return context
-
 
 
 class GymAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
