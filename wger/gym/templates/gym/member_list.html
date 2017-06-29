@@ -15,13 +15,9 @@
 
 {% block content %}
 {% if perms.gym.manage_gym or perms.gym.gym_trainer %}
+    <a href="{% url 'gym:gym:inactive-user-list' gym.pk %}">Click HERE to see inactive members</a>
     {% include 'gym/partial_user_list.html' %}
 {% endif %}
-<br>
-<hr>
-<a href="{% url 'gym:gym:inactive-user-list' gym.pk %}">Click here to see inactive members</a>
-<br> <br> <br>
-
 
 <h4>{% trans "Administrators and trainers" %}</h4>
 <table class="table table-hover">
@@ -327,4 +323,5 @@
         {% trans "Add member" %}
     </a>
 {% endif %}
+
 {% endblock %}
