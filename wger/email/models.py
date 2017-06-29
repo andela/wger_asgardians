@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -21,11 +21,11 @@ from wger.gym.models import Gym
 
 
 class Log(models.Model):
-    '''
-    A log of a sent email
-    '''
+    """A log of a sent email."""
 
     class Meta:
+        """Docstring."""
+
         ordering = ["-date", ]
 
     date = models.DateField(auto_now=True)
@@ -58,16 +58,12 @@ class Log(models.Model):
     '''
 
     def __unicode__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         return self.subject
 
 
 class CronEntry(models.Model):
-    '''
-    Simple list of emails to be sent by a cron job
-    '''
+    """Simple list of emails to be sent by a cron job."""
 
     log = models.ForeignKey(Log,
                             editable=False)
@@ -81,7 +77,5 @@ class CronEntry(models.Model):
     '''
 
     def __unicode__(self):
-        '''
-        Return a more human-readable representation
-        '''
+        """Return a more human-readable representation."""
         return self.email

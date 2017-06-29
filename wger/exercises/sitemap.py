@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -21,9 +21,12 @@ from wger.config.models import LanguageConfig
 
 
 class ExercisesSitemap(Sitemap):
+    """Docstring."""
+
     changefreq = "monthly"
     priority = 0.5
 
     def items(self):
+        """Docstring."""
         language_list = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES)
         return Exercise.objects.accepted().filter(language__in=language_list)

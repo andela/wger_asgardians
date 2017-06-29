@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -25,14 +26,10 @@ from wger.utils.helpers import next_weekday, make_token
 
 
 class IcalToolsTestCase(WorkoutManagerTestCase):
-    '''
-    Tests some tools used for iCal generation
-    '''
+    """Tests some tools used for iCal generation."""
 
     def test_next_weekday(self):
-        '''
-        Test the next weekday function
-        '''
+        """Test the next weekday function."""
         start_date = datetime.date(2013, 12, 5)
 
         # Find next monday
@@ -46,15 +43,10 @@ class IcalToolsTestCase(WorkoutManagerTestCase):
 
 
 class WorkoutICalExportTestCase(WorkoutManagerTestCase):
-    '''
-    Tests exporting the ical file for a workout
-    '''
+    """Tests exporting the ical file for a workout."""
 
     def export_ical_token(self):
-        '''
-        Helper function that checks exporing an ical file using tokens for access
-        '''
-
+        """Define Helper function that checks exporing an ical file using tokens for access."""
         user = User.objects.get(username='test')
         uid, token = make_token(user)
         response = self.client.get(reverse('manager:workout:ical', kwargs={'pk': 3,
@@ -71,10 +63,7 @@ class WorkoutICalExportTestCase(WorkoutManagerTestCase):
         self.assertLess(len(response.content), 560)
 
     def export_ical_token_wrong(self):
-        '''
-        Helper function that checks exporing an ical file using a wrong token
-        '''
-
+        """Define Helper function that checks exporing an ical file using a wrong token."""
         uid = 'AB'
         token = 'abc-11223344556677889900'
         response = self.client.get(reverse('manager:workout:ical', kwargs={'pk': 3,
@@ -84,10 +73,7 @@ class WorkoutICalExportTestCase(WorkoutManagerTestCase):
         self.assertEqual(response.status_code, 403)
 
     def export_ical(self, fail=False):
-        '''
-        Helper function
-        '''
-
+        """Define Helper function."""
         response = self.client.get(reverse('manager:workout:ical', kwargs={'pk': 3}))
 
         if fail:
@@ -103,29 +89,20 @@ class WorkoutICalExportTestCase(WorkoutManagerTestCase):
             self.assertLess(len(response.content), 560)
 
     def test_export_ical_anonymous(self):
-        '''
-        Tests exporting a workout as an ical file as an anonymous user
-        '''
-
+        """Tests exporting a workout as an ical file as an anonymous user."""
         self.export_ical(fail=True)
         self.export_ical_token()
         self.export_ical_token_wrong()
 
     def test_export_ical_owner(self):
-        '''
-        Tests exporting a workout as an ical file as the owner user
-        '''
-
+        """Tests exporting a workout as an ical file as the owner user."""
         self.user_login('test')
         self.export_ical(fail=False)
         self.export_ical_token()
         self.export_ical_token_wrong()
 
     def test_export_ical_other(self):
-        '''
-        Tests exporting a workout as an ical file as a logged user not owning the data
-        '''
-
+        """Tests exporting a workout as an ical file as a logged user not owning the data."""
         self.user_login('admin')
         self.export_ical(fail=True)
         self.export_ical_token()
@@ -133,15 +110,10 @@ class WorkoutICalExportTestCase(WorkoutManagerTestCase):
 
 
 class ScheduleICalExportTestCase(WorkoutManagerTestCase):
-    '''
-    Tests exporting the ical file for a schedule
-    '''
+    """Tests exporting the ical file for a schedule."""
 
     def export_ical_token(self):
-        '''
-        Helper function that checks exporing an ical file using tokens for access
-        '''
-
+        """Define Helper function that checks exporing an ical file using tokens for access."""
         user = User.objects.get(username='test')
         uid, token = make_token(user)
         response = self.client.get(reverse('manager:schedule:ical', kwargs={'pk': 2,
@@ -158,10 +130,7 @@ class ScheduleICalExportTestCase(WorkoutManagerTestCase):
         self.assertLess(len(response.content), 1670)
 
     def export_ical_token_wrong(self):
-        '''
-        Helper function that checks exporing an ical file using a wrong token
-        '''
-
+        """Define Helper function that checks exporing an ical file using a wrong token."""
         uid = 'AB'
         token = 'abc-11223344556677889900'
         response = self.client.get(reverse('manager:schedule:ical', kwargs={'pk': 2,
@@ -171,10 +140,7 @@ class ScheduleICalExportTestCase(WorkoutManagerTestCase):
         self.assertEqual(response.status_code, 403)
 
     def export_ical(self, fail=False):
-        '''
-        Helper function
-        '''
-
+        """Define Helper function."""
         response = self.client.get(reverse('manager:schedule:ical', kwargs={'pk': 2}))
 
         if fail:
@@ -190,29 +156,20 @@ class ScheduleICalExportTestCase(WorkoutManagerTestCase):
             self.assertLess(len(response.content), 1670)
 
     def test_export_ical_anonymous(self):
-        '''
-        Tests exporting a schedule as an ical file as an anonymous user
-        '''
-
+        """Tests exporting a schedule as an ical file as an anonymous user."""
         self.export_ical(fail=True)
         self.export_ical_token()
         self.export_ical_token_wrong()
 
     def test_export_ical_owner(self):
-        '''
-        Tests exporting a schedule as an ical file as the owner user
-        '''
-
+        """Tests exporting a schedule as an ical file as the owner user."""
         self.user_login('admin')
         self.export_ical(fail=False)
         self.export_ical_token()
         self.export_ical_token_wrong()
 
     def test_export_ical_other(self):
-        '''
-        Tests exporting a schedule as an ical file as a logged user not owning the data
-        '''
-
+        """Tests exporting a schedule as an ical file as a logged user not owning the data."""
         self.user_login('test')
         self.export_ical(fail=True)
         self.export_ical_token()

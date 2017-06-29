@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -24,11 +25,10 @@ from wger.manager.models import Workout
 
 
 class WorkoutShareButtonTestCase(WorkoutManagerTestCase):
-    '''
-    Test that the share button is correctly displayed and hidden
-    '''
+    """Test that the share button is correctly displayed and hidden."""
 
     def test_share_button(self):
+        """Docstring."""
         workout = Workout.objects.get(pk=1)
 
         response = self.client.get(workout.get_absolute_url())
@@ -44,14 +44,10 @@ class WorkoutShareButtonTestCase(WorkoutManagerTestCase):
 
 
 class WorkoutAccessTestCase(WorkoutManagerTestCase):
-    '''
-    Test accessing the workout page
-    '''
+    """Test accessing the workout page."""
 
     def test_access_shared(self):
-        '''
-        Test accessing the URL of a shared workout
-        '''
+        """Test accessing the URL of a shared workout."""
         workout = Workout.objects.get(pk=1)
 
         self.user_login('admin')
@@ -67,9 +63,7 @@ class WorkoutAccessTestCase(WorkoutManagerTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_access_not_shared(self):
-        '''
-        Test accessing the URL of a private workout
-        '''
+        """Test accessing the URL of a private workout."""
         workout = Workout.objects.get(pk=3)
 
         self.user_login('admin')
@@ -86,15 +80,10 @@ class WorkoutAccessTestCase(WorkoutManagerTestCase):
 
 
 class AddWorkoutTestCase(WorkoutManagerTestCase):
-    '''
-    Tests adding a Workout
-    '''
+    """Tests adding a Workout."""
 
     def create_workout(self):
-        '''
-        Helper function to test creating workouts
-        '''
-
+        """Define Helper function to test creating workouts."""
         # Create a workout
         count_before = Workout.objects.count()
         response = self.client.get(reverse('manager:workout:add'))
@@ -114,19 +103,14 @@ class AddWorkoutTestCase(WorkoutManagerTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create_workout_logged_in(self):
-        '''
-        Test creating a workout a logged in user
-        '''
-
+        """Test creating a workout a logged in user."""
         self.user_login()
         self.create_workout()
         self.user_logout()
 
 
 class DeleteTestWorkoutTestCase(WorkoutManagerDeleteTestCase):
-    '''
-    Tests deleting a Workout
-    '''
+    """Tests deleting a Workout."""
 
     object_class = Workout
     url = 'manager:workout:delete'
@@ -136,9 +120,7 @@ class DeleteTestWorkoutTestCase(WorkoutManagerDeleteTestCase):
 
 
 class EditWorkoutTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a Workout
-    '''
+    """Tests editing a Workout."""
 
     object_class = Workout
     url = 'manager:workout:edit'
@@ -149,15 +131,10 @@ class EditWorkoutTestCase(WorkoutManagerEditTestCase):
 
 
 class WorkoutOverviewTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the workout overview
-    '''
+    """Tests the workout overview."""
 
     def get_workout_overview(self):
-        '''
-        Helper function to test the workout overview
-        '''
-
+        """Define Helper function to test the workout overview."""
         response = self.client.get(reverse('manager:workout:overview'))
 
         # Page exists
@@ -165,23 +142,16 @@ class WorkoutOverviewTestCase(WorkoutManagerTestCase):
         self.assertEqual(len(response.context['workouts']), 2)
 
     def test_dashboard_logged_in(self):
-        '''
-        Test creating a workout a logged in user
-        '''
+        """Test creating a workout a logged in user."""
         self.user_login()
         self.get_workout_overview()
 
 
 class WorkoutModelTestCase(WorkoutManagerTestCase):
-    '''
-    Tests other functionality from the model
-    '''
+    """Tests other functionality from the model."""
 
     def test_unicode(self):
-        '''
-        Test the unicode representation
-        '''
-
+        """Test the unicode representation."""
         workout = Workout()
         workout.creation_date = datetime.date.today()
         self.assertEqual('{0}'.format(workout),
@@ -192,9 +162,8 @@ class WorkoutModelTestCase(WorkoutManagerTestCase):
 
 
 class WorkoutApiTestCase(api_base_test.ApiBaseResourceTestCase):
-    '''
-    Tests the workout overview resource
-    '''
+    """Tests the workout overview resource."""
+
     pk = 3
     resource = Workout
     private_resource = True

@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -26,14 +27,10 @@ from wger.gym.models import GymAdminConfig
 
 
 class GymAddUserTestCase(WorkoutManagerTestCase):
-    '''
-    Tests admin adding users to gyms
-    '''
+    """Tests admin adding users to gyms."""
 
     def add_user(self, fail=False):
-        '''
-        Helper function to add users
-        '''
+        """Define Helper function to add users."""
         count_before = User.objects.all().count()
         GymAdminConfig.objects.all().delete()
         response = self.client.get(reverse('gym:gym:add-user', kwargs={'gym_pk': 1}))
@@ -65,50 +62,36 @@ class GymAddUserTestCase(WorkoutManagerTestCase):
             self.assertEqual(new_user.userprofile.gym_id, 1)
 
     def test_add_user_authorized(self):
-        '''
-        Tests adding a user as authorized user
-        '''
+        """Tests adding a user as authorized user."""
         self.user_login('admin')
         self.add_user()
 
     def test_add_user_authorized2(self):
-        '''
-        Tests adding a user as authorized user
-        '''
+        """Tests adding a user as authorized user."""
         self.user_login('general_manager1')
         self.add_user()
 
     def test_add_user_unauthorized(self):
-        '''
-        Tests adding a user an unauthorized user
-        '''
+        """Tests adding a user an unauthorized user."""
         self.user_login('test')
         self.add_user(fail=True)
 
     def test_add_user_unauthorized2(self):
-        '''
-        Tests adding a user an unauthorized user
-        '''
+        """Tests adding a user an unauthorized user."""
         self.user_login('trainer1')
         self.add_user(fail=True)
 
     def test_add_user_unauthorized3(self):
-        '''
-        Tests adding a user an unauthorized user
-        '''
+        """Tests adding a user an unauthorized user."""
         self.user_login('manager3')
         self.add_user(fail=True)
 
     def test_add_user_logged_out(self):
-        '''
-        Tests adding a user a logged out user
-        '''
+        """Tests adding a user a logged out user."""
         self.add_user(fail=True)
 
     def new_user_data_export(self, fail=False):
-        '''
-        Helper function to test exporting the data of a newly created user
-        '''
+        """Define Helper function to test exporting the data of a newly created user."""
         response = self.client.get(reverse('gym:gym:new-user-data-export'))
         if fail:
             self.assertIn(response.status_code, (302, 403))
@@ -123,9 +106,7 @@ class GymAddUserTestCase(WorkoutManagerTestCase):
             self.assertLessEqual(len(response.content), 120)
 
     def test_new_user_data_export(self):
-        '''
-        Test exporting the data of a newly created user
-        '''
+        """Test exporting the data of a newly created user."""
         self.user_login('admin')
         self.add_user()
         self.new_user_data_export(fail=False)
@@ -139,40 +120,30 @@ class GymAddUserTestCase(WorkoutManagerTestCase):
 
 
 class TrainerLoginTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the trainer login view (switching to user ID)
-    '''
+    """Tests the trainer login view (switching to user ID)."""
 
     def test_anonymous(self):
-        '''
-        Test the trainer login as an anonymous user
-        '''
+        """Test the trainer login as an anonymous user."""
         response = self.client.get(reverse('core:user:trainer-login', kwargs={'user_pk': 1}))
         self.assertEqual(response.status_code, 302)
         self.assertFalse(self.client.session.get('trainer.identity'))
 
     def test_user(self):
-        '''
-        Test the trainer login as a logged in user without rights
-        '''
+        """Test the trainer login as a logged in user without rights."""
         self.user_login('test')
         response = self.client.get(reverse('core:user:trainer-login', kwargs={'user_pk': 1}))
         self.assertEqual(response.status_code, 403)
         self.assertFalse(self.client.session.get('trainer.identity'))
 
     def test_trainer(self):
-        '''
-        Test the trainer login as a logged in user with enough rights
-        '''
+        """Test the trainer login as a logged in user with enough rights."""
         self.user_login('admin')
         response = self.client.get(reverse('core:user:trainer-login', kwargs={'user_pk': 2}))
         self.assertEqual(response.status_code, 302)
         self.assertTrue(self.client.session.get('trainer.identity'))
 
     def test_wrong_gym(self):
-        '''
-        Test changing the identity to a user in a different gym
-        '''
+        """Test changing the identity to a user in a different gym."""
         profile = UserProfile.objects.get(user_id=2)
         profile.gym_id = 2
         profile.save()
@@ -182,9 +153,7 @@ class TrainerLoginTestCase(WorkoutManagerTestCase):
         self.assertFalse(self.client.session.get('trainer.identity'))
 
     def test_gym_trainer(self):
-        '''
-        Test changing the identity to a user with trainer rights
-        '''
+        """Test changing the identity to a user with trainer rights."""
         user = User.objects.get(pk=2)
         content_type = ContentType.objects.get_for_model(Gym)
         permission = Permission.objects.get(content_type=content_type, codename='gym_trainer')
@@ -196,9 +165,7 @@ class TrainerLoginTestCase(WorkoutManagerTestCase):
         self.assertFalse(self.client.session.get('trainer.identity'))
 
     def test_gym_manager(self):
-        '''
-        Test changing the identity to a user with gym management rights
-        '''
+        """Test changing the identity to a user with gym management rights."""
         user = User.objects.get(pk=2)
         content_type = ContentType.objects.get_for_model(Gym)
         permission = Permission.objects.get(content_type=content_type, codename='manage_gym')
@@ -210,9 +177,7 @@ class TrainerLoginTestCase(WorkoutManagerTestCase):
         self.assertFalse(self.client.session.get('trainer.identity'))
 
     def test_gyms_manager(self):
-        '''
-        Test changing the identity to a user with gyms management rights
-        '''
+        """Test changing the identity to a user with gyms management rights."""
         user = User.objects.get(pk=2)
         content_type = ContentType.objects.get_for_model(Gym)
         permission = Permission.objects.get(content_type=content_type, codename='manage_gyms')
@@ -225,14 +190,10 @@ class TrainerLoginTestCase(WorkoutManagerTestCase):
 
 
 class TrainerLogoutTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the trainer logout view (switching back to trainer ID)
-    '''
+    """Tests the trainer logout view (switching back to trainer ID)."""
 
     def test_logout(self):
-        '''
-        Test the trainer login as an anonymous user
-        '''
+        """Test the trainer login as an anonymous user."""
         self.user_login('admin')
         self.client.get(reverse('core:user:trainer-login', kwargs={'user_pk': 2}))
         self.assertTrue(self.client.session.get('trainer.identity'))

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -21,19 +21,14 @@ from wger.gym.helpers import get_user_last_activity
 
 
 class Command(BaseCommand):
-    '''
-    Updates the user cache table
-    '''
+    """Updates the user cache table."""
 
     help = 'Update the user cache-table. This is only needed when the python' \
            'code used to calculate any of the cached entries is changed and ' \
            'the ones in the database need to be updated to reflect the new logic.'
 
     def handle(self, **options):
-        '''
-        Process the options
-        '''
-
+        """Process the options."""
         print('** Updating last activity')
         for user in User.objects.all():
             user.usercache.last_activity = get_user_last_activity(user)

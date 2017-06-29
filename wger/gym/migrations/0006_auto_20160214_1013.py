@@ -1,14 +1,12 @@
-
+"""Docstring."""
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
+from django.db import migrations, models  # noqa"
 
 
 def update_permission_names(apps, schema_editor):
-    '''
-    Updates the wording of our three custom gym permissions
-    '''
+    """Update the wording of our three custom gym permissions."""
     Permission = apps.get_model("auth", "Permission")
 
     for name in ['Trainer, can see the users for a gym',
@@ -22,6 +20,7 @@ def update_permission_names(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
+    """Docstring."""
 
     dependencies = [
         ('gym', '0005_auto_20151023_1522'),

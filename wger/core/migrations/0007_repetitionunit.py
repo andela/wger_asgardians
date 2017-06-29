@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 from __future__ import unicode_literals
 
 from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """Docstring."""
 
     dependencies = [
         ('core', '0006_auto_20151025_2237'),
@@ -14,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RepetitionUnit',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False,
+                                        primary_key=True, auto_created=True)),
                 ('name', models.CharField(verbose_name='Name', max_length=100)),
             ],
             options={

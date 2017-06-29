@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -27,59 +28,61 @@ from wger.nutrition.models import (
 
 
 class NutritionPlanSerializer(serializers.ModelSerializer):
-    '''
-    Nutritional plan serializer
-    '''
+    """Nutritional plan serializer."""
 
     class Meta:
+        """Docstring."""
+
         model = NutritionPlan
         exclude = ('user',)
 
 
 class IngredientWeightUnitSerializer(serializers.ModelSerializer):
-    '''
-    IngredientWeightUnit serializer
-    '''
+    """IngredientWeightUnit serializer."""
 
     class Meta:
+        """Docstring."""
+
         model = IngredientWeightUnit
 
 
 class WeightUnitSerializer(serializers.ModelSerializer):
-    '''
-    WeightUnit serializer
-    '''
+    """WeightUnit serializer."""
 
     class Meta:
+        """Docstring."""
+
         model = WeightUnit
 
 
 class MealItemSerializer(serializers.ModelSerializer):
-    '''
-    MealItem serializer
-    '''
+    """MealItem serializer."""
+
     meal = serializers.PrimaryKeyRelatedField(label='Nutrition plan',
                                               queryset=Meal.objects.all())
 
     class Meta:
+        """Docstring."""
+
         model = MealItem
 
 
 class MealSerializer(serializers.ModelSerializer):
-    '''
-    Meal serializer
-    '''
+    """Meal serializer."""
+
     plan = serializers.PrimaryKeyRelatedField(label='Nutrition plan',
                                               queryset=NutritionPlan.objects.all())
 
     class Meta:
+        """Docstring."""
+
         model = Meal
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-    '''
-    Ingredient serializer
-    '''
+    """Ingredient serializer."""
 
     class Meta:
+        """Docstring."""
+
         model = Ingredient

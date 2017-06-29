@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -50,9 +50,7 @@ class WeightUnitIngredientCreateView(WgerFormMixin,
                                      LoginRequiredMixin,
                                      PermissionRequiredMixin,
                                      CreateView):
-    '''
-    Generic view to add a new weight unit to ingredient entry
-    '''
+    """Generic view to add a new weight unit to ingredient entry."""
 
     model = IngredientWeightUnit
     title = ugettext_lazy('Add a new weight unit')
@@ -60,23 +58,25 @@ class WeightUnitIngredientCreateView(WgerFormMixin,
 
     # Send some additional data to the template
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(WeightUnitIngredientCreateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('nutrition:unit_ingredient:add',
                                          kwargs={'ingredient_pk': self.kwargs['ingredient_pk']})
         return context
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('nutrition:ingredient:view', kwargs={'id': self.kwargs['ingredient_pk']})
 
     def form_valid(self, form):
+        """Docstring."""
         ingredient = get_object_or_404(Ingredient, pk=self.kwargs['ingredient_pk'])
         form.instance.ingredient = ingredient
         return super(WeightUnitIngredientCreateView, self).form_valid(form)
 
     def get_form_class(self):
-        '''
-        The form can only show units in the user's language
-        '''
+        """Docstring."""
+        """The form can only show units in the user's language."""
 
         class IngredientWeightUnitForm(ModelForm):
             unit = ModelChoiceField(queryset=WeightUnit.objects.filter(language=load_language()))
@@ -92,9 +92,7 @@ class WeightUnitIngredientUpdateView(WgerFormMixin,
                                      LoginRequiredMixin,
                                      PermissionRequiredMixin,
                                      UpdateView):
-    '''
-    Generic view to update an weight unit to ingredient entry
-    '''
+    """Generic view to update an weight unit to ingredient entry."""
 
     model = IngredientWeightUnit
     title = ugettext_lazy('Edit a weight unit to ingredient connection')
@@ -102,12 +100,12 @@ class WeightUnitIngredientUpdateView(WgerFormMixin,
     permission_required = 'nutrition.add_ingredientweightunit'
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('nutrition:ingredient:view', kwargs={'id': self.object.ingredient.id})
 
     def get_form_class(self):
-        '''
-        The form can only show units in the user's language
-        '''
+        """Docstring."""
+        """The form can only show units in the user's language."""
 
         class IngredientWeightUnitForm(ModelForm):
             unit = ModelChoiceField(queryset=WeightUnit.objects.filter(language=load_language()))
@@ -123,9 +121,7 @@ class WeightUnitIngredientDeleteView(WgerDeleteMixin,
                                      LoginRequiredMixin,
                                      PermissionRequiredMixin,
                                      DeleteView):
-    '''
-    Generic view to delete a weight unit to ingredient entry
-    '''
+    """Generic view to delete a weight unit to ingredient entry."""
 
     model = IngredientWeightUnit
     fields = ('unit', 'gram', 'amount')
@@ -134,4 +130,5 @@ class WeightUnitIngredientDeleteView(WgerDeleteMixin,
     permission_required = 'nutrition.add_ingredientweightunit'
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('nutrition:ingredient:view', kwargs={'id': self.object.ingredient.id})

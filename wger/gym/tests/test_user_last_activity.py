@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,14 +23,10 @@ from wger.manager.models import WorkoutSession, WorkoutLog
 
 
 class UserLastActivityTestCase(WorkoutManagerTestCase):
-    '''
-    Test the helper function for last user activity
-    '''
+    """Test the helper function for last user activity."""
 
     def test_user_last_activity(self):
-        '''
-        Test the helper function for last user activity
-        '''
+        """Test the helper function for last user activity."""
         self.user_login('admin')
         user = User.objects.get(username='admin')
         log = WorkoutLog.objects.get(pk=1)

@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,9 +24,8 @@ from wger.gym.models import AdminUserNote
 
 
 class AdminNoteOverviewTest(WorkoutManagerAccessTestCase):
-    '''
-    Tests accessing the admin notes overview page
-    '''
+    """Tests accessing the admin notes overview page."""
+
     url = reverse_lazy('gym:admin_note:list', kwargs={'user_pk': 14})
     anonymous_fail = True
     user_success = ('trainer1',
@@ -40,9 +40,8 @@ class AdminNoteOverviewTest(WorkoutManagerAccessTestCase):
 
 
 class AddAdminNoteTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding a new admin note
-    '''
+    """Tests adding a new admin note."""
+
     object_class = AdminUserNote
     url = reverse_lazy('gym:admin_note:add', kwargs={'user_pk': 14})
     data = {'note': 'The note text goes here'}
@@ -58,9 +57,7 @@ class AddAdminNoteTestCase(WorkoutManagerAddTestCase):
 
 
 class EditAdminNoteTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing an admin note
-    '''
+    """Tests editing an admin note."""
 
     object_class = AdminUserNote
     url = 'gym:admin_note:edit'
@@ -78,9 +75,7 @@ class EditAdminNoteTestCase(WorkoutManagerEditTestCase):
 
 
 class DeleteAdminNoteTestCase(WorkoutManagerDeleteTestCase):
-    '''
-    Tests deleting an admin note
-    '''
+    """Tests deleting an admin note."""
 
     pk = 2
     object_class = AdminUserNote
@@ -94,5 +89,6 @@ class DeleteAdminNoteTestCase(WorkoutManagerDeleteTestCase):
                  'trainer4',
                  'general_manager1',
                  'general_manager2')
+
 
 delete_testcase_add_methods(DeleteAdminNoteTestCase)

@@ -19,6 +19,7 @@
 import os
 import re
 import sys
+import dj_database_url
 
 
 '''
@@ -30,7 +31,9 @@ For a full list of options, visit:
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
-#
+databse_url = os.environ.get("DATABASE_URL")
+DATABASES = {'default': dj_database_url.config(default=databse_url)}
+
 # Application definition
 #
 SITE_ID = 1
@@ -141,7 +144,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
-
+  
     'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend'
 )
@@ -172,6 +175,7 @@ TEMPLATES = [
                 # Python Social Auth Setup
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
+                'django.template.context_processors.request'
             ],
             'loaders': [
                 # Django mobile
@@ -333,7 +337,8 @@ THUMBNAIL_ALIASES = {
 #
 # Django compressor
 #
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATIC_URL = '/static/'
 
 # The default is not DEBUG, override if needed
@@ -416,7 +421,8 @@ SOCIAL_AUTH_TWITTER_KEY = 'NWUcF1SOfis7DK4qJWKdbiHH1'
 SOCIAL_AUTH_TWITTER_SECRET = 'zrI7dK3JObiZc4cW2JZt1OpndRFfChw4V9mR14nKbx7IFPLevp'
 SOCIAL_AUTH_GITHUB_KEY = '015c37ab42bdea808fa4'
 SOCIAL_AUTH_GITHUB_SECRET = '76a89b09fadea3de0af7571a106825d86958efb7'
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '776331822483-vbomgpgm8ovktc4dsj8pf23qkidrk3g4.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ('776331822483-vbomgpgm8ovktc4dsj8pf23qkidrk3'
+                                 'g4.apps.googleusercontent.com')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'twby23LDj7FXiT9tjFbSKaoK'
 SOCIAL_AUTH_FACEBOOK_KEY = '1617109131633921'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'b552356d3c14b3222239be4b25fb178a'

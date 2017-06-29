@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,14 +22,10 @@ from wger.email.models import CronEntry
 
 
 class Command(BaseCommand):
-    '''
-    Sends the prepared mass emails
-    '''
+    """Sends the prepared mass emails."""
 
     def handle(self, **options):
-        '''
-        Send some mails and remove them from the list
-        '''
+        """Send some mails and remove them from the list."""
         if CronEntry.objects.count():
             for email in CronEntry.objects.all()[:100]:
                 mail.send_mail(email.log.subject,

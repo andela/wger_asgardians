@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -19,16 +19,15 @@ from wger.exercises.models import Exercise
 
 
 class Command(BaseCommand):
-    '''
-    Read out the user submitted exercise.
+    """Read out the user submitted exercise.
 
     Used to generate the AUTHORS file for a release
-    '''
+    """
 
     help = 'Read out the user submitted exercise'
 
     def handle(self, **options):
-
+        """Docstring."""
         exercises = Exercise.objects.accepted()
         usernames = []
         for exercise in exercises:

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -41,9 +41,7 @@ logger = logging.getLogger(__name__)
 
 
 class WeightUnitListView(PermissionRequiredMixin, ListView):
-    '''
-    Generic view to list all weight units
-    '''
+    """Generic view to list all weight units."""
 
     model = WeightUnit
     template_name = 'units/list.html'
@@ -52,9 +50,7 @@ class WeightUnitListView(PermissionRequiredMixin, ListView):
     permission_required = 'nutrition.add_ingredientweightunit'
 
     def get_queryset(self):
-        '''
-        Only show ingredient units in the current user's language
-        '''
+        """Only show ingredient units in the current user's language."""
         return WeightUnit.objects.filter(language=load_language())
 
 
@@ -62,9 +58,7 @@ class WeightUnitCreateView(WgerFormMixin,
                            LoginRequiredMixin,
                            PermissionRequiredMixin,
                            CreateView):
-    '''
-    Generic view to add a new weight unit for ingredients
-    '''
+    """Generic view to add a new weight unit for ingredients."""
 
     model = WeightUnit
     fields = ['name']
@@ -73,9 +67,11 @@ class WeightUnitCreateView(WgerFormMixin,
     permission_required = 'nutrition.add_ingredientweightunit'
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('nutrition:weight_unit:list')
 
     def form_valid(self, form):
+        """Docstring."""
         form.instance.language = load_language()
         return super(WeightUnitCreateView, self).form_valid(form)
 
@@ -84,9 +80,7 @@ class WeightUnitDeleteView(WgerDeleteMixin,
                            LoginRequiredMixin,
                            PermissionRequiredMixin,
                            DeleteView):
-    '''
-    Generic view to delete a weight unit
-    '''
+    """Generic view to delete a weight unit."""
 
     model = WeightUnit
     fields = ['name']
@@ -96,9 +90,7 @@ class WeightUnitDeleteView(WgerDeleteMixin,
     messages = ugettext_lazy('Successfully deleted')
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(WeightUnitDeleteView, self).get_context_data(**kwargs)
         context['title'] = _(u'Delete {0}?').format(self.object)
         return context
@@ -108,9 +100,7 @@ class WeightUnitUpdateView(WgerFormMixin,
                            LoginRequiredMixin,
                            PermissionRequiredMixin,
                            UpdateView):
-    '''
-    Generic view to update an weight unit
-    '''
+    """Generic view to update an weight unit."""
 
     model = WeightUnit
     fields = ['name']
@@ -118,12 +108,11 @@ class WeightUnitUpdateView(WgerFormMixin,
     permission_required = 'nutrition.change_ingredientweightunit'
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('nutrition:weight_unit:list')
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(WeightUnitUpdateView, self).get_context_data(**kwargs)
         context['title'] = _(u'Edit {0}').format(self.object)
         return context

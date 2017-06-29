@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -32,20 +32,18 @@ class LanguageConfigUpdateView(WgerFormMixin,
                                LoginRequiredMixin,
                                PermissionRequiredMixin,
                                UpdateView):
-    '''
-    Generic view to edit a language config
-    '''
+    """Generic view to edit a language config."""
+
     model = LanguageConfig
     fields = ['show']
     permission_required = 'config.change_languageconfig'
 
     def get_success_url(self):
-        '''
-        Return to the language page
-        '''
+        """Return to the language page."""
         return reverse_lazy('core:language:view', kwargs={'pk': self.object.language_id})
 
     def get_context_data(self, **kwargs):
+        """Get context data."""
         context = super(LanguageConfigUpdateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('config:language_config:edit',
                                          kwargs={'pk': self.object.id})

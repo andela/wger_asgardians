@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -44,9 +44,7 @@ Exercise equipment
 
 
 class EquipmentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    '''
-    Generic view to list all equipments
-    '''
+    """Generic view to list all equipments."""
 
     model = Equipment
     fields = '__all__'
@@ -57,9 +55,7 @@ class EquipmentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
 
 class EquipmentEditView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    '''
-    Generic view to update an existing equipment item
-    '''
+    """Generic view to update an existing equipment item."""
 
     model = Equipment
     fields = ['name']
@@ -68,6 +64,7 @@ class EquipmentEditView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMix
 
     # Send some additional data to the template
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(EquipmentEditView, self).get_context_data(**kwargs)
         context['title'] = _('Edit {0}').format(self.object)
         context['form_action'] = reverse('exercise:equipment:edit',
@@ -77,9 +74,7 @@ class EquipmentEditView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMix
 
 
 class EquipmentAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    '''
-    Generic view to add a new equipment item
-    '''
+    """Generic view to add a new equipment item."""
 
     model = Equipment
     fields = ['name']
@@ -88,9 +83,7 @@ class EquipmentAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixi
     success_url = reverse_lazy('exercise:equipment:list')
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(EquipmentAddView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('exercise:equipment:add')
 
@@ -98,9 +91,7 @@ class EquipmentAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixi
 
 
 class EquipmentDeleteView(WgerDeleteMixin, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    '''
-    Generic view to delete an existing exercise image
-    '''
+    """Generic view to delete an existing exercise image."""
 
     model = Equipment
     fields = ('name',)
@@ -109,9 +100,7 @@ class EquipmentDeleteView(WgerDeleteMixin, LoginRequiredMixin, PermissionRequire
     success_url = reverse_lazy('exercise:equipment:list')
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         pk = self.kwargs['pk']
         context = super(EquipmentDeleteView, self).get_context_data(**kwargs)
 
@@ -123,18 +112,14 @@ class EquipmentDeleteView(WgerDeleteMixin, LoginRequiredMixin, PermissionRequire
 
 
 class EquipmentOverviewView(ListView):
-    '''
-    Overview with all exercises, group by equipment
-    '''
+    """Overview with all exercises, group by equipment."""
 
     model = Equipment
     template_name = 'equipment/overview.html'
     context_object_name = 'equipment_list'
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(EquipmentOverviewView, self).get_context_data(**kwargs)
         context['exercise_languages'] = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES)
         for equipment in context['equipment_list']:

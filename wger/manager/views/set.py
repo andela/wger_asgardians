@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -56,10 +56,12 @@ SettingFormset = modelformset_factory(Setting,
 
 @login_required
 def create(request, day_pk):
-    '''
-    Creates a new set. This view handles both the set form and the corresponding
-    settings formsets
-    '''
+    """Create a new set.
+
+    This view handles both the set form and the corresponding settings
+    formsets
+
+    """
     day = get_object_or_404(Day, pk=day_pk)
     if day.get_owner_object().user != request.user:
         return HttpResponseForbidden()
@@ -115,7 +117,7 @@ def create(request, day_pk):
                     instance.save()
 
             return HttpResponseRedirect(reverse('manager:workout:view',
-                                        kwargs={'pk': day.get_owner_object().id}))
+                                                kwargs={'pk': day.get_owner_object().id}))
         else:
             logger.debug(form.errors)
 
@@ -131,9 +133,11 @@ def create(request, day_pk):
 
 @login_required
 def get_formset(request, exercise_pk, reps=Set.DEFAULT_SETS):
-    '''
-    Returns a formset. This is then rendered inside the new set template
-    '''
+    """Return a formset.
+
+    This is then rendered inside the new set template
+
+    """
     exercise = Exercise.objects.get(pk=exercise_pk)
     SettingFormSet = inlineformset_factory(Set,
                                            Setting,
@@ -151,10 +155,7 @@ def get_formset(request, exercise_pk, reps=Set.DEFAULT_SETS):
 
 @login_required
 def delete(request, pk):
-    '''
-    Deletes the given set
-    '''
-
+    """Delete the given set."""
     # Load the set
     set_obj = get_object_or_404(Set, pk=pk)
 
@@ -169,9 +170,7 @@ def delete(request, pk):
 
 @login_required
 def edit(request, pk):
-    '''
-    Edit a set (its settings actually)
-    '''
+    """Edit a set (its settings actually)."""
     set_obj = get_object_or_404(Set, pk=pk)
     if set_obj.get_owner_object().user != request.user:
         return HttpResponseForbidden()
@@ -217,7 +216,7 @@ def edit(request, pk):
                         instance.save()
 
             return HttpResponseRedirect(reverse('manager:workout:view',
-                                        kwargs={'pk': set_obj.get_owner_object().id}))
+                                                kwargs={'pk': set_obj.get_owner_object().id}))
 
     # Other context we need
     context = {}

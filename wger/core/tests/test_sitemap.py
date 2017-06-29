@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -18,12 +19,10 @@ from wger.core.tests.base_testcase import WorkoutManagerTestCase
 
 
 class SitemapTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the generated sitemap
-    '''
+    """Tests the generated sitemap."""
 
     def test_sitemap(self):
-
+        """Docstring."""
         response = self.client.get(reverse('sitemap'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['urlset']), 18)

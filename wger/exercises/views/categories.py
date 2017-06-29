@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -39,9 +39,8 @@ logger = logging.getLogger(__name__)
 
 
 class ExerciseCategoryListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    '''
-    Overview of all categories, for administration purposes
-    '''
+    """Overview of all categories, for administration purposes."""
+
     model = ExerciseCategory
     permission_required = 'exercises.change_exercisecategory'
     template_name = 'categories/admin-overview.html'
@@ -51,9 +50,7 @@ class ExerciseCategoryAddView(WgerFormMixin,
                               LoginRequiredMixin,
                               PermissionRequiredMixin,
                               CreateView):
-    '''
-    Generic view to add a new exercise category
-    '''
+    """Generic view to add a new exercise category."""
 
     model = ExerciseCategory
     fields = '__all__'
@@ -63,6 +60,7 @@ class ExerciseCategoryAddView(WgerFormMixin,
     permission_required = 'exercises.add_exercisecategory'
 
     def form_valid(self, form):
+        """Docstring."""
         form.instance.language = load_language()
         return super(ExerciseCategoryAddView, self).form_valid(form)
 
@@ -71,9 +69,7 @@ class ExerciseCategoryUpdateView(WgerFormMixin,
                                  LoginRequiredMixin,
                                  PermissionRequiredMixin,
                                  UpdateView):
-    '''
-    Generic view to update an existing exercise category
-    '''
+    """Generic view to update an existing exercise category."""
 
     model = ExerciseCategory
     fields = '__all__'
@@ -82,6 +78,7 @@ class ExerciseCategoryUpdateView(WgerFormMixin,
 
     # Send some additional data to the template
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(ExerciseCategoryUpdateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('exercise:category:edit', kwargs={'pk': self.object.id})
         context['title'] = _(u'Edit {0}').format(self.object.name)
@@ -89,6 +86,7 @@ class ExerciseCategoryUpdateView(WgerFormMixin,
         return context
 
     def form_valid(self, form):
+        """Docstring."""
         form.instance.language = load_language()
 
         return super(ExerciseCategoryUpdateView, self).form_valid(form)
@@ -98,9 +96,7 @@ class ExerciseCategoryDeleteView(WgerDeleteMixin,
                                  LoginRequiredMixin,
                                  PermissionRequiredMixin,
                                  DeleteView):
-    '''
-    Generic view to delete an existing exercise category
-    '''
+    """Generic view to delete an existing exercise category."""
 
     model = ExerciseCategory
     fields = ('name',)
@@ -111,6 +107,7 @@ class ExerciseCategoryDeleteView(WgerDeleteMixin,
 
     # Send some additional data to the template
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(ExerciseCategoryDeleteView, self).get_context_data(**kwargs)
 
         context['title'] = _(u'Delete {0}?').format(self.object.name)

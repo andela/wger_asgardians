@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -24,15 +25,10 @@ logger = logging.getLogger(__name__)
 
 
 class ApiKeyTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the API key page
-    '''
+    """Tests the API key page."""
 
     def test_api_key_page(self):
-        '''
-        Tests the API key generation page
-        '''
-
+        """Tests the API key generation page."""
         self.user_login('test')
         user = User.objects.get(username='test')
 
@@ -50,10 +46,7 @@ class ApiKeyTestCase(WorkoutManagerTestCase):
         self.assertRaises(Token.DoesNotExist, Token.objects.get, user=user)
 
     def test_api_key_page_generation(self):
-        '''
-        User generates a new key
-        '''
-
+        """User generates a new key."""
         self.user_login('test')
         user = User.objects.get(username='test')
         key_before = Token.objects.get(user=user)

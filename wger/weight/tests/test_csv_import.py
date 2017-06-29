@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,14 +24,10 @@ logger = logging.getLogger(__name__)
 
 
 class WeightCsvImportTestCase(WorkoutManagerTestCase):
-    '''
-    Test case for the CSV import for weight entries
-    '''
+    """Test case for the CSV import for weight entries."""
 
     def import_csv(self):
-        '''
-        Helper function to test the CSV import
-        '''
+        """Define Helper function to test the CSV import."""
         response = self.client.get(reverse('weight:import-csv'))
         self.assertEqual(response.status_code, 200)
 
@@ -70,9 +67,6 @@ class WeightCsvImportTestCase(WorkoutManagerTestCase):
         self.assertGreater(count_after, count_before)
 
     def test_import_csv_loged_in(self):
-        '''
-        Test deleting a category by a logged in user
-        '''
-
+        """Test deleting a category by a logged in user."""
         self.user_login('test')
         self.import_csv()
