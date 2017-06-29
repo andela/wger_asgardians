@@ -500,6 +500,8 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
                                           _('Username'),
                                           _('Name'),
                                           _('Last activity'),
-                                          _('Gym')],
-                                 'users': context['object_list']['members']}
+                                          _('Gym'),
+                                          _('Status')],
+                                 'users': context['object_list']['members'],
+                                 'is_user_list': 'True'}
         return context
