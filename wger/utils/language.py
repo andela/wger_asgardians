@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -32,10 +33,7 @@ logger = logging.getLogger(__name__)
 
 
 def load_language(language_code=None):
-    '''
-    Returns the currently used language, e.g. to load appropriate exercises
-    '''
-
+    """Return the currently used language, e.g. to load appropriate exercises."""
     # TODO: perhaps store a language preference in the user's profile?
 
     # Read the first part of a composite language, e.g. 'de-at'
@@ -59,10 +57,7 @@ def load_language(language_code=None):
 
 
 def load_item_languages(item, language_code=None):
-    '''
-    Returns the languages for a data type (exercises, ingredients)
-    '''
-
+    """Return the languages for a data type (exercises, ingredients)."""
     language = load_language(language_code)
     languages = cache.get(cache_mapper.get_language_config_key(language, item))
 
@@ -84,8 +79,7 @@ def load_item_languages(item, language_code=None):
 
 
 def load_ingredient_languages(request):
-    '''
-    Filter the ingredients the user will see by its language.
+    """Filter the ingredients the user will see by its language.
 
     Additionally, if the user has selected on his preference page that he wishes
     to also see the ingredients in English (from the US Department of Agriculture),
@@ -93,8 +87,8 @@ def load_ingredient_languages(request):
 
     This only makes sense if the user's language isn't English, as he will be
     presented those in that case anyway, so also do a check for this.
-    '''
 
+    """
     language = load_language()
     languages = load_item_languages(LanguageConfig.SHOW_ITEM_INGREDIENTS)
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -24,10 +24,10 @@ from wger.core.models import Language
 
 @receiver(post_save, sender=Language)
 def init_language_config(sender, instance, created, **kwargs):
-    '''
-    Creates language config entries when new languages are created
+    """Create language config entries when new languages are created.
+
     (all combinations of all languages)
-    '''
+    """
     for language_source in Language.objects.all():
         for language_target in Language.objects.all():
             if not LanguageConfig.objects.filter(language=language_source)\

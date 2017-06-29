@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -18,9 +19,7 @@ from wger.gym.models import GymUserConfig
 
 
 class EditConfigTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a user config
-    '''
+    """Tests editing a user config."""
 
     pk = 1
     object_class = GymUserConfig

@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -20,14 +21,10 @@ from wger.exercises.models import Exercise
 
 
 class ExercisesCorrectionTestCase(WorkoutManagerTestCase):
-    '''
-    Tests correcting an existing exercise
-    '''
+    """Tests correcting an existing exercise."""
 
     def correct_exercise(self, fail=True):
-        '''
-        Helper function
-        '''
+        """Define Helper function."""
         description = 'a nice, long and accurate description for the exercise'
         response = self.client.post(reverse('exercise:exercise:correct', kwargs={'pk': 1}),
                                     {'category': 3,
@@ -60,21 +57,15 @@ class ExercisesCorrectionTestCase(WorkoutManagerTestCase):
             self.assertEqual(len(mail.outbox), 1)
 
     def test_correct_exercise_logged_in_user(self):
-        '''
-        Tests correcting an existing exercise as a logged in user
-        '''
+        """Tests correcting an existing exercise as a logged in user."""
         self.user_login('test')
         self.correct_exercise(fail=False)
 
     def test_correct_exercise_guest_user(self):
-        '''
-        Tests correcting an existing exercise as a guest user
-        '''
+        """Tests correcting an existing exercise as a guest user."""
         self.user_login('demo')
         self.correct_exercise(fail=True)
 
     def test_correct_exercise_anonymous(self):
-        '''
-        Tests correcting an existing exercise as an anonymous user
-        '''
+        """Tests correcting an existing exercise as an anonymous user."""
         self.correct_exercise(fail=True)

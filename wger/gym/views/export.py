@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
-import six
+import six  # noqa
 import csv
 import datetime
 import logging
@@ -34,9 +34,7 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def users(request, gym_pk):
-    '''
-    Exports all members in selected gym
-    '''
+    """Export all members in selected gym."""
     gym = get_object_or_404(Gym, pk=gym_pk)
 
     if not request.user.has_perm('gym.manage_gyms') \

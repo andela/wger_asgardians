@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -18,8 +18,11 @@ from django.apps import AppConfig
 
 
 class ConfigConfig(AppConfig):
+    """Class Docstring."""
+
     name = 'wger.config'
     verbose_name = "Config"
 
     def ready(self):
-        import wger.config.signals
+        """Ready."""
+        import wger.config.signals   # noqa

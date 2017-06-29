@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -32,11 +32,14 @@ from wger.core.api.resources import LicenseResource, LanguageResource
 
 
 class IngredientResource(ModelResource):
+    """Docstring."""
 
     language = fields.ToOneField(LanguageResource, 'language')
     license = fields.ToOneField(LicenseResource, 'license')
 
     class Meta:
+        """Docstring."""
+
         queryset = Ingredient.objects.all()
         filtering = {'id': ALL,
                      'carbohydrates': ALL,
@@ -57,18 +60,25 @@ class IngredientResource(ModelResource):
 
 
 class WeightUnitResource(ModelResource):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         queryset = WeightUnit.objects.all()
         filtering = {'id': ALL,
                      'name': ALL}
 
 
 class IngredientToWeightUnit(ModelResource):
+    """Docstring."""
 
     ingredient = fields.ToOneField(IngredientResource, 'ingredient')
     unit = fields.ToOneField(WeightUnitResource, 'unit')
 
     class Meta:
+        """Docstring."""
+
         queryset = IngredientWeightUnit.objects.all()
         filtering = {'id': ALL,
                      'amount': ALL,
@@ -78,26 +88,22 @@ class IngredientToWeightUnit(ModelResource):
 
 
 class NutritionPlanResource(ModelResource):
-    '''
-    Resource for nutritional plans
-    '''
+    """Resource for nutritional plans."""
 
     meals = fields.ToManyField('wger.nutrition.api.resources.MealResource', 'meal_set')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(user=bundle.request.user)
 
     def dehydrate(self, bundle):
-        '''
-        Also send the nutritional values
-        '''
+        """Also send the nutritional values."""
         bundle.data['nutritional_values'] = bundle.obj.get_nutritional_values()
         return bundle
 
     class Meta:
+        """Docstring."""
+
         queryset = NutritionPlan.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -108,27 +114,23 @@ class NutritionPlanResource(ModelResource):
 
 
 class MealResource(ModelResource):
-    '''
-    Resource for meals
-    '''
+    """Resource for meals."""
 
     plan = fields.ToOneField(NutritionPlanResource, 'plan')
     meal_items = fields.ToManyField('wger.nutrition.api.resources.MealItemResource', 'mealitem_set')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(plan__user=bundle.request.user)
 
     def dehydrate(self, bundle):
-        '''
-        Also send the nutritional values
-        '''
+        """Also send the nutritional values."""
         bundle.data['nutritional_values'] = bundle.obj.get_nutritional_values()
         return bundle
 
     class Meta:
+        """Docstring."""
+
         queryset = Meal.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -139,28 +141,24 @@ class MealResource(ModelResource):
 
 
 class MealItemResource(ModelResource):
-    '''
-    Resource for meal items
-    '''
+    """Resource for meal items."""
 
     meal = fields.ToOneField(MealResource, 'meal')
     ingredient = fields.ToOneField(IngredientResource, 'ingredient')
     weight_unit = fields.ToOneField(WeightUnitResource, 'weight_unit', null=True)
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(meal__plan__user=bundle.request.user)
 
     def dehydrate(self, bundle):
-        '''
-        Also send the nutritional values
-        '''
+        """Also send the nutritional values."""
         bundle.data['nutritional_values'] = bundle.obj.get_nutritional_values()
         return bundle
 
     class Meta:
+        """Docstring."""
+
         queryset = MealItem.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()

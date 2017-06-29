@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -23,16 +23,12 @@ from wger.gym.models import GymUserConfig, GymAdminConfig
 
 
 class Command(BaseCommand):
-    '''
-    Check that all gym trainers and users have configurations
-    '''
+    """Check that all gym trainers and users have configurations."""
+
     help = 'Check that all gym trainers and users have configurations'
 
     def handle(self, **options):
-        '''
-        Process all users
-        '''
-
+        """Process all users."""
         for user in User.objects.all():
             if is_any_gym_admin(user):
                 try:

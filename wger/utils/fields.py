@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,28 +23,20 @@ logger = logging.getLogger(__name__)
 
 
 class Html5TimeField(models.TimeField):
-    '''
-    Custom Time field that uses the Html5TimeInput widget
-    '''
+    """Custom Time field that uses the Html5TimeInput widget."""
 
     def formfield(self, **kwargs):
-        '''
-        Use our custom field
-        '''
+        """Use our custom field."""
         defaults = {'form_class': Html5FormTimeField}
         defaults.update(kwargs)
         return super(Html5TimeField, self).formfield(**defaults)
 
 
 class Html5DateField(models.DateField):
-    '''
-    Custom Time field that uses the Html5DateInput widget
-    '''
+    """Custom Time field that uses the Html5DateInput widget."""
 
     def formfield(self, **kwargs):
-        '''
-        Use our custom field
-        '''
+        """Use our custom field."""
         defaults = {'form_class': Html5FormDateField}
         defaults.update(kwargs)
         return super(Html5DateField, self).formfield(**defaults)

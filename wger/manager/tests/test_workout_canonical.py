@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -33,16 +34,12 @@ from wger.utils.cache import cache_mapper
 
 
 class WorkoutCanonicalFormTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the canonical form for a workout
-    '''
+    """Tests the canonical form for a workout."""
+
     maxDiff = None
 
     def test_canonical_form(self):
-        '''
-        Tests the canonical form for a workout
-        '''
-
+        """Tests the canonical form for a workout."""
         workout = Workout.objects.get(pk=1)
         setting_1 = Setting.objects.get(pk=1)
         setting_2 = Setting.objects.get(pk=2)
@@ -121,10 +118,7 @@ class WorkoutCanonicalFormTestCase(WorkoutManagerTestCase):
         self.assertEqual(workout.canonical_representation['day_list'][2], canonical_form)
 
     def test_canonical_form_day(self):
-        '''
-        Tests the canonical form for a day
-        '''
-
+        """Tests the canonical form for a day."""
         day = Day.objects.get(pk=5)
         weekday1 = DaysOfWeek.objects.get(pk=3)
         weekday2 = DaysOfWeek.objects.get(pk=5)
@@ -162,14 +156,10 @@ class WorkoutCanonicalFormTestCase(WorkoutManagerTestCase):
 
 
 class WorkoutCacheTestCase(WorkoutManagerTestCase):
-    '''
-    Test case for the workout canonical representation
-    '''
+    """Test case for the workout canonical representation."""
 
     def test_canonical_form_cache(self):
-        '''
-        Tests that the workout cache of the canonical form is correctly generated
-        '''
+        """Tests that the workout cache of the canonical form is correctly generated."""
         self.assertFalse(cache.get(cache_mapper.get_workout_canonical(1)))
 
         workout = Workout.objects.get(pk=1)
@@ -177,9 +167,7 @@ class WorkoutCacheTestCase(WorkoutManagerTestCase):
         self.assertTrue(cache.get(cache_mapper.get_workout_canonical(1)))
 
     def test_canonical_form_cache_save(self):
-        '''
-        Tests the workout cache when saving
-        '''
+        """Tests the workout cache when saving."""
         workout = Workout.objects.get(pk=1)
         workout.canonical_representation
         self.assertTrue(cache.get(cache_mapper.get_workout_canonical(1)))
@@ -188,9 +176,7 @@ class WorkoutCacheTestCase(WorkoutManagerTestCase):
         self.assertFalse(cache.get(cache_mapper.get_workout_canonical(1)))
 
     def test_canonical_form_cache_delete(self):
-        '''
-        Tests the workout cache when deleting
-        '''
+        """Tests the workout cache when deleting."""
         workout = Workout.objects.get(pk=1)
         workout.canonical_representation
         self.assertTrue(cache.get(cache_mapper.get_workout_canonical(1)))

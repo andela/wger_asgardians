@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -34,9 +35,7 @@ from wger.core.models import Language
 
 
 def load_language():
-    '''
-    Returns the currently used language, e.g. to load appropriate exercises
-    '''
+    """Return the currently used language, e.g. to load appropriate exercises."""
     # TODO: perhaps store a language preference in the user's profile?
 
     # Read the first part of a composite language, e.g. 'de-at'
@@ -53,8 +52,7 @@ def load_language():
 
 
 def load_ingredient_languages(request):
-    '''
-    Filter the ingredients the user will see by its language.
+    """Filter the ingredients the user will see by its language.
 
     Additionally, if the user has selected on his preference page that he wishes
     to also see the ingredients in English (from the US Department of Agriculture),
@@ -62,8 +60,8 @@ def load_ingredient_languages(request):
 
     This only makes sense if the user's language isn't English, as he will be
     presented those in that case anyway, so also do a check for this.
-    '''
 
+    """
     language = load_language()
     languages = (language.id,)
 
@@ -80,10 +78,11 @@ def load_ingredient_languages(request):
 
 
 def render_footer(url, date=None):
-    '''
-    Renders the footer used in the different PDFs
+    """Render the footer used in the different PDFs.
+
     :return: a Paragraph object
-    '''
+
+    """
     if not date:
         date = datetime.date.today().strftime("%d.%m.%Y")
         p = Paragraph('''<para>

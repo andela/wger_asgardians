@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -41,9 +41,7 @@ class ExerciseCommentEditView(WgerFormMixin,
                               LoginRequiredMixin,
                               PermissionRequiredMixin,
                               UpdateView):
-    '''
-    Generic view to update an existing exercise comment
-    '''
+    """Generic view to update an existing exercise comment."""
 
     model = ExerciseComment
     form_class = CommentForm
@@ -51,10 +49,12 @@ class ExerciseCommentEditView(WgerFormMixin,
     permission_required = 'exercises.change_exercisecomment'
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('exercise:exercise:view', kwargs={'id': self.object.exercise.id})
 
     # Send some additional data to the template
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(ExerciseCommentEditView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('exercise:comment:edit',
                                          kwargs={'pk': self.object.id})
@@ -66,9 +66,7 @@ class ExerciseCommentAddView(WgerFormMixin,
                              LoginRequiredMixin,
                              PermissionRequiredMixin,
                              CreateView):
-    '''
-    Generic view to add a new exercise comment
-    '''
+    """Generic view to add a new exercise comment."""
 
     model = ExerciseComment
     form_class = CommentForm
@@ -76,16 +74,16 @@ class ExerciseCommentAddView(WgerFormMixin,
     permission_required = 'exercises.add_exercisecomment'
 
     def form_valid(self, form):
+        """Docstring."""
         form.instance.exercise = Exercise.objects.get(pk=self.kwargs['exercise_pk'])
         return super(ExerciseCommentAddView, self).form_valid(form)
 
     def get_success_url(self):
+        """Docstring."""
         return reverse('exercise:exercise:view', kwargs={'id': self.object.exercise.id})
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(ExerciseCommentAddView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('exercise:comment:add',
                                          kwargs={'exercise_pk': self.kwargs['exercise_pk']})
@@ -95,6 +93,7 @@ class ExerciseCommentAddView(WgerFormMixin,
 
 @permission_required('exercises.delete_exercisecomment')
 def delete(request, id):
+    """Docstring."""
     # Load the comment
     comment = get_object_or_404(ExerciseComment, pk=id)
     exercise_id = comment.exercise.id

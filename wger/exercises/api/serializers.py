@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -26,48 +26,54 @@ from wger.exercises.models import (
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
-    '''
-    Exercise serializer
-    '''
+    """Exercise serializer."""
+
     class Meta:
+        """Docstring."""
+
         model = Exercise
 
 
 class EquipmentSerializer(serializers.ModelSerializer):
-    '''
-    Equipment serializer
-    '''
+    """Equipment serializer."""
+
     class Meta:
+        """Docstring."""
+
         model = Equipment
 
 
 class ExerciseCategorySerializer(serializers.ModelSerializer):
-    '''
-    ExerciseCategory serializer
-    '''
+    """ExerciseCategory serializer."""
+
     class Meta:
+        """Docstring."""
+
         model = ExerciseCategory
 
 
 class ExerciseImageSerializer(serializers.ModelSerializer):
-    '''
-    ExerciseImage serializer
-    '''
+    """ExerciseImage serializer."""
+
     class Meta:
+        """Docstring."""
+
         model = ExerciseImage
 
 
 class ExerciseCommentSerializer(serializers.ModelSerializer):
-    '''
-    ExerciseComment serializer
-    '''
+    """ExerciseComment serializer."""
+
     class Meta:
+        """Docstring."""
+
         model = ExerciseComment
 
 
 class MuscleSerializer(serializers.ModelSerializer):
-    '''
-    Muscle serializer
-    '''
+    """Muscle serializer."""
+
     class Meta:
+        """Docstring."""
+
         model = Muscle

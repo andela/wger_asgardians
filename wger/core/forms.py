@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -31,16 +31,21 @@ from wger.core.models import UserProfile
 
 
 class UserLoginForm(AuthenticationForm):
-    '''
-    Form for logins
+    """Form for logins.
 
     Overwritten here just to change the label on the 'username' field
-    '''
+
+    """
+
     username = forms.CharField(label=_("Username or email"), max_length=254)
 
 
 class UserPreferencesForm(forms.ModelForm):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         model = UserProfile
         fields = ('show_comments',
                   'show_english_ingredients',
@@ -56,24 +61,28 @@ class UserPreferencesForm(forms.ModelForm):
 
 
 class UserEmailForm(forms.ModelForm):
+    """Docstring."""
+
     email = EmailField(label=_("Email"),
                        help_text=_("Used for password resets and, optionally, email reminders."),
                        required=False)
 
     class Meta:
+        """Docstring."""
+
         model = User
         fields = ('email', )
 
     def clean_email(self):
-        '''
-        Email must be unique system wide
+        """Email must be unique system wide.
 
-        However, this check should only be performed when the user changes his
-        email, otherwise the uniqueness check will because it will find one user
-        (the current one) using the same email. Only when the user changes it, do
-        we want to check that nobody else has that email
-        '''
+        However, this check should only be performed when the user
+        changes his email, otherwise the uniqueness check will because
+        it will find one user (the current one) using the same email.
+        Only when the user changes it, do we want to check that nobody
+        else has that email
 
+        """
         email = self.cleaned_data["email"]
         if not email:
             return email
@@ -88,35 +97,39 @@ class UserEmailForm(forms.ModelForm):
 
 
 class UserPersonalInformationForm(UserEmailForm):
+    """Docstring."""
+
     first_name = forms.CharField(label=_('First name'),
                                  required=False)
     last_name = forms.CharField(label=_('Last name'),
                                 required=False)
 
     class Meta:
+        """Docstring."""
+
         model = User
         fields = ('first_name', 'last_name', 'email')
 
 
 class PasswordConfirmationForm(Form):
-    '''
-    A simple password confirmation form.
+    """A simple password confirmation form.
 
-    This can be used to make sure the user really wants to perform a dangerous
-    action. The form must be initialised with a user object.
-    '''
+    This can be used to make sure the user really wants to perform a
+    dangerous action. The form must be initialised with a user object.
+
+    """
+
     password = CharField(label=_("Password"),
                          widget=PasswordInput,
                          help_text=_('Please enter your current password.'))
 
     def __init__(self, user, data=None):
+        """Docstring."""
         self.user = user
         super(PasswordConfirmationForm, self).__init__(data=data)
 
     def clean_password(self):
-        '''
-        Check that the password supplied matches the one for the user
-        '''
+        """Check that the password supplied matches the one for the user."""
         password = self.cleaned_data.get('password', None)
         if not self.user.check_password(password):
             raise ValidationError(_('Invalid password'))
@@ -124,9 +137,7 @@ class PasswordConfirmationForm(Form):
 
 
 class RegistrationForm(UserCreationForm, UserEmailForm):
-    '''
-    Registration form
-    '''
+    """Registration form."""
 
     # Manually set the language to 'en', otherwise the language used seems to
     # randomly one of the application languages. This also appears to happen
@@ -138,20 +149,20 @@ class RegistrationForm(UserCreationForm, UserEmailForm):
 
 
 class RegistrationFormNoCaptcha(UserCreationForm, UserEmailForm):
-    '''
-    Registration form without captcha field
+    """Registration form without captcha field.
 
-    This is used when registering through an app, in that case there is not
-    such a spam danger and simplifies the registration process on a mobile
-    device.
-    '''
+    This is used when registering through an app, in that case there is
+    not such a spam danger and simplifies the registration process on a
+    mobile device.
+
+    """
+
     pass
 
 
 class FeedbackRegisteredForm(forms.Form):
-    '''
-    Feedback form used for logged in users
-    '''
+    """Feedback form used for logged in users."""
+
     contact = forms.CharField(max_length=50,
                               min_length=10,
                               label=_('Contact'),
@@ -167,9 +178,8 @@ class FeedbackRegisteredForm(forms.Form):
 
 
 class FeedbackAnonymousForm(FeedbackRegisteredForm):
-    '''
-    Feedback form used for anonymous users (has additionally a reCaptcha field)
-    '''
+    """Feedback form used for anonymous users (has additionally a reCaptchafield)."""
+
     captcha = ReCaptchaField(attrs={'theme': 'clean'},
                              label=_('Confirmation text'),
                              help_text=_('As a security measure, please enter the previous words'),)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Module Docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -25,15 +26,10 @@ from wger.gym.models import Gym, GymUserConfig
 
 
 class GymConfigTestCase(WorkoutManagerTestCase):
-    '''
-    Test the system wide gym configuration
-    '''
+    """Test the system wide gym configuration."""
 
     def test_default_gym(self):
-        '''
-        Test that newly registered users get a gym
-        '''
-
+        """Test that newly registered users get a gym."""
         gym = Gym.objects.get(pk=2)
         gym_config = GymConfig.objects.get(pk=1)
         gym_config.default_gym = gym
@@ -41,8 +37,8 @@ class GymConfigTestCase(WorkoutManagerTestCase):
 
         # Register
         registration_data = {'username': 'myusername',
-                             'password1': 'secret',
-                             'password2': 'secret',
+                             'password1': 'secret123456secret',
+                             'password2': 'secret123456secret',
                              'email': 'my.email@example.com',
                              'g-recaptcha-response': 'PASSED', }
         self.client.post(reverse('core:user:registration'), registration_data)
@@ -52,18 +48,15 @@ class GymConfigTestCase(WorkoutManagerTestCase):
         self.assertEqual(new_user.gymuserconfig.gym, gym)
 
     def test_no_default_gym(self):
-        '''
-        Test the user registration without a default gym
-        '''
-
+        """Test the user registration without a default gym."""
         gym_config = GymConfig.objects.get(pk=1)
         gym_config.default_gym = None
         gym_config.save()
 
         # Register
         registration_data = {'username': 'myusername',
-                             'password1': 'secret',
-                             'password2': 'secret',
+                             'password1': 'secret123456secret',
+                             'password2': 'secret123456secret',
                              'email': 'my.email@example.com',
                              'g-recaptcha-response': 'PASSED', }
         self.client.post(reverse('core:user:registration'), registration_data)
@@ -73,10 +66,7 @@ class GymConfigTestCase(WorkoutManagerTestCase):
         self.assertRaises(GymUserConfig.DoesNotExist, GymUserConfig.objects.get, user=new_user)
 
     def test_update_userprofile(self):
-        '''
-        Test setting the gym for users when setting a default gym
-        '''
-
+        """Test setting the gym for users when setting a default gym."""
         UserProfile.objects.update(gym=None)
         GymUserConfig.objects.all().delete()
         self.assertEqual(UserProfile.objects.exclude(gym=None).count(), 0)

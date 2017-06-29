@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,7 +23,7 @@ from wger.utils.language import load_language
 
 
 def processor(request):
-
+    """Docstring."""
     language = load_language()
     full_path = request.get_full_path()
     i18n_path = {}

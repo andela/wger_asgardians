@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -47,9 +48,7 @@ logger = logging.getLogger(__name__)
 # Misc functions
 # ************************
 def index(request):
-    '''
-    Index page
-    '''
+    """Index page."""
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('core:dashboard'))
     else:
@@ -57,14 +56,12 @@ def index(request):
 
 
 def demo_entries(request):
-    '''
-    Creates a set of sample entries for guest users
-    '''
+    """Create a set of sample entries for guest users."""
     if not settings.WGER_SETTINGS['ALLOW_GUEST_USERS']:
         return HttpResponseRedirect(reverse('software:features'))
 
-    if (((not request.user.is_authenticated() or request.user.userprofile.is_temporary)
-         and not request.session['has_demo_data'])):
+    if (((not request.user.is_authenticated() or
+          request.user.userprofile.is_temporary) and not request.session['has_demo_data'])):
         # If we reach this from a page that has no user created by the
         # middleware, do that now
         if not request.user.is_authenticated():
@@ -83,11 +80,11 @@ def demo_entries(request):
 
 @login_required
 def dashboard(request):
-    '''
-    Show the index page, in our case, the last workout and nutritional plan
-    and the current weight
-    '''
+    """Show the index page.
 
+    in our case, the last workout and nutritional plan
+    and the current weight.
+    """
     template_data = {}
 
     # Load the last workout, either from a schedule or a 'regular' one
@@ -140,7 +137,10 @@ def dashboard(request):
 
 
 class ContactClassView(TemplateView):
+    """Docstring."""
+
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(ContactClassView, self).get_context_data(**kwargs)
         context.update({'contribute': reverse('software:contribute'),
                         'issues': reverse('software:issues'),
@@ -149,21 +149,19 @@ class ContactClassView(TemplateView):
 
 
 class FeedbackClass(FormView):
+    """Docstring."""
+
     template_name = 'form.html'
     success_url = reverse_lazy('core:contact')
 
     def get_initial(self):
-        '''
-        Fill in the contact, if available
-        '''
+        """Fill in the contact, if available."""
         if self.request.user.is_authenticated():
             return {'contact': self.request.user.email}
         return {}
 
     def get_context_data(self, **kwargs):
-        '''
-        Set necessary template data to correctly render the form
-        '''
+        """Set necessary template data to correctly render the form."""
         context = super(FeedbackClass, self).get_context_data(**kwargs)
         context['title'] = _('Feedback')
         # TODO: change template so it iterates through form and not formfields
@@ -175,19 +173,17 @@ class FeedbackClass(FormView):
         return context
 
     def get_form_class(self):
-        '''
-        Load the correct feedback form depending on the user
+        """Load the correct feedback form depending on the user.
+
         (either with reCaptcha field or not)
-        '''
+        """
         if self.request.user.is_anonymous() or self.request.user.userprofile.is_temporary:
             return FeedbackAnonymousForm
         else:
             return FeedbackRegisteredForm
 
     def form_valid(self, form):
-        '''
-        Send the feedback to the administrators
-        '''
+        """Send the feedback to the administrators."""
         messages.success(self.request, _('Your feedback was successfully sent. Thank you!'))
 
         context = {}

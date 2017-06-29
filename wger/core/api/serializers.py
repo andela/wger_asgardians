@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Module Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -27,55 +27,60 @@ from wger.core.models import (
 
 
 class UserprofileSerializer(serializers.ModelSerializer):
-    '''
-    Workout session serializer
-    '''
+    """Workout session serializer."""
+
     class Meta:
+        """Class Docstring."""
+
         model = UserProfile
 
 
 class UsernameSerializer(serializers.Serializer):
-    '''
-    Serializer to extract the username
-    '''
+    """Serializer to extract the username."""
+
     username = serializers.CharField()
 
 
 class LanguageSerializer(serializers.ModelSerializer):
-    '''
-    Language serializer
-    '''
+    """Language serializer."""
+
     class Meta:
+        """Class Docstring."""
+
         model = Language
 
 
 class DaysOfWeekSerializer(serializers.ModelSerializer):
-    '''
-    DaysOfWeek serializer
-    '''
+    """DaysOfWeek serializer."""
+
     class Meta:
+        """Class Docstring."""
+
         model = DaysOfWeek
 
 
 class LicenseSerializer(serializers.ModelSerializer):
-    '''
-    License serializer
-    '''
+    """License serializer."""
+
     class Meta:
+        """Class Docstring."""
+
         model = License
 
 
 class RepetitionUnitSerializer(serializers.ModelSerializer):
-    '''
-    Repetition unit serializer
-    '''
+    """Repetition unit serializer."""
+
     class Meta:
+        """Class Docstring."""
+
         model = RepetitionUnit
 
 
 class WeightUnitSerializer(serializers.ModelSerializer):
-    '''
-    Weight unit serializer
-    '''
+    """Weight unit serializer."""
+
     class Meta:
+        """Class Docstring."""
+
         model = WeightUnit

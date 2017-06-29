@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,15 +23,10 @@ from wger.weight.models import WeightEntry
 
 
 class DashboardTestCase(WorkoutManagerTestCase):
-    '''
-    Dashboard (landing page) test case
-    '''
+    """Dashboard (landing page) test case."""
 
     def dashboard(self):
-        '''
-        Helper function to test the dashboard
-        '''
-
+        """Define Helper function to test the dashboard."""
         response = self.client.get(reverse('core:index'))
 
         # Everybody is redirected
@@ -88,9 +84,6 @@ class DashboardTestCase(WorkoutManagerTestCase):
         self.assertTrue(response.context['weekdays'])
 
     def test_dashboard_logged_in(self):
-        '''
-        Test index page as a logged in user
-        '''
-
+        """Test index page as a logged in user."""
         self.user_login('admin')
         self.dashboard()

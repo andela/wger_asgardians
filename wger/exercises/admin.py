@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,13 +23,17 @@ from wger.exercises.models import Muscle
 
 
 class ExerciseCommentInline(admin.TabularInline):  # admin.StackedInline
+    """Docstring."""
+
     model = ExerciseComment
     extra = 1
 
 
 class ExerciseAdmin(admin.ModelAdmin):
+    """Docstring."""
 
     inlines = [ExerciseCommentInline]
+
 
 admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(ExerciseCategory)

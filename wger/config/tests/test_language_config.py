@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Module Docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -21,9 +22,7 @@ from wger.core.tests.base_testcase import WorkoutManagerEditTestCase
 
 
 class EditLanguageConfigTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a language config
-    '''
+    """Tests editing a language config."""
 
     object_class = LanguageConfig
     url = 'config:language_config:edit'

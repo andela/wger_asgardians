@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 
 import logging
-import datetime
+import datetime  # noqa
 
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
@@ -29,28 +29,28 @@ from wger.utils.pdf import styleSheet
 from wger.utils.pdf import render_footer
 
 from reportlab.lib.pagesizes import A4, cm
-from reportlab.platypus import (
+from reportlab.platypus import (  # noqa
     Paragraph,
     SimpleDocTemplate,
     Table,
     Spacer
 )
 
-from reportlab.lib import colors
+from reportlab.lib import colors  # noqa
 
-from wger import get_version
+from wger import get_version   # noqa
 
 logger = logging.getLogger(__name__)
 
 
 def workout_log(request, id, images=False, comments=False, uidb64=None, token=None):
-    '''
-    Generates a PDF with the contents of the given workout
+    """Generate a PDF with the contents of the given workout.
 
     See also
     * http://www.blog.pythonlibrary.org/2010/09/21/reportlab
     * http://www.reportlab.com/apis/reportlab/dev/platypus.html
-    '''
+
+    """
     comments = bool(int(comments))
     images = bool(int(images))
 
@@ -109,16 +109,14 @@ def workout_log(request, id, images=False, comments=False, uidb64=None, token=No
 
 
 def workout_view(request, id, images=False, comments=False, uidb64=None, token=None):
-    '''
-    Generates a PDF with the contents of the workout, without table for logs
-    '''
+    """Generate a PDF with the contents of the workout, without table for.
 
-    '''
     Generates a PDF with the contents of the given workout
     See also
     * http://www.blog.pythonlibrary.org/2010/09/21/reportlab
     * http://www.reportlab.com/apis/reportlab/dev/platypus.html
-    '''
+
+    """
     comments = bool(int(comments))
     images = bool(int(images))
 

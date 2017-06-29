@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -49,11 +49,11 @@ to make this work, looking at the module test files or the official RF is
 
 # Helper functions
 def get_calendar():
-    '''
-    Creates and returns a calendar object
+    """Create and returns a calendar object.
 
     :return: Calendar
-    '''
+
+    """
     calendar = Calendar()
     calendar.add('prodid', '-//wger Workout Manager//wger.de//')
     calendar.add('version', get_version())
@@ -61,18 +61,18 @@ def get_calendar():
 
 
 def get_events_workout(calendar, workout, duration, start_date=None):
-    '''
-    Creates all necessary events from the given workout and adds them to
-    the calendar. Each event's occurrence ist set to weekly (one event for
-    each training day).
+    """Create all necessary events from the given workout.
+
+    Adds them to the calendar. Each event's occurrence ist set to weekly (one event for each
+    training day).
 
     :param calendar: calendar to add events to
     :param workout: Workout
     :param duration: duration in weeks
     :param start_date: start date, default: profile default
     :return: None
-    '''
 
+    """
     start_date = start_date if start_date else workout.creation_date
     end_date = start_date + datetime.timedelta(weeks=duration)
     generator = UIDGenerator()
@@ -102,10 +102,7 @@ def get_events_workout(calendar, workout, duration, start_date=None):
 
 # Views
 def export(request, pk, uidb64=None, token=None):
-    '''
-    Export the current workout as an iCal file
-    '''
-
+    """Export the current workout as an iCal file."""
     # Load the workout
     if uidb64 is not None and token is not None:
         if check_token(uidb64, token):
@@ -133,10 +130,7 @@ def export(request, pk, uidb64=None, token=None):
 
 
 def export_schedule(request, pk, uidb64=None, token=None):
-    '''
-    Export the current schedule as an iCal file
-    '''
-
+    """Export the current schedule as an iCal file."""
     # Load the schedule
     if uidb64 is not None and token is not None:
         if check_token(uidb64, token):

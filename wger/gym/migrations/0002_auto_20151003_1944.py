@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
-import datetime
+import datetime  # noqa
 
 
 class Migration(migrations.Migration):
+    """Docstring."""
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -27,6 +29,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='gymconfig',
             name='weeks_inactive',
-            field=models.PositiveIntegerField(help_text='Number of weeks since the last time a user logged his presence to be considered inactive', default=4, verbose_name='Reminder inactive members'),
+            field=models.PositiveIntegerField(
+                help_text='Number of weeks since the last time a user logged his presence to be'
+                ' considered inactive', default=4, verbose_name='Reminder inactive members'),
         ),
     ]

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of Workout Manager.
 #
 # Workout Manager is free software: you can redistribute it and/or modify
@@ -26,11 +26,11 @@ Abstract model classes
 
 
 class AbstractLicenseModel(models.Model):
-    '''
-    Abstract class that adds license information to a model
-    '''
+    """Abstract class that adds license information to a model."""
 
     class Meta:
+        """Docstring."""
+
         abstract = True
 
     license = models.ForeignKey(License,
@@ -49,15 +49,17 @@ class AbstractLicenseModel(models.Model):
 
 
 class AbstractSubmissionModel(models.Model):
-    '''
-    Abstract class used for model for user submitted data.
+    """Abstract class used for model for user submitted data.
 
-    These models have to be approved first by an administrator before they are
-    shows in the website. There is also a manager that can be used:
-    utils.managers.SubmissionManager
-    '''
+    These models have to be approved first by an administrator before
+    they are shows in the website. There is also a manager that can be
+    used: utils.managers.SubmissionManager
+
+    """
 
     class Meta:
+        """Docstring."""
+
         abstract = True
 
     STATUS_PENDING = '1'

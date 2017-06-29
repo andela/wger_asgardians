@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -20,12 +21,10 @@ from wger.core.tests.base_testcase import WorkoutManagerTestCase
 
 
 class RobotsTxtTestCase(WorkoutManagerTestCase):
-    '''
-    Tests the generated robots.txt
-    '''
+    """Tests the generated robots.txt."""
 
     def test_robots(self):
-
+        """Docstring."""
         response = self.client.get(reverse('robots'))
         for lang in Language.objects.all():
             self.assertTrue('wger.de/{0}/sitemap.xml'.format(lang.short_name)

@@ -19,6 +19,9 @@ django-sortedm2m
 django-bower
 invoke
 requests
+python-social-auth==0.2.1
+social-auth-app-django==1.2.0
+social-auth-core==1.4.0
 
 # REST API
 djangorestframework>=3.2,<3.3
@@ -28,3 +31,10 @@ django-cors-headers
 
 # Python3 compatibility
 six
+
+# heroku setup
+dj-database-url==0.4.2
+gunicorn==19.7.1
+Werkzeug==0.12.2
+whitenoise==3.3.0
+python-decouple==3.0

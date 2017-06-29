@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@ import logging
 import uuid
 import datetime
 
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin  # noqa
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
@@ -60,14 +60,14 @@ logger = logging.getLogger(__name__)
 # Log functions
 # ************************
 class WorkoutLogUpdateView(WgerFormMixin, UpdateView, LoginRequiredMixin):
-    '''
-    Generic view to edit an existing workout log weight entry
-    '''
+    """Generic view to edit an existing workout log weight entry."""
+
     model = WorkoutLog
     form_class = WorkoutLogForm
     success_url = reverse_lazy('manager:workout:calendar')
 
     def get_context_data(self, **kwargs):
+        """Docstring."""
         context = super(WorkoutLogUpdateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('manager:log:edit', kwargs={'pk': self.object.id})
         context['title'] = _(u'Edit log entry for %s') % self.object.exercise.name
@@ -76,9 +76,7 @@ class WorkoutLogUpdateView(WgerFormMixin, UpdateView, LoginRequiredMixin):
 
 
 class WorkoutLogDeleteView(WgerDeleteMixin, DeleteView, LoginRequiredMixin):
-    '''
-    Delete a workout log
-    '''
+    """Delete a workout log."""
 
     model = WorkoutLog
     fields = ('exercise',
@@ -93,10 +91,7 @@ class WorkoutLogDeleteView(WgerDeleteMixin, DeleteView, LoginRequiredMixin):
 
 
 def add(request, pk):
-    '''
-    Add a new workout log
-    '''
-
+    """Add a new workout log."""
     template_data = {}
     template_data.update(csrf(request))
 
@@ -221,9 +216,7 @@ def add(request, pk):
 
 
 class WorkoutLogDetailView(DetailView, LoginRequiredMixin):
-    '''
-    An overview of the workout's log
-    '''
+    """An overview of the workout's log."""
 
     model = Workout
     template_name = 'workout/log.html'
@@ -231,7 +224,7 @@ class WorkoutLogDetailView(DetailView, LoginRequiredMixin):
     owner_user = None
 
     def get_context_data(self, **kwargs):
-
+        """Docstring."""
         # Call the base implementation first to get a context
         context = super(WorkoutLogDetailView, self).get_context_data(**kwargs)
         is_owner = self.owner_user == self.request.user
@@ -278,10 +271,7 @@ class WorkoutLogDetailView(DetailView, LoginRequiredMixin):
         return context
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Check for ownership
-        '''
-
+        """Check for ownership."""
         workout = get_object_or_404(Workout, pk=kwargs['pk'])
         self.owner_user = workout.user
         is_owner = request.user == self.owner_user
@@ -294,9 +284,7 @@ class WorkoutLogDetailView(DetailView, LoginRequiredMixin):
 
 
 def calendar(request, username=None, year=None, month=None):
-    '''
-    Show a calendar with all the workout logs
-    '''
+    """Show a calendar with all the workout logs."""
     context = {}
     is_owner, user = check_access(request.user, username)
     year = int(year) if year else datetime.date.today().year
@@ -319,9 +307,7 @@ def calendar(request, username=None, year=None, month=None):
 
 
 def day(request, username, year, month, day):
-    '''
-    Show the logs for a single day
-    '''
+    """Show the logs for a single day."""
     context = {}
     is_owner, user = check_access(request.user, username)
 

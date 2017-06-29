@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -20,9 +21,8 @@ from wger.core.tests.base_testcase import (
 
 
 class AccessContractTestCase(WorkoutManagerAccessTestCase):
-    '''
-    Test accessing the detail page of a contract
-    '''
+    """Test accessing the detail page of a contract."""
+
     url = reverse('email:email:overview', kwargs={'gym_pk': 1})
     user_success = ('manager1',
                     'manager2')

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Module Docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -28,17 +29,15 @@ from wger.core.models import (
 
 
 class UserProfileResource(ModelResource):
-    '''
-    Resource for user profiles
-    '''
+    """Resource for user profiles."""
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(user=bundle.request.user)
 
     class Meta:
+        """Class Docstring."""
+
         excludes = ('is_temporary', )
         queryset = UserProfile.objects.all()
         authentication = ApiKeyAuthentication()
@@ -46,10 +45,11 @@ class UserProfileResource(ModelResource):
 
 
 class LanguageResource(ModelResource):
-    '''
-    Resource for languages
-    '''
+    """Resource for languages."""
+
     class Meta:
+        """Class Docstring."""
+
         queryset = Language.objects.all()
         filtering = {'id': ALL,
                      "full_name": ALL,
@@ -57,21 +57,22 @@ class LanguageResource(ModelResource):
 
 
 class DaysOfWeekResource(ModelResource):
-    '''
-    Resource for days of the week
-    '''
+    """Resource for days of the week."""
 
     class Meta:
+        """Class Docstring."""
+
         queryset = DaysOfWeek.objects.all()
         filtering = {'id': ALL,
                      'day_of_week': ALL}
 
 
 class LicenseResource(ModelResource):
-    '''
-    Resource for licenses
-    '''
+    """Resource for licenses."""
+
     class Meta:
+        """Class Docstring."""
+
         queryset = License.objects.all()
         filtering = {'id': ALL,
                      "full_name": ALL,

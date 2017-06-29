@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""This file contains forms used in the application."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -14,9 +14,6 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
-'''
-This file contains forms used in the application
-'''
 
 from captcha.fields import ReCaptchaField
 
@@ -59,32 +56,48 @@ from wger.utils.widgets import Html5DateInput
 
 
 class DemoUserForm(Form):
+    """Docstring."""
+
     captcha = ReCaptchaField(attrs={'theme': 'clean'},
                              label=_('Confirmation text'),
                              help_text=_('As a security measure, please enter the previous words'),)
 
 
 class WorkoutForm(ModelForm):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         model = Workout
         exclude = ('user',)
 
 
 class WorkoutCopyForm(Form):
+    """Docstring."""
+
     comment = CharField(max_length=100,
                         help_text=_('The goal or description of the new workout.'),
                         required=False)
 
 
 class DayForm(ModelForm):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         model = Day
         exclude = ('training',)
         widgets = {'day': TranslatedSelectMultiple()}
 
 
 class SetForm(ModelForm):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         model = Set
         exclude = ('order', 'exerciseday')
         widgets = {'exercises': ExerciseAjaxSelect(), }
@@ -93,16 +106,18 @@ class SetForm(ModelForm):
     # will output a default help text, regardless of the widget used
     # https://code.djangoproject.com/ticket/9321
     def __init__(self, *args, **kwargs):
+        """Docstring."""
         super(SetForm, self).__init__(*args, **kwargs)
         self.fields['exercises'].help_text = _('You can search for more than one exercise, '
                                                'they will be grouped together for a superset.')
 
 
 class SetFormMobile(ModelForm):
-    '''
-    Don't use the auto completer when accessing the mobile version
-    '''
+    """Don't use the auto completer when accessing the mobile version."""
+
     class Meta:
+        """Docstring."""
+
         model = Set
         exclude = ('order', 'exerciseday')
         widgets = {'exercises': MultipleHiddenInput(), }
@@ -118,30 +133,35 @@ class SetFormMobile(ModelForm):
     # will output a default help text, regardless of the widget used
     # https://code.djangoproject.com/ticket/9321
     def __init__(self, *args, **kwargs):
+        """Docstring."""
         super(SetFormMobile, self).__init__(*args, **kwargs)
         self.fields['exercise_list'].help_text = _('You can search for more than one exercise, '
                                                    'they will be grouped together for a superset.')
 
 
 class SettingForm(ModelForm):
+    """Docstring."""
+
     class Meta:
+        """Docstring."""
+
         model = Setting
         exclude = ('set', 'exercise', 'order', 'comment')
 
 
 class HelperDateForm(Form):
-    '''
-    A helper form used in the workout log view
-    '''
+    """A helper form used in the workout log view."""
+
     date = DateField(input_formats=DATE_FORMATS, widget=Html5DateInput())
 
 
 class WorkoutLogForm(ModelForm):
-    '''
-    Helper form for a WorkoutLog.
+    """Helper form for a WorkoutLog.
 
     These fields are re-defined here only to make them optional
-    '''
+
+    """
+
     repetition_unit = ModelChoiceField(queryset=RepetitionUnit.objects.all(),
                                        label=_('Unit'),
                                        required=False)
@@ -158,33 +178,38 @@ class WorkoutLogForm(ModelForm):
                           required=False)
 
     class Meta:
+        """Docstring."""
+
         model = WorkoutLog
         exclude = ('workout', )
 
 
 class HelperWorkoutSessionForm(ModelForm):
-    '''
-    A helper form used in the workout log view
-    '''
+    """A helper form used in the workout log view."""
+
     class Meta:
+        """Docstring."""
+
         model = WorkoutSession
         exclude = ('user', 'workout', 'date')
 
 
 class WorkoutSessionForm(ModelForm):
-    '''
-    Workout Session form
-    '''
+    """Workout Session form."""
+
     class Meta:
+        """Docstring."""
+
         model = WorkoutSession
         exclude = ('user', 'workout', 'date')
 
 
 class WorkoutSessionHiddenFieldsForm(ModelForm):
-    '''
-    Workout Session form used in the timer view
-    '''
+    """Workout Session form used in the timer view."""
+
     class Meta:
+        """Docstring."""
+
         model = WorkoutSession
         exclude = []
         widgets = {'time_start': widgets.HiddenInput(),

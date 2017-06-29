@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,9 +23,7 @@ from wger.nutrition.models import MealItem
 
 
 class EditMealItemUnitTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a meal, set the amount using a unit
-    '''
+    """Tests editing a meal, set the amount using a unit."""
 
     object_class = MealItem
     url = 'nutrition:meal_item:edit'
@@ -35,9 +34,7 @@ class EditMealItemUnitTestCase(WorkoutManagerEditTestCase):
 
 
 class EditMealItemWeightTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a meal, set the amount using weight
-    '''
+    """Tests editing a meal, set the amount using weight."""
 
     object_class = MealItem
     url = 'nutrition:meal_item:edit'
@@ -47,9 +44,7 @@ class EditMealItemWeightTestCase(WorkoutManagerEditTestCase):
 
 
 class AddMealItemUnitTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding a meal, set the amount using a unit
-    '''
+    """Tests adding a meal, set the amount using a unit."""
 
     object_class = MealItem
     url = reverse('nutrition:meal_item:add', kwargs={'meal_id': 3})
@@ -59,9 +54,7 @@ class AddMealItemUnitTestCase(WorkoutManagerAddTestCase):
 
 
 class AddMealItemWeightTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests adding a meal, set the amount using weight
-    '''
+    """Tests adding a meal, set the amount using weight."""
 
     object_class = MealItem
     url = reverse('nutrition:meal_item:add', kwargs={'meal_id': 3})
@@ -70,9 +63,8 @@ class AddMealItemWeightTestCase(WorkoutManagerAddTestCase):
 
 
 class MealItemApiTestCase(api_base_test.ApiBaseResourceTestCase):
-    '''
-    Tests the meal overview resource
-    '''
+    """Tests the meal overview resource."""
+
     pk = 10
     resource = MealItem
     private_resource = True

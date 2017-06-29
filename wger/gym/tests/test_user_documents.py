@@ -1,3 +1,4 @@
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -22,9 +23,8 @@ from wger.gym.models import UserDocument
 
 
 class UserDocumentOverviewTest(WorkoutManagerAccessTestCase):
-    '''
-    Tests accessing the user document overview page
-    '''
+    """Tests accessing the user document overview page."""
+
     url = reverse('gym:document:list', kwargs={'user_pk': 14})
     anonymous_fail = True
     user_success = ('trainer1',
@@ -39,9 +39,7 @@ class UserDocumentOverviewTest(WorkoutManagerAccessTestCase):
 
 
 class AddDocumentTestCase(WorkoutManagerAddTestCase):
-    '''
-    Tests uploading a new user document
-    '''
+    """Tests uploading a new user document."""
 
     object_class = UserDocument
     url = reverse('gym:document:add', kwargs={'user_pk': 14})
@@ -59,9 +57,7 @@ class AddDocumentTestCase(WorkoutManagerAddTestCase):
 
 
 class EditDocumentTestCase(WorkoutManagerEditTestCase):
-    '''
-    Tests editing a user document
-    '''
+    """Tests editing a user document."""
 
     pk = 2
     object_class = UserDocument
@@ -78,9 +74,7 @@ class EditDocumentTestCase(WorkoutManagerEditTestCase):
 
 
 class DeleteDocumentTestCase(WorkoutManagerDeleteTestCase):
-    '''
-    Tests deleting a user document
-    '''
+    """Tests deleting a user document."""
 
     pk = 1
     object_class = UserDocument
@@ -94,5 +88,6 @@ class DeleteDocumentTestCase(WorkoutManagerDeleteTestCase):
                  'trainer4',
                  'manager3',
                  'general_manager1')
+
 
 delete_testcase_add_methods(DeleteDocumentTestCase)

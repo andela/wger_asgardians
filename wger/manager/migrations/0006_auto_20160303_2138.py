@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+"""Docstring."""
 from __future__ import unicode_literals
 
 from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """Docstring."""
 
     dependencies = [
         ('core', '0009_auto_20160303_2340'),

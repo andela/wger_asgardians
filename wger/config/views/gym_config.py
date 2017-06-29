@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Module Docstring."""
 
 # This file is part of wger Workout Manager.
 #
@@ -28,21 +29,19 @@ logger = logging.getLogger(__name__)
 
 
 class GymConfigUpdateView(WgerFormMixin, UpdateView):
-    '''
-    Generic view to edit the gym config table
-    '''
+    """Generic view to edit the gym config table."""
+
     model = GymConfig
     fields = '__all__'
     permission_required = 'config.change_gymconfig'
     success_url = reverse_lazy('gym:gym:list')
 
     def get_object(self):
-        '''
-        Return the only gym config object
-        '''
+        """Return the only gym config object."""
         return GymConfig.objects.get(pk=1)
 
     def get_context_data(self, **kwargs):
+        """Get context data."""
         context = super(GymConfigUpdateView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('config:gym_config:edit')
         context['title'] = _('Edit')

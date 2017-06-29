@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -18,8 +18,11 @@ from django.apps import AppConfig
 
 
 class Config(AppConfig):
+    """Docstring."""
+
     name = 'wger.email'
     verbose_name = "Email"
 
     def ready(self):
+        """Docstring."""
         pass

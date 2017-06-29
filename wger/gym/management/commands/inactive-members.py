@@ -1,5 +1,5 @@
 # -*- coding: utf-8 *-*
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -24,21 +24,17 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 from wger.gym.helpers import is_any_gym_admin
-from wger.gym.helpers import get_user_last_activity
+from wger.gym.helpers import get_user_last_activity  # noqa
 from wger.gym.models import Gym
 
 
 class Command(BaseCommand):
-    '''
-    Sends overviews of inactive users to gym trainers
-    '''
+    """Sends overviews of inactive users to gym trainers."""
+
     help = 'Send out emails to trainers with users that have not shown recent activity'
 
     def handle(self, **options):
-        '''
-        Process gyms and send emails
-        '''
-
+        """Process gyms and send emails."""
         today = datetime.date.today()
 
         for gym in Gym.objects.all():

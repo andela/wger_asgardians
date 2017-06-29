@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-    Setup script for wger Workout manager
+"""Setup script for wger Workout manager.
 
     :copyright: 2011, 2012 by OpenSlides team, see AUTHORS.
     :license: GNU GPL, see LICENSE for more details.
 """
-
 from setuptools import (
     setup,
     find_packages
 )
 from wger import get_version
-
 
 with open('README.rst') as readme:
     long_description = readme.read()

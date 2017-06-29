@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -39,19 +39,17 @@ from wger.manager.models import (
 
 
 class WorkoutResource(ModelResource):
-    '''
-    Resource for workouts
-    '''
+    """Resource for workouts."""
 
     days = fields.ToManyField('wger.manager.api.resources.DayResource', 'day_set')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = Workout.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -61,19 +59,17 @@ class WorkoutResource(ModelResource):
 
 
 class WorkoutSessionResource(ModelResource):
-    '''
-    Resource for workout sessions
-    '''
+    """Resource for workout sessions."""
 
     workout = fields.ToOneField('wger.manager.api.resources.WorkoutResource', 'workout')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = WorkoutSession.objects.all()
         authentication = MultiAuthentication(SessionAuthentication(), ApiKeyAuthentication())
         authorization = UserObjectsOnlyAuthorization()
@@ -84,20 +80,18 @@ class WorkoutSessionResource(ModelResource):
 
 
 class ScheduleStepResource(ModelResource):
-    '''
-    Resource for schedule steps
-    '''
+    """Resource for schedule steps."""
 
     workout = fields.ToOneField(WorkoutResource, 'workout')
     schedule = fields.ToOneField('wger.manager.api.resources.ScheduleResource', 'schedule')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(schedule__user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = ScheduleStep.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -107,19 +101,17 @@ class ScheduleStepResource(ModelResource):
 
 
 class ScheduleResource(ModelResource):
-    '''
-    Resource for schedules
-    '''
+    """Resource for schedules."""
 
     steps = fields.ToManyField(ScheduleStepResource, 'schedulestep_set')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = Schedule.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -130,20 +122,18 @@ class ScheduleResource(ModelResource):
 
 
 class DayResource(ModelResource):
-    '''
-    Resource for training days
-    '''
+    """Resource for training days."""
 
     workout = fields.ToOneField(WorkoutResource, 'training')
     days_of_week = fields.ToManyField(DaysOfWeekResource, 'day')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(training__user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = Day.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -153,20 +143,18 @@ class DayResource(ModelResource):
 
 
 class SetResource(ModelResource):
-    '''
-    Resource for training sets
-    '''
+    """Resource for training sets."""
 
     day = fields.ToOneField(DayResource, 'exerciseday')
     exercises = fields.ToManyField(ExerciseResource, 'exercises')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(exerciseday__training__user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = Set.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -177,20 +165,18 @@ class SetResource(ModelResource):
 
 
 class SettingResource(ModelResource):
-    '''
-    Resource for training settings
-    '''
+    """Resource for training settings."""
 
     set = fields.ToOneField(SetResource, 'set')
     exercise = fields.ToOneField(ExerciseResource, 'exercise')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(set__exerciseday__training__user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = Setting.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()
@@ -202,20 +188,18 @@ class SettingResource(ModelResource):
 
 
 class WorkoutLogResource(ModelResource):
-    '''
-    Resource for a workout log
-    '''
+    """Resource for a workout log."""
 
     exercise = fields.ToOneField(ExerciseResource, 'exercise')
     workout = fields.ToOneField(WorkoutResource, 'workout')
 
     def authorized_read_list(self, object_list, bundle):
-        '''
-        Filter to own objects
-        '''
+        """Filter to own objects."""
         return object_list.filter(user=bundle.request.user)
 
     class Meta:
+        """Docstring."""
+
         queryset = WorkoutLog.objects.all()
         authentication = ApiKeyAuthentication()
         authorization = UserObjectsOnlyAuthorization()

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Docstring."""
 # This file is part of wger Workout Manager.
 #
 # wger Workout Manager is free software: you can redistribute it and/or modify
@@ -37,9 +37,7 @@ logger = logging.getLogger(__name__)
 
 
 class AddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    '''
-    View to add a new contract option
-    '''
+    """View to add a new contract option."""
 
     model = ContractOption
     fields = ('name', 'description')
@@ -48,15 +46,11 @@ class AddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, Create
     member = None
 
     def get_success_url(self):
-        '''
-        Redirect back to overview page
-        '''
+        """Redirect back to overview page."""
         return reverse('gym:contract-option:list', kwargs={'gym_pk': self.object.gym_id})
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Can only add contract types in own gym
-        '''
+        """Can only add contract types in own gym."""
         if not request.user.is_authenticated():
             return HttpResponseForbidden()
 
@@ -66,16 +60,12 @@ class AddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, Create
         return super(AddView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        '''
-        Set the foreign key to the gym object
-        '''
+        """Set the foreign key to the gym object."""
         form.instance.gym_id = self.kwargs['gym_pk']
         return super(AddView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(AddView, self).get_context_data(**kwargs)
         context['form_action'] = reverse('gym:contract-option:add',
                                          kwargs={'gym_pk': self.kwargs['gym_pk']})
@@ -83,9 +73,7 @@ class AddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, Create
 
 
 class UpdateView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    '''
-    View to update an existing contract option
-    '''
+    """View to update an existing contract option."""
 
     model = ContractOption
     fields = ('name', 'description')
@@ -93,9 +81,7 @@ class UpdateView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, Upd
     form_action_urlname = 'gym:contract-option:edit'
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Can only add contract types in own gym
-        '''
+        """Can only add contract types in own gym."""
         if not request.user.is_authenticated():
             return HttpResponseForbidden()
 
@@ -106,24 +92,18 @@ class UpdateView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, Upd
         return super(UpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        '''
-        Redirect back to overview page
-        '''
+        """Redirect back to overview page."""
         return reverse('gym:contract-option:list', kwargs={'gym_pk': self.object.gym_id})
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(UpdateView, self).get_context_data(**kwargs)
         context['title'] = _(u'Edit {0}').format(self.object)
         return context
 
 
 class DeleteView(WgerDeleteMixin, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    '''
-    View to delete an existing contract option
-    '''
+    """View to delete an existing contract option."""
 
     model = ContractOption
     fields = ('name', 'description')
@@ -131,9 +111,7 @@ class DeleteView(WgerDeleteMixin, LoginRequiredMixin, PermissionRequiredMixin, D
     form_action_urlname = 'gym:contract-option:delete'
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Can only add contract option in own gym
-        '''
+        """Can only add contract option in own gym."""
         if not request.user.is_authenticated():
             return HttpResponseForbidden()
 
@@ -144,39 +122,30 @@ class DeleteView(WgerDeleteMixin, LoginRequiredMixin, PermissionRequiredMixin, D
         return super(DeleteView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        '''
-        Redirect back to overview page
-        '''
+        """Redirect back to overview page."""
         return reverse('gym:contract-option:list', kwargs={'gym_pk': self.object.gym_id})
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(DeleteView, self).get_context_data(**kwargs)
         context['title'] = _(u'Delete {0}').format(self.object)
         return context
 
 
 class ListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    '''
-    Overview of all available contract options
-    '''
+    """Overview of all available contract options."""
+
     model = ContractOption
     permission_required = 'gym.add_contractoption'
     template_name = 'contract_option/list.html'
     gym = None
 
     def get_queryset(self):
-        '''
-        Only documents for current user
-        '''
+        """Only documents for current user."""
         return ContractOption.objects.filter(gym=self.gym)
 
     def dispatch(self, request, *args, **kwargs):
-        '''
-        Can only list contract types in own gym
-        '''
+        """Can only list contract types in own gym."""
         if not request.user.is_authenticated():
             return HttpResponseForbidden()
 
@@ -187,9 +156,7 @@ class ListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return super(ListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        '''
-        Send some additional data to the template
-        '''
+        """Send some additional data to the template."""
         context = super(ListView, self).get_context_data(**kwargs)
         context['gym'] = self.gym
         return context
