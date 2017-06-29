@@ -26,15 +26,14 @@ from wger.core.models import (
     RepetitionUnit,
     WeightUnit)
 
+
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer to map to User model """
-    email = serializers.EmailField(
-        required=True,
-        validators=[UniqueValidator(queryset=User.objects.all())]
-        )
-    username = serializers.CharField(
-        validators=[UniqueValidator(queryset=User.objects.all())]
-        )
+    email = serializers.EmailField(required=True,
+                                   validators=[UniqueValidator(queryset=User.objects.all())])
+
+    username = serializers.CharField(validators=[UniqueValidator(queryset=User.objects.all())])
+
     password = serializers.CharField(min_length=8, write_only=True)
 
     def create(self, validated_data):

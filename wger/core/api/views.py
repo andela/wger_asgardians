@@ -45,6 +45,7 @@ from wger.config.models import GymUserConfig
 from wger.core.api.serializers import UserprofileSerializer
 from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
 
+
 class UserCreateSet(viewsets.ModelViewSet):
     """
       API endpoint that allows registration of users
@@ -74,6 +75,7 @@ class UserCreateSet(viewsets.ModelViewSet):
             user.userprofile.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """API endpoint for workout objects."""
