@@ -16,9 +16,11 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.models import User
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
+from rest_framework.authtoken.models import Token
 
 from wger.core.models import (
     UserProfile,
@@ -27,7 +29,9 @@ from wger.core.models import (
     License,
     RepetitionUnit,
     WeightUnit)
+
 from wger.core.api.serializers import (
+    UserSerializer,
     UsernameSerializer,
     LanguageSerializer,
     DaysOfWeekSerializer,
@@ -35,9 +39,41 @@ from wger.core.api.serializers import (
     RepetitionUnitSerializer,
     WeightUnitSerializer
 )
+
+from wger.config.models import GymConfig
+from wger.config.models import GymUserConfig
 from wger.core.api.serializers import UserprofileSerializer
 from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
 
+class UserCreateSet(viewsets.ModelViewSet):
+    """
+      API endpoint that allows registration of users
+    """
+    serializer_class = UserSerializer
+
+    def post(self, request, format='json'):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+
+            # Pre-set some values of the user's profile
+            language = Language.objects.get(short_name=translation.get_language())
+            user.userprofile.notification_language = language
+
+            # Set default gym, if needed
+            gym_config = GymConfig.objects.get(pk=1)
+            if gym_config.default_gym:
+                user.userprofile.gym = gym_config.default_gym
+
+                # Create gym user configuration object
+                config = GymUserConfig()
+                config.gym = gym_config.default_gym
+                config.user = user
+                config.save()
+
+            user.userprofile.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """API endpoint for workout objects."""
