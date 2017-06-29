@@ -25,7 +25,8 @@ $(document).ready( function () {
 </thead>
 <tbody>
 {% for current_user in user_table.users %}
-    {% if current_user.obj.is_active%}
+    {% if current_user.obj.is_active %}
+    {% if user_table.is_active or user_table.is_user_list %}
     <tr>
         <td>
             {{current_user.obj.pk}}
@@ -55,8 +56,9 @@ $(document).ready( function () {
         Active
     </td>
     </tr>
+{% endif %}
 {% else %}
-{% if user_table.is_user_list %}
+{% if user_table.is_user_list or user_table.is_inactive %}
 <tr>
     <td>
         {{current_user.obj.pk}}

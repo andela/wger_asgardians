@@ -118,7 +118,8 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
         context['user_count'] = len(context['object_list']['members'])
         context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'),
                                           _('Last activity'), _('Status'), ],
-                                 'users': context['object_list']['members']}
+                                 'users': context['object_list']['members'],
+                                 'is_active': 'True'}
         return context
 
 
@@ -165,7 +166,8 @@ class GymUser2ListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, 
         context['user_count'] = len(context['object_list']['members'])
         context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'),
                                           _('Last activity'), _('Status'), ],
-                                 'users': context['object_list']['members']}
+                                 'users': context['object_list']['members'],
+                                 'is_inactive': 'True'}
         return context
 
 
