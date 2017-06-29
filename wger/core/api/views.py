@@ -51,6 +51,7 @@ class UserCreateSet(viewsets.ModelViewSet):
       API endpoint that allows registration of users
     """
     serializer_class = UserSerializer
+    queryset = User.objects.all()
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
