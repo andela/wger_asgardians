@@ -28,7 +28,8 @@ from wger.core.models import (
     DaysOfWeek,
     License,
     RepetitionUnit,
-    WeightUnit)
+    WeightUnit,
+    ApiUser)
 
 from wger.core.api.serializers import (
     UserSerializer,
@@ -51,29 +52,30 @@ class UserCreateSet(viewsets.ModelViewSet):
       API endpoint that allows registration of users
     """
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    is_private = True
 
-    def post(self, request, format='json'):
+    def get_owner_objects(self):
+        """
+        Return objects to check for ownership permission
+        """
+
+        return [(User, 'user')]
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+
+        return User.objects.filter(username=self.request.user)
+
+    def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
+            # Save created user to usermetadata
+            metadata = ApiUser(user=user, created_by=self.request.user)
+            metadata.save()
 
-            # Pre-set some values of the user's profile
-            language = Language.objects.get(short_name=translation.get_language())
-            user.userprofile.notification_language = language
-
-            # Set default gym, if needed
-            gym_config = GymConfig.objects.get(pk=1)
-            if gym_config.default_gym:
-                user.userprofile.gym = gym_config.default_gym
-
-                # Create gym user configuration object
-                config = GymUserConfig()
-                config.gym = gym_config.default_gym
-                config.user = user
-                config.save()
-
-            user.userprofile.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
