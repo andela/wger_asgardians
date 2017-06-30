@@ -70,6 +70,19 @@ class Language(models.Model):
 
 
 @python_2_unicode_compatible
+class ApiUser(models.Model):
+    """ 
+        The user is created via API
+    """
+
+    user = models.OneToOneField(User, editable=False)
+    created_by = models.ForeignKey(User, related_name="created_by")
+
+    def __str__(self):
+        return str(self.created_by)
+
+
+@python_2_unicode_compatible
 class UserProfile(models.Model):
     """Docstring."""
 
