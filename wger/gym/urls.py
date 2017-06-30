@@ -30,7 +30,7 @@ from wger.gym.views import (
     contract,
     contract_type,
     contract_option,
-    export
+    export,
 )
 
 
@@ -48,6 +48,9 @@ patterns_gym = [
     url(r'^(?P<pk>\d+)/members$',
         gym.GymUserListView.as_view(),
         name='user-list'),
+    url(r'^(?P<pk>\d+)/inactive-members$',
+        gym.GymUser2ListView.as_view(),
+        name='inactive-user-list'),
     url(r'^(?P<gym_pk>\d+)/add-member$',
         gym.GymAddUserView.as_view(),
         name='add-user'),
@@ -190,5 +193,5 @@ urlpatterns = [
     url(r'^contract/', include(patterns_contracts, namespace="contract")),
     url(r'^contract-type/', include(patterns_contract_types, namespace="contract_type")),
     url(r'^contract-option/', include(patterns_contract_options, namespace="contract-option")),
-    url(r'^export/', include(patterns_export, namespace="export")),
+    url(r'^export/', include(patterns_export, namespace="export"))
 ]
