@@ -39,9 +39,7 @@
             {{current_user.obj.pk}}
         </td>
         <td>
-            {% if perms.gym.manage_gyms and not current_user.perms.manage_gyms %}
-                <a href="{% url 'core:user:overview' current_user.obj.pk %}">{{current_user.obj}}</a>
-            {% elif perms.gym.manage_gym and current_user.perms.gym_trainer %}
+            {% if perms.gym.manage_gyms or perms.gym.manage_gym %}
                 <a href="{% url 'core:user:overview' current_user.obj.pk %}">{{current_user.obj}}</a>
             {% else %}
                 {{current_user.obj}}
@@ -63,8 +61,7 @@
             {{current_user.obj.get_full_name}}
         </td>
         <td>
-                Inactive &nbsp
-                <a href="{% url 'core:user:overview' current_user.obj.pk %}">  (View User Details)  </a>
+                {% trans 'Inactive' %}
         </td>
         {% if perms.gym.manage_gym or perms.gym.manage_gyms %}
         <td style="text-align: right;">

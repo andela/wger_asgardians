@@ -64,7 +64,7 @@
             {{current_user.obj.get_full_name}}
         </td>
         <td>
-            Active
+            {% trans 'Active' %}
         </td>
         {% if perms.gym.manage_gym or perms.gym.manage_gyms %}
         <td style="text-align: right;">
