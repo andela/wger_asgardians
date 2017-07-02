@@ -38,7 +38,7 @@
         {{current_user.obj.pk}}
     </td>
     <td>
-        {% if perms.gym.manage_gyms %}
+        {% if perms.gym.manage_gyms and not current_user.perms.manage_gyms %}
             <a href="{% url 'core:user:overview' current_user.obj.pk %}">{{current_user.obj}}</a>
         {% elif perms.gym.manage_gym and current_user.perms.gym_trainer %}
             <a href="{% url 'core:user:overview' current_user.obj.pk %}">{{current_user.obj}}</a>
