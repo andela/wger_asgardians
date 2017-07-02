@@ -6,7 +6,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
 
-    {% if perms.gym.manage_gyms %}
+    {% if perms.gym.manage_gyms or perms.gym.manage_gym %}
         {% breadcrumb "Gyms" "gym:gym:list" %}
         {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
         {% breadcrumb_raw name "gym:gym:inactive-user-list" %}
