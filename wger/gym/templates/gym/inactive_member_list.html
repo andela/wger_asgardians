@@ -6,7 +6,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
 
-    {% if perms.gym.manage_gyms or perms.gym.manage_gym %}
+    {% if perms.gym.manage_gyms or perms.gym.manage_gym or perms.gym.gym_trainer %}
         {% breadcrumb "Gyms" "gym:gym:list" %}
         {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
         {% breadcrumb_raw name "gym:gym:inactive-user-list" %}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-{% if perms.gym.manage_gym or perms.gym.gym_trainer %}
+{% if perms.gym.manage_gym or perms.gym.gym_trainer or perms.gym.manage_gyms %}
     {% include 'gym/partial_user_list.html' %}
 {% endif %}
 
