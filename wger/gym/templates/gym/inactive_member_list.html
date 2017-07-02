@@ -63,7 +63,8 @@
             {{current_user.obj.get_full_name}}
         </td>
         <td>
-                Inactive
+                Inactive &nbsp
+                <a href="{% url 'core:user:overview' current_user.obj.pk %}">  (View User Details)  </a>
         </td>
         {% if perms.gym.manage_gym or perms.gym.manage_gyms %}
         <td style="text-align: right;">
