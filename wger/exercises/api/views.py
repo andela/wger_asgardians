@@ -120,6 +120,25 @@ def search(request):
     return Response(json_response)
 
 
+class AllExercisesViewSet(viewsets.ReadOnlyModelViewSet):
+    """A read-only API endpoint for an exercise."""
+
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+    ordering_fields = '__all__'
+    filter_fields = ('category',
+                     'creation_date',
+                     'description',
+                     'language',
+                     'muscles',
+                     'muscles_secondary',
+                     'status',
+                     'name',
+                     'equipment',
+                     'license',
+                     'license_author')
+
+
 class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for equipment objects."""
 
