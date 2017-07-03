@@ -94,6 +94,7 @@ INSTALLED_APPS = (
 
     # Python Social Auth Setup
     'social_django',
+
 )
 
 # added list of external libraries to be installed by bower
@@ -146,6 +147,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend'
+
 )
 
 TEMPLATES = [
