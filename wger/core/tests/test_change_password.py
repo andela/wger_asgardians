@@ -50,7 +50,7 @@ class ChangePasswordTestCase(WorkoutManagerTestCase):
         if fail:
             self.assertTrue(user.check_password('testtest'))
         else:
-            self.assertTrue(user.check_password('secret'))
+            self.assertTrue(user.check_password('secret1234secret'))
 
     def test_change_password_anonymous(self):
         '''
