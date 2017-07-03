@@ -31,23 +31,8 @@ For a full list of options, visit:
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': '',
-#         'NAME': '',
-#         'USER': '',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'TEST': {
-#             'CHARSET': 'UTF8'
-#         }
-#     }
-# }
-#
-# environment_db = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(environment_db)
-
-DATABASES = {'default': dj_database_url.config(default=os.environ["DATABASE_URL"])}
+database_url = os.environ.get("DATABASE_URL")
+DATABASES = {'default': dj_database_url.config(default=database_url)}
 
 
 # Application definition
