@@ -214,11 +214,9 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
         context['name'] = "Members Comparison"
         context['admin_count'] = len(context['object_list']['admins'])
         context['user_count'] = len(context['object_list']['members'])
-        context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'),
-                                          _('Status'), ],
+        context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'), _('Select')],
                                  'users': context['object_list']['members']}
         return context
-
 
 
 class GymAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):

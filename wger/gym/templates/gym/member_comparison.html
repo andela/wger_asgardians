@@ -4,6 +4,10 @@
 {% block title %}<h4>{% trans "Members Comparison" %}</h4>
 {% endblock %}
 
+{% block header %}
+<script src="{% static 'js/weight_compare.js' %}"></script>
+{% endblock %}
+
 {% block breadcrumbs %}
     {{ block.super }}
     {% if perms.gym.manage_gyms %}
@@ -13,8 +17,62 @@
     {% endif %}
 {% endblock %}
 
-{% block content %}
+{% block sidebar %}
+
+ <link rel="stylesheet" type="text/css" href="{% static 'bower_components/datatables/media/css/dataTables.bootstrap.min.css' %}">
+ <script src="{% static 'bower_components/datatables/media/js/jquery.dataTables.min.js' %}" ></script>
+ <script src="{% static 'bower_components/datatables/media/js/dataTables.bootstrap.min.js' %}" ></script>
+ <script>
+ $(document).ready( function () {
+     /* Make table sortable */
+     $('#main_member_list').DataTable({
+         paging: false,
+         bFilter: true,
+         bInfo : false
+     });
+ });
+ </script>
+ <a href="#" class="btn btn-success btn-sm pull-left">
+     {% trans "Compare Selected Members" %}
+</a>
+
+ <table class="table table-hover" id="main_member_list">
+ <thead>
+ <tr>
+     {% for key in user_table.keys %}
+        <th>{{ key }}</th>
+
+    {% endfor %}
+ </tr>
+ </thead>
+ <tbody>
+ {% for current_user in user_table.users %}
+     {% if current_user.obj.is_active %}
+         <tr>
+             <td>
+                 {{current_user.obj.pk}}
+             </td>
+             <td>
+                 <a href="{% url 'core:user:overview' current_user.obj.pk %}">{{current_user.obj}}</a>
+             </td>
+             <td>
+                 {{current_user.obj.get_full_name}}
+             </td>
+             <td>
+                 <input type="checkbox">
+             </td>
+         </tr>
+     {% endif %}
+ {% endfor %}
+ </tbody>
+ </table>
+
+
+
+
 {% endblock %}
 
-{% block sidebar %}
+{% block content %}
+<h4>{% trans "Weight Comparison" %}</h4>
+<div id="weight_diagram"></div>
 {% endblock %}
