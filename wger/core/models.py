@@ -71,7 +71,7 @@ class Language(models.Model):
 
 @python_2_unicode_compatible
 class ApiUser(models.Model):
-    """ 
+    """
         The user is created via API
     """
 
