@@ -18,7 +18,7 @@
     <a href="{% url 'gym:gym:inactive-user-list' gym.pk %}" class="btn btn-success btn-sm pull-left">
         {% trans "View Inactive Members" %}
     </a>
-    <a href="#" class="btn btn-success btn-sm pull-right">
+    <a href="{% url 'gym:gym:member-comparison' gym.pk %}" class="btn btn-success btn-sm pull-right">
         {% trans "Compare Members" %}
     </a>
     <br></br>
