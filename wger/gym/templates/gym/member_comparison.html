@@ -17,6 +17,7 @@
     {% endif %}
 {% endblock %}
 
+
 {% block sidebar %}
 
  <link rel="stylesheet" type="text/css" href="{% static 'bower_components/datatables/media/css/dataTables.bootstrap.min.css' %}">
@@ -32,7 +33,7 @@
      });
  });
  </script>
- <a href="#" class="btn btn-success btn-sm pull-left">
+ <a href="{% url 'gym:gym:member-comparison' gym.pk %}" class="btn btn-success btn-sm pull-left">
      {% trans "Compare Selected Members" %}
 </a>
 
@@ -46,17 +47,14 @@
  </tr>
  </thead>
  <tbody>
- {% for current_user in user_table.users %}
-     {% if current_user.obj.is_active %}
+{% for u in members.users %}
+     {% if u.obj.is_active %}
          <tr>
              <td>
-                 {{current_user.obj.pk}}
+                 {{ u.obj.pk }}
              </td>
              <td>
-                 <a href="{% url 'core:user:overview' current_user.obj.pk %}">{{current_user.obj}}</a>
-             </td>
-             <td>
-                 {{current_user.obj.get_full_name}}
+                    <a href="{% url 'core:user:overview' u.obj.pk %}">{{u.obj}}</a>
              </td>
              <td>
                  <input type="checkbox">
@@ -68,11 +66,9 @@
  </table>
 
 
-
-
 {% endblock %}
 
 {% block content %}
-<h4>{% trans "Weight Comparison" %}</h4>
-<div id="weight_diagram"></div>
+    {{ userz }}
+
 {% endblock %}

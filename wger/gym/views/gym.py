@@ -38,6 +38,7 @@ from django.views.generic import (
     CreateView,
     UpdateView
 )
+from wger.core.models import UserProfile
 
 from wger.gym.forms import GymUserAddForm, GymUserPermisssionForm
 from wger.gym.helpers import (  # noqa
@@ -190,32 +191,36 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
 
     def get_queryset(self):
         """Return a list with the users, not really a queryset."""
-        out = {'admins': [],
-               'members': []}
+        members = {'members': [],
+                   'users': []}
+        for member in UserProfile.objects.all():
+            members['members'].append({'obj': member})
 
         for u in Gym.objects.get_members(self.kwargs['pk']).select_related('usercache'):
-            out['members'].append({'obj': u,
-                                   'last_log': u.usercache.last_activity})
-
-        # admins list
-        for u in Gym.objects.get_admins(self.kwargs['pk']):
-            out['admins'].append({'obj': u,
-                                  'perms': {'manage_gym': u.has_perm('gym.manage_gym'),
-                                            'manage_gyms': u.has_perm('gym.manage_gyms'),
-                                            'gym_trainer': u.has_perm('gym.gym_trainer'),
-                                            'any_admin': is_any_gym_admin(u)}
-                                  })
-        return out
+            members['users'].append({'obj': u})
+        return members
 
     def get_context_data(self, **kwargs):
         """Pass other info to the template."""
+        # out2 = UserProfile.objects.filter(user_id=10).all()
         context = super(GymMemberComparisonView, self).get_context_data(**kwargs)
         context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
         context['name'] = "Members Comparison"
-        context['admin_count'] = len(context['object_list']['admins'])
-        context['user_count'] = len(context['object_list']['members'])
-        context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'), _('Select')],
-                                 'users': context['object_list']['members']}
+        context['user_table'] = {'keys': [_('ID'), _('Username'), _('Select')]}
+        # k = out2[0]
+        # context['userz'] = {
+        #     "workout_duration": k.workout_duration,
+        #     "age": k.age,
+        #     "height": k.height,
+        #     "sleep_hours": k.sleep_hours,
+        #     "work_hours": k.work_hours,
+        #     "work_intensity": k.work_intensity,
+        #     "sport_hours": k.sport_hours,
+        #     "sport_intensity": k.sport_intensity,
+        #     "weight_unit": k.weight_unit,
+        #     "calories": k.calories}
+        context['members'] = {'members': context['object_list']['members'],
+                              'users': context['object_list']['users']}
         return context
 
 
