@@ -132,18 +132,8 @@
         "model": "exercises.muscle",
         "fields": {
           "is_front": false,
-          "name": "Lateral deltoid "
+          "name": "Lateral deltoid"
         }
-
-    },
-      {
-        "pk": 18,
-        "model": "exercises.muscle",
-        "fields": {
-          "is_front": true,
-          "name": "Obliquus externus abdominis"
-        }
-
     },
       {
         "pk": 19,
