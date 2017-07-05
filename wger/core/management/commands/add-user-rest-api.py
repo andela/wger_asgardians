@@ -5,6 +5,7 @@ from wger.core.models import ApiUser
 
 class Command(BaseCommand):
     help = 'Command to create a new user via API'
+    
     def add_arguments(self, parser):
         # add argurments/parameters to be used when creating a user
         parser.add_argument('username', type=str)
