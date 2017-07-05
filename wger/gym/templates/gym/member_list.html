@@ -16,6 +16,10 @@
 {% block content %}
 {% if perms.gym.manage_gym or perms.gym.gym_trainer or perms.gym.manage_gyms %}
     <a href="{% url 'gym:gym:inactive-user-list' gym.pk %}">Click HERE to see inactive members</a>
+    <a href="#" class="btn btn-success btn-sm pull-right">
+        {% trans "Compare Members" %}
+    </a>
+    <br></br>
     {% include 'gym/partial_user_list.html' %}
 {% endif %}
 
