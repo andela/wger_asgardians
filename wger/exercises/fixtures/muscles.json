@@ -136,7 +136,7 @@
         }
     },
       {
-        "pk": 19,
+        "pk": 18,
         "model": "exercises.muscle",
         "fields": {
           "is_front": false,
@@ -145,7 +145,7 @@
 
     },
       {
-        "pk": 20,
+        "pk": 19,
         "model": "exercises.muscle",
         "fields": {
           "is_front": true,
