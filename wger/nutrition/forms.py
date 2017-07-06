@@ -163,5 +163,6 @@ class MealItemForm(forms.ModelForm):
             self.fields['weight_unit'].queryset = \
                 IngredientWeightUnit.objects.filter(ingredient_id=ingredient_id)
 
-        MealItemFormSet = inlineformset_factory(Meal, MealItem,
-                                                form=MealItemForm, extra=1)
+
+MealItemFormSet = inlineformset_factory(Meal, MealItem,
+                                        form=MealItemForm, extra=1)
