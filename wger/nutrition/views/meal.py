@@ -48,7 +48,27 @@ class MealCreateView(WgerFormMixin, CreateView):
         plan = get_object_or_404(NutritionPlan, pk=self.kwargs['plan_pk'], user=self.request.user)
         form.instance.plan = plan
         form.instance.order = 1
-        return super(MealCreateView, self).form_valid(form)
+        self.object = form.save()
+
+        context = self.get_context_data()
+        meal_item_formset = context['meal_item']
+        if meal_item_formset.is_valid():
+            for meal_item in meal_item_formset:
+                cleaned = meal_item.cleaned_data
+                amount = cleaned.get('amount')
+                weight_unit = cleaned.get('weight_unit')
+                ingredient = cleaned.get('ingredient')
+                if weight_unit:
+                    meal_item = MealItem(
+                        meal=self.object, order=1, amount=amount,
+                        weight_unit=weight_unit, ingredient=ingredient)
+                else:
+                    meal_item = MealItem(
+                        ingredient=ingredient, meal=self.object, order=1,
+                        amount=amount)
+                meal_item.save()
+
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         """Docstring."""
@@ -58,6 +78,10 @@ class MealCreateView(WgerFormMixin, CreateView):
     def get_context_data(self, **kwargs):
         """Docstring."""
         context = super(MealCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['meal_item'] = MealItemFormSet(self.request.POST)
+        else:
+            context['meal_item'] = MealItemFormSet()
         context['form_action'] = reverse('nutrition:meal:add',
                                          kwargs={'plan_pk': self.kwargs['plan_pk']})
 
