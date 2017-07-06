@@ -194,7 +194,7 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
         members = {'members': [],
                    'users': []}
         for member in UserProfile.objects.all():
-            members['members'].append({'obj': member})
+            members['members'].append(member)
 
         for u in Gym.objects.get_members(self.kwargs['pk']).select_related('usercache'):
             members['users'].append({'obj': u})
