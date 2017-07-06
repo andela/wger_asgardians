@@ -23,8 +23,9 @@ from django.utils.translation import ugettext_lazy
 
 from django.views.generic import CreateView, UpdateView
 
-from wger.nutrition.models import NutritionPlan, Meal
+from wger.nutrition.models import NutritionPlan, Meal, MealItem
 from wger.utils.generic_views import WgerFormMixin
+from wger.nutrition.forms import MealItemFormSet
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,7 @@ class MealCreateView(WgerFormMixin, CreateView):
     model = Meal
     fields = '__all__'
     title = ugettext_lazy('Add new meal')
+    template_name = 'meal/add_meal.html'
     owner_object = {'pk': 'plan_pk', 'class': NutritionPlan}
 
     def form_valid(self, form):
