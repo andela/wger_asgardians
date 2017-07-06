@@ -815,7 +815,8 @@
             "category": 12,
             "uuid": "91fa0487-b137-4bef-86cf-39816cd5ee48",
             "muscles": [
-                12
+                12,
+                19
             ],
             "license": 1,
             "name": "Long-Pulley"
@@ -1802,7 +1803,8 @@
             "category": 8,
             "uuid": "ee00d53e-4482-44aa-b780-bbc570061841",
             "muscles": [
-                5
+                5,
+                19
             ],
             "license": 1,
             "name": "French press (skullcrusher) dumbbells"
@@ -1844,7 +1846,8 @@
             "category": 8,
             "uuid": "d147a6c2-ce64-424b-baf3-4ca841a51512",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Dumbbells on scott machine"
@@ -2242,7 +2245,8 @@
             "category": 12,
             "uuid": "3c3f23b5-b523-4a69-8c79-1106a4ce9b6d",
             "muscles": [
-                12
+                12,
+                18
             ],
             "license": 1,
             "name": "Rowing, T-bar"
@@ -2268,7 +2272,8 @@
             "category": 12,
             "uuid": "7ce6b090-5099-4cd0-83ae-1a02725c868b",
             "muscles": [
-                12
+                12,
+                18
             ],
             "license": 1,
             "name": "Pull-ups"
@@ -2313,7 +2318,8 @@
             "category": 12,
             "uuid": "f82c579e-c069-4dc7-8e36-a3266dfd8e4a",
             "muscles": [
-                12
+                12,
+                18
             ],
             "license": 1,
             "name": "Bent over rowing"
@@ -2376,7 +2382,8 @@
             "status": "2",
             "language": 2,
             "muscles_secondary": [
-                8
+                8,
+                18
             ],
             "description": "<p>.</p>",
             "equipment": [
@@ -2556,7 +2563,8 @@
             "category": 11,
             "uuid": "9e672a47-ad9e-4ae1-8fbe-011646da1c37",
             "muscles": [
-                4
+                4,
+                18
             ],
             "license": 1,
             "name": "Fly with cable"
@@ -2578,7 +2586,8 @@
             "category": 13,
             "uuid": "1df6a1b5-7bd2-402f-9d5e-94f9ed6d8b54",
             "muscles": [
-                2
+                2,
+                18
             ],
             "license": 1,
             "name": "Shoulder press, dumbbells"
@@ -2834,7 +2843,8 @@
             "category": 12,
             "uuid": "490a615c-4185-4560-88a5-020f3aa40be2",
             "muscles": [
-                12
+                12,
+                18
             ],
             "license": 1,
             "name": "Long-Pulley (eng)"
@@ -5354,7 +5364,8 @@
             "category": 13,
             "uuid": "34ce7ec5-12a1-4bf8-b4f1-94544c3f1cfc",
             "muscles": [
-                9
+                9,
+                17
             ],
             "license": 1,
             "name": "Bent High Pulls"
