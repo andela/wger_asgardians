@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-<script src="{% static 'js/weight_compare.js' %}"></script>
+<script src="{% static 'js/weight_comparison.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -32,8 +32,29 @@
          bInfo : false
      });
  });
+
+ $(document).on('click','#member_row',function(){
+    var atLeastTwoChecked = $('#selected_member:checked').length > 1;
+    var row = $(this).closest('#member_row');
+    var user_id = row.find('td:first').text();
+//     var user_id = $('row td:eq(0)').text();
+//    alert(user_id);
+
+    if (atLeastTwoChecked) {
+        alert('Come on!');
+        $('.compare_button').removeClass('disabled');
+        $('#graphs').removeClass('disabled');
+        $(atLeastTwoChecked).val(html);
+        selected.push($(ob).val());
+    }
+    else {
+        $('.compare_button').addClass('disabled');
+        }
+});
  </script>
- <a href="{% url 'gym:gym:member-comparison' gym.pk %}" class="btn btn-success btn-sm pull-left">
+
+ <a href="{% url 'gym:gym:member-comparison' gym.pk %}"
+    class="btn btn-success btn-sm pull-left compare_button disabled">
      {% trans "Compare Selected Members" %}
 </a>
 
@@ -49,7 +70,13 @@
  <tbody>
 {% for u in members.users %}
      {% if u.obj.is_active %}
-         <tr>
+        {% for m in members.members %}
+            {% if m.user_id = u.obj.pk %}
+
+             <tr id="member_row" data-membersdata =
+             "{{ m.age  }}">
+                 {% endif %}
+                 {% endfor %}
              <td>
                  {{ u.obj.pk }}
              </td>
@@ -57,7 +84,7 @@
                     <a href="{% url 'core:user:overview' u.obj.pk %}">{{u.obj}}</a>
              </td>
              <td>
-                 <input type="checkbox">
+                 <input type="checkbox" id="selected_member">
              </td>
          </tr>
      {% endif %}
@@ -69,6 +96,6 @@
 {% endblock %}
 
 {% block content %}
-    {{ userz }}
+<div id="weight_comparison"></div>
 
 {% endblock %}
