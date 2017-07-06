@@ -153,7 +153,10 @@ class MealItemForm(forms.ModelForm):
             ingredient_id = kwargs['instance'].ingredient_id
 
         if kwargs.get('data'):
-            ingredient_id = kwargs['data']['ingredient']
+            try:
+                ingredient_id = kwargs['data']['ingredient']
+            except KeyError:
+                ingredient_id = kwargs['data']['mealitem_set-0-ingredient']
 
         # Filter the available ingredients
         if ingredient_id:
