@@ -41,6 +41,7 @@ class MealCreateView(WgerFormMixin, CreateView):
     fields = '__all__'
     title = ugettext_lazy('Add new meal')
     template_name = 'meal/add_meal.html'
+    messages = ugettext_lazy('Meal successfully added')
     owner_object = {'pk': 'plan_pk', 'class': NutritionPlan}
 
     def form_valid(self, form):
