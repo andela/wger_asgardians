@@ -20,6 +20,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext_lazy
+from django.shortcuts import render
 
 from django.views.generic import CreateView, UpdateView
 
@@ -54,22 +55,24 @@ class MealCreateView(WgerFormMixin, CreateView):
         context = self.get_context_data()
         meal_item_formset = context['meal_item']
         if meal_item_formset.is_valid():
-            for meal_item in meal_item_formset:
+            for meal_item in meal_item_formset.forms:
                 cleaned = meal_item.cleaned_data
                 amount = cleaned.get('amount')
                 weight_unit = cleaned.get('weight_unit')
                 ingredient = cleaned.get('ingredient')
-                if weight_unit:
-                    meal_item = MealItem(
-                        meal=self.object, order=1, amount=amount,
-                        weight_unit=weight_unit, ingredient=ingredient)
+                if amount and ingredient:
+                    if weight_unit:
+                        meal_item = MealItem(
+                            meal=self.object, order=1, amount=amount,
+                            weight_unit=weight_unit, ingredient=ingredient)
+                    else:
+                        meal_item = MealItem(
+                            ingredient=ingredient, meal=self.object, order=1,
+                            amount=amount)
+                    meal_item.save()
+                    return HttpResponseRedirect(self.get_success_url())
                 else:
-                    meal_item = MealItem(
-                        ingredient=ingredient, meal=self.object, order=1,
-                        amount=amount)
-                meal_item.save()
-
-        return HttpResponseRedirect(self.get_success_url())
+                    return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         """Docstring."""
