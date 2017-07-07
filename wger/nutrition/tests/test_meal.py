@@ -49,7 +49,7 @@ class AddMealTestCase(WorkoutManagerAddTestCase):
     """Tests adding a Meal."""
 
     object_class = Meal
-    url = reverse('nutrition:meal:add', kwargs={'plan_pk': 4})
+    url = reverse('nutrition:meal:add', kwargs={'plan_pk': 5})
     data = {'time': datetime.time(9, 2),
             'mealitem_set-TOTAL_FORMS': ['1'],
             'mealitem_set-INITIAL_FORMS': ['0'],
