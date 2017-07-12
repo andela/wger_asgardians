@@ -18,12 +18,14 @@ import logging
 
 from django import forms
 from django.utils.translation import ugettext as _
+from django.forms.models import inlineformset_factory
 from wger.core.models import UserProfile
 
 from wger.nutrition.models import (
     IngredientWeightUnit,
     Ingredient,
-    MealItem
+    MealItem,
+    Meal
 )
 from wger.utils.widgets import Html5NumberInput
 
@@ -151,9 +153,16 @@ class MealItemForm(forms.ModelForm):
             ingredient_id = kwargs['instance'].ingredient_id
 
         if kwargs.get('data'):
-            ingredient_id = kwargs['data']['ingredient']
+            try:
+                ingredient_id = kwargs['data']['ingredient']
+            except KeyError:
+                ingredient_id = kwargs['data']['mealitem_set-0-ingredient']
 
         # Filter the available ingredients
         if ingredient_id:
             self.fields['weight_unit'].queryset = \
                 IngredientWeightUnit.objects.filter(ingredient_id=ingredient_id)
+
+
+MealItemFormSet = inlineformset_factory(Meal, MealItem,
+                                        form=MealItemForm, extra=1)
