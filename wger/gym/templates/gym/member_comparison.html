@@ -17,7 +17,6 @@
     {% endif %}
 {% endblock %}
 
-
 {% block sidebar %}
 
  <link rel="stylesheet" type="text/css" href="{% static 'bower_components/datatables/media/css/dataTables.bootstrap.min.css' %}">
@@ -34,7 +33,6 @@
          bInfo : false
      });
  });
-
  </script>
 
  <table class="table table-hover comp_table" id="main_member_list">
@@ -73,6 +71,7 @@
 {% endblock %}
 {{ array_data }}
 {% block content %}
-  <div class="msg" id="msg"> No user metrics to display </div>
-  <div class="disabled" id="chartContainer" style="height: 300px; width: 100%;"></div>
+<div align="center" class="msg" id="msg"> <p>No user metrics to display.</p>Select at least two
+      users two enable comparison</div>
+<div class="disabled" id="chartContainer" style="height: 300px; width: 100%;"></div>
 {% endblock %}
