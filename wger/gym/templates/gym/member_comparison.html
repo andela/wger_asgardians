@@ -23,6 +23,7 @@
  <link rel="stylesheet" type="text/css" href="{% static 'bower_components/datatables/media/css/dataTables.bootstrap.min.css' %}">
  <script src="{% static 'bower_components/datatables/media/js/jquery.dataTables.min.js' %}" ></script>
  <script src="{% static 'bower_components/datatables/media/js/dataTables.bootstrap.min.js' %}" ></script>
+ <script type="text/javascript" src="{% static 'js/jquery.canvasjs.min.js' %}"></script>
  <script>
  $(document).ready( function () {
      /* Make table sortable */
@@ -32,38 +33,112 @@
          bInfo : false
      });
  });
-
- $(document).on('click','#member_row',function(){
-    var atLeastTwoChecked = $('#selected_member:checked').length > 1;
+var data_array = [];
+ $(document).on('change','#member_row',function(){
     var row = $(this).closest('#member_row');
-    var user_id = row.find('td:first').text();
-//     var user_id = $('row td:eq(0)').text();
-//    alert(user_id);
+    cbox = row.find('#selected_member');
+    var atLeastTwoChecked = $('#selected_member:checked').length > 1;
+    var uname = row.find('td').eq(1).text();
+    if ($(cbox).prop('checked') == false){
+        for(var item in data_array){
+            data = data_array[item];
+            if(data.uname == uname){
+                data_array.pop(item);
+                break;
+            }
+        }
+    }else {
+        var data = $('#member_row').data('memberdata');
+        var user_id = row.find('td:first').text();
+        user_id = parseInt(user_id);
+
+        user_data = data[user_id];
+
+        udata = {"uname": uname, "age": user_data["age"], "weight": user_data["weight"],
+            "height":user_data["height"]};
+
+        data_array.push(udata);
+    }
+
 
     if (atLeastTwoChecked) {
-        alert('Come on!');
         $('.compare_button').removeClass('disabled');
-        $('#graphs').removeClass('disabled');
-        $(atLeastTwoChecked).val(html);
-        selected.push($(ob).val());
+        $('#msg').hide();
+        $('#chartContainer').show();
+        draw_graph()
     }
     else {
         $('.compare_button').addClass('disabled');
+        $('#msg').show();
+        $('#chartContainer').hide();
         }
+
+  function draw_graph() {
+      var user1 = data_array.slice(-1)[0];
+      var user2 = data_array.slice(-2)[0];
+      var chart = new CanvasJS.Chart("chartContainer",
+          {
+              title: {
+                  text: "Members Comparison"
+              },
+              animationEnabled: true,
+              legend: {
+                  cursor: "pointer",
+                  itemclick: function (e) {
+                      if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                          e.dataSeries.visible = false;
+                      }
+                      else {
+                          e.dataSeries.visible = true;
+                      }
+                      chart.render();
+                  }
+              },
+              axisY: {
+                  title: "Value"
+              },
+              data: [
+                  {
+                      type: "column",
+                      showInLegend: true,
+                      name: user1.uname,
+                      color: "red",
+                      dataPoints: [
+                          {y: user1.work_hours, label: "Work Hours"},
+                          {y: user1.height, label: "Height"},
+                          {y: user1.freetime_hours, label: "Free Time"},
+                          {y: user1.calories, label: "Calories"}
+                      ]
+                  },
+                  {
+                      type: "column",
+                      showInLegend: true,
+                      name: user2.uname,
+                      color: "blue",
+                      dataPoints: [
+                          {y: user2.work_hours, label: "Work hours"},
+                          {y: user2.height, label: "Height"},
+                          {y: user2.freetime_hours, label: "Free Time"},
+                          {y: user2.calories, label: "Calories"}
+
+
+                      ]
+                  }
+
+              ]
+          });
+
+      chart.render();
+  }
 });
+
  </script>
 
- <a href="{% url 'gym:gym:member-comparison' gym.pk %}"
-    class="btn btn-success btn-sm pull-left compare_button disabled">
-     {% trans "Compare Selected Members" %}
-</a>
-
- <table class="table table-hover" id="main_member_list">
+ <table class="table table-hover comp_table" id="main_member_list">
  <thead>
  <tr>
      {% for key in user_table.keys %}
         <th>{{ key }}</th>
-
     {% endfor %}
  </tr>
  </thead>
@@ -72,30 +147,29 @@
      {% if u.obj.is_active %}
         {% for m in members.members %}
             {% if m.user_id = u.obj.pk %}
-
-             <tr id="member_row" data-membersdata =
-             "{{ m.age  }}">
-                 {% endif %}
-                 {% endfor %}
-             <td>
-                 {{ u.obj.pk }}
-             </td>
-             <td>
-                    <a href="{% url 'core:user:overview' u.obj.pk %}">{{u.obj}}</a>
-             </td>
-             <td>
-                 <input type="checkbox" id="selected_member">
-             </td>
-         </tr>
-     {% endif %}
+             <tr id="member_row"
+                 data-memberdata="{{ members_data }}" >
+                     {% endif %}
+                     {% endfor %}
+                 <td>
+                     {{ u.obj.pk }}
+                 </td>
+                 <td>
+                        <a href="{% url 'core:user:overview' u.obj.pk %}">{{u.obj}}</a>
+                 </td>
+                 <td>
+                     <input type="checkbox" id="selected_member" name="person_selected">
+                 </td>
+            </tr>
+    {% endif %}
  {% endfor %}
  </tbody>
  </table>
 
 
 {% endblock %}
-
+{{ array_data }}
 {% block content %}
-<div id="weight_comparison"></div>
-
+  <div class="msg" id="msg"> No user metrics to display </div>
+  <div class="disabled" id="chartContainer" style="height: 300px; width: 100%;"></div>
 {% endblock %}
