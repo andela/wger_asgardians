@@ -51,10 +51,13 @@ function draw_graph () {
     });
  chart.render();
 }
+var checkedCheckboxes = []
 $(document).on('change', '#member_row', function () {
   var row = $(this).closest('#member_row');
   var cbox = row.find('#selected_member');
+  checkedCheckboxes.push(cbox)
   var atLeastTwoChecked = $('#selected_member:checked').length > 1;
+  var three = $('#selected_member:checked').length > 2
   var uname = row.find('td').eq(1).text();
   if ($(cbox).prop('checked') == false) {
     for (var item in dataArray){
@@ -81,5 +84,10 @@ $(document).on('change', '#member_row', function () {
     $('.compare_button').addClass('disabled');
     $('#msg').show();
     $('#chartContainer').hide();
+  }
+  if (three) {
+    firstCheck = checkedCheckboxes[0]
+    firstCheck.attr('checked', false);
+    checkedCheckboxes.splice(checkedCheckboxes.indexOf(firstCheck), 1)
   }
 });
