@@ -57,6 +57,7 @@ from wger.utils.generic_views import (
     WgerDeleteMixin,
     WgerMultiplePermissionRequiredMixin)
 from wger.utils.helpers import password_generator
+import json
 
 
 logger = logging.getLogger(__name__)
@@ -207,20 +208,18 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
         context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
         context['name'] = "Members Comparison"
         context['user_table'] = {'keys': [_('ID'), _('Username'), _('Select')]}
-        # k = out2[0]
-        # context['userz'] = {
-        #     "workout_duration": k.workout_duration,
-        #     "age": k.age,
-        #     "height": k.height,
-        #     "sleep_hours": k.sleep_hours,
-        #     "work_hours": k.work_hours,
-        #     "work_intensity": k.work_intensity,
-        #     "sport_hours": k.sport_hours,
-        #     "sport_intensity": k.sport_intensity,
-        #     "weight_unit": k.weight_unit,
-        #     "calories": k.calories}
         context['members'] = {'members': context['object_list']['members'],
                               'users': context['object_list']['users']}
+        data = {}
+        for member in context['members']['members']:
+            data[member.user_id] = {"age":member.age, "height":member.height,
+                                    "gender":member.gender,
+                                    "work_intensity":member.work_intensity,
+                                    "calories":member.calories,
+                                    "sports_intensity":member.sport_intensity,
+                                    "freetime_hours":member.freetime_hours,
+                                    "work_hours":member.work_hours}
+        context['members_data'] = json.dumps(data)
         return context
 
 
