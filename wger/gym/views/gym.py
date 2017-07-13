@@ -212,13 +212,13 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
                               'users': context['object_list']['users']}
         data = {}
         for member in context['members']['members']:
-            data[member.user_id] = {"age":member.age, "height":member.height,
-                                    "gender":member.gender,
-                                    "work_intensity":member.work_intensity,
-                                    "calories":member.calories,
-                                    "sports_intensity":member.sport_intensity,
-                                    "freetime_hours":member.freetime_hours,
-                                    "work_hours":member.work_hours}
+            data[member.user_id] = {"age": member.age, "height": member.height,
+                                    "gender": member.gender,
+                                    "work_intensity": member.work_intensity,
+                                    "calories": member.calories,
+                                    "sports_intensity": member.sport_intensity,
+                                    "freetime_hours": member.freetime_hours,
+                                    "work_hours": member.work_hours}
         context['members_data'] = json.dumps(data)
         return context
 
