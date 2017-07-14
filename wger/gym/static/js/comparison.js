@@ -34,10 +34,10 @@ function drawGraph() {
           name: user1.uname,
           color: 'red',
           dataPoints: [
-            { y: user1.work_hours, label: 'Work Hours' },
+            { y: user1.age, label: 'Age' },
             { y: user1.height, label: 'Height' },
-            { y: user1.freetime_hours, label: 'Free Time' },
-            { y: user1.calories, label: 'Calories' }
+            { y: user1.freetime, label: 'Free Time' },
+            { y: user1.calories, label: 'Calories x10' }
           ]
         },
         {
@@ -46,10 +46,10 @@ function drawGraph() {
           name: user2.uname,
           color: 'blue',
           dataPoints: [
-            { y: user2.work_hours, label: 'Work hours' },
+            { y: user2.age, label: 'Age' },
             { y: user2.height, label: 'Height' },
-            { y: user2.freetime_hours, label: 'Free Time' },
-            { y: user2.calories, label: 'Calories' }
+            { y: user2.freetime, label: 'Free Time /10' },
+            { y: user2.calories, label: 'Calories x10' }
           ]
         }
       ]
@@ -87,7 +87,7 @@ $(document).on('change', '#member_row', function () {
     userId = row.find('td:first').text();
     userId = parseInt(userId, 10);
     userData = data[userId];
-    udata = { uname: uname, age: userData.age, weight: userData.weight, height: userData.height };
+    udata = { uname: uname, age: userData.age, calories: userData.calories, height: userData.height, freetime: userData.freetime };
     dataArray.push(udata);
   }
   if (atLeastTwoChecked) {
