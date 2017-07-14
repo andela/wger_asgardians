@@ -87,7 +87,10 @@ $(document).on('change', '#member_row', function () {
     userId = row.find('td:first').text();
     userId = parseInt(userId, 10);
     userData = data[userId];
-    udata = { uname: uname, age: userData.age, calories: userData.calories, height: userData.height,
+    udata = { uname: uname,
+      age: userData.age,
+      calories: userData.calories,
+      height: userData.height,
       freetime: userData.freetime };
     dataArray.push(udata);
   }
