@@ -1,8 +1,11 @@
 var dataArray = [];
-function draw_graph () {
+var checkedCheckboxes = [];
+function drawGraph() {
   var user1 = dataArray.slice(-2)[0];
   var user2 = dataArray.slice(-1)[0];
+  /* eslint-disable no-undef */
   var chart = new CanvasJS.Chart('chartContainer',
+  /* eslint-disable no-undef */
     {
       title: {
         text: 'Members Comparison'
@@ -10,14 +13,16 @@ function draw_graph () {
       animationEnabled: true,
       legend: {
         cursor: 'pointer',
+        /* eslint-disable no-param-reassign*/
         itemclick: function (e) {
           if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
             e.dataSeries.visible = false;
           } else {
             e.dataSeries.visible = true;
           }
+        /* eslint-disable no-param-reassign*/
           chart.render();
-          }
+        }
       },
       axisY: {
         title: 'Value'
@@ -33,7 +38,7 @@ function draw_graph () {
             { y: user1.height, label: 'Height' },
             { y: user1.freetime_hours, label: 'Free Time' },
             { y: user1.calories, label: 'Calories' }
-            ]
+          ]
         },
         {
           type: 'column',
@@ -49,45 +54,55 @@ function draw_graph () {
         }
       ]
     });
- chart.render();
+  chart.render();
 }
-var checkedCheckboxes = []
 $(document).on('change', '#member_row', function () {
   var row = $(this).closest('#member_row');
   var cbox = row.find('#selected_member');
-  checkedCheckboxes.push(cbox)
   var atLeastTwoChecked = $('#selected_member:checked').length > 1;
-  var uncheckAuser = $('#selected_member:checked').length > 2
+  var uncheckAuser = $('#selected_member:checked').length > 2;
   var uname = row.find('td').eq(1).text();
-  if ($(cbox).prop('checked') == false) {
-    for (var item in dataArray){
-      data = dataArray[item];
-      if(data.uname == uname) {
-        dataArray.pop(item);
-        break;
+  var data;
+  var userId;
+  var userData;
+  var udata;
+  var firstCheck;
+  var item;
+  checkedCheckboxes.push(cbox);
+
+  if ($(cbox).prop('checked') === false) {
+    /* eslint-disable no-restricted-syntax*/
+    for (item in dataArray) {
+      if (Object.prototype.hasOwnProperty.call(dataArray, item)) {
+        data = dataArray[item];
+        if (data.uname === uname) {
+          dataArray.pop(item);
+          break;
+        }
       }
     }
-    } else {
-      var data = $('#member_row').data('memberdata');
-      var user_id = row.find('td:first').text();
-      user_id = parseInt(user_id);
-      user_data = data[user_id];
-      udata = {'uname': uname, 'age': user_data.age, 'weight': user_data.weight, 'height':user_data.height};
-      dataArray.push(udata);
-    }
+    /* eslint-disable no-restricted-syntax*/
+  } else {
+    data = $('#member_row').data('memberdata');
+    userId = row.find('td:first').text();
+    userId = parseInt(userId, 10);
+    userData = data[userId];
+    udata = { uname: uname, age: userData.age, weight: userData.weight, height: userData.height };
+    dataArray.push(udata);
+  }
   if (atLeastTwoChecked) {
     $('.compare_button').removeClass('disabled');
     $('#msg').hide();
     $('#chartContainer').show();
-    draw_graph()
+    drawGraph();
   } else {
     $('.compare_button').addClass('disabled');
     $('#msg').show();
     $('#chartContainer').hide();
   }
   if (uncheckAuser) {
-    firstCheck = checkedCheckboxes[0]
+    firstCheck = checkedCheckboxes[0];
     firstCheck.attr('checked', false);
-    checkedCheckboxes.splice(checkedCheckboxes.indexOf(firstCheck), 1)
+    checkedCheckboxes.splice(checkedCheckboxes.indexOf(firstCheck), 1);
   }
 });
