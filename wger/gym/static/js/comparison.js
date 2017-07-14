@@ -57,7 +57,7 @@ $(document).on('change', '#member_row', function () {
   var cbox = row.find('#selected_member');
   checkedCheckboxes.push(cbox)
   var atLeastTwoChecked = $('#selected_member:checked').length > 1;
-  var three = $('#selected_member:checked').length > 2
+  var uncheckAuser = $('#selected_member:checked').length > 2
   var uname = row.find('td').eq(1).text();
   if ($(cbox).prop('checked') == false) {
     for (var item in dataArray){
@@ -85,7 +85,7 @@ $(document).on('change', '#member_row', function () {
     $('#msg').show();
     $('#chartContainer').hide();
   }
-  if (three) {
+  if (uncheckAuser) {
     firstCheck = checkedCheckboxes[0]
     firstCheck.attr('checked', false);
     checkedCheckboxes.splice(checkedCheckboxes.indexOf(firstCheck), 1)
