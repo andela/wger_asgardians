@@ -218,7 +218,7 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
                                     "calories": member.calories,
                                     "sports_intensity": member.sport_intensity,
                                     "freetime_hours": member.freetime_hours,
-                                    "work_hours": member.work_hours,}
+                                    "work_hours": member.work_hours}
         context['members_data'] = json.dumps(data)
         return context
 
