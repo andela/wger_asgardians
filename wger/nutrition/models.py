@@ -102,50 +102,59 @@ class NutritionPlan(models.Model):
 
     def get_nutritional_values(self):
         """Sum the nutritional info of all items in the plan."""
-        use_metric = self.user.userprofile.use_metric
-        unit = 'kg' if use_metric else 'lb'
-        result = {'total': {'energy': 0,
-                            'protein': 0,
-                            'carbohydrates': 0,
-                            'carbohydrates_sugar': 0,
-                            'fat': 0,
-                            'fat_saturated': 0,
-                            'fibres': 0,
-                            'sodium': 0},
-                  'percent': {'protein': 0,
-                              'carbohydrates': 0,
-                              'fat': 0},
-                  'per_kg': {'protein': 0,
-                             'carbohydrates': 0,
-                             'fat': 0},
-                  }
 
-        # Energy
-        for meal in self.meal_set.select_related():
-            values = meal.get_nutritional_values(use_metric=use_metric)
-            for key in result['total'].keys():
-                result['total'][key] += values[key]
+        # check if the data is saved in the cache
+        nutrition_plan_info = cache.get('nutrition_plan_info')
 
-        energy = result['total']['energy']
+        # if the data is not in the cache, generate it
+        if not nutrition_plan_info:
+            use_metric = self.user.userprofile.use_metric
+            unit = 'kg' if use_metric else 'lb'
+            result = {'total': {'energy': 0,
+                                'protein': 0,
+                                'carbohydrates': 0,
+                                'carbohydrates_sugar': 0,
+                                'fat': 0,
+                                'fat_saturated': 0,
+                                'fibres': 0,
+                                'sodium': 0},
+                      'percent': {'protein': 0,
+                                  'carbohydrates': 0,
+                                  'fat': 0},
+                      'per_kg': {'protein': 0,
+                                 'carbohydrates': 0,
+                                 'fat': 0},
+                      }
 
-        # In percent
-        if energy:
-            for key in result['percent'].keys():
-                result['percent'][key] = \
-                    result['total'][key] * ENERGY_FACTOR[key][unit] / energy * 100
+            # Energy
+            for meal in self.meal_set.select_related():
+                values = meal.get_nutritional_values(use_metric=use_metric)
+                for key in result['total'].keys():
+                    result['total'][key] += values[key]
 
-        # Per body weight
-        weight_entry = self.get_closest_weight_entry()
-        if weight_entry:
-            for key in result['per_kg'].keys():
-                result['per_kg'][key] = result['total'][key] / weight_entry.weight
+            energy = result['total']['energy']
 
-        # Only 2 decimal places, anything else doesn't make sense
-        for key in result.keys():
-            for i in result[key]:
-                result[key][i] = Decimal(result[key][i]).quantize(TWOPLACES)
+            # In percent
+            if energy:
+                for key in result['percent'].keys():
+                    result['percent'][key] = \
+                        result['total'][key] * ENERGY_FACTOR[key][unit] / energy * 100
 
-        return result
+            # Per body weight
+            weight_entry = self.get_closest_weight_entry()
+            if weight_entry:
+                for key in result['per_kg'].keys():
+                    result['per_kg'][key] = result['total'][key] / weight_entry.weight
+
+            # Only 2 decimal places, anything else doesn't make sense
+            for key in result.keys():
+                for i in result[key]:
+                    result[key][i] = Decimal(result[key][i]).quantize(TWOPLACES)
+
+            # save the data in the cache for the next time
+            cache.set("nutrition_plan_info", result)
+
+            return result
 
     def get_closest_weight_entry(self):
         """Return the closest weight entry for the nutrition plan.
@@ -504,30 +513,39 @@ class Meal(models.Model):
         return self.plan
 
     def get_nutritional_values(self, use_metric=True):
-        """Sum the nutrional info of all items in the meal.
+        """Sum the nutritional info of all items in the meal.
 
         :param use_metric Flag that controls the units used
 
         """
-        nutritional_info = {'energy': 0,
-                            'protein': 0,
-                            'carbohydrates': 0,
-                            'carbohydrates_sugar': 0,
-                            'fat': 0,
-                            'fat_saturated': 0,
-                            'fibres': 0,
-                            'sodium': 0}
 
-        # Get the calculated values from the meal item and add them
-        for item in self.mealitem_set.select_related():
+        # check if the data is saved in the cache
+        nutritional_info = cache.get('nutritional_info')
 
-            values = item.get_nutritional_values(use_metric=use_metric)
-            for key in nutritional_info.keys():
-                nutritional_info[key] += values[key]
+        # if the data is not in the cache, generate it
+        if not nutritional_info:
+            nutritional_info = {'energy': 0,
+                                'protein': 0,
+                                'carbohydrates': 0,
+                                'carbohydrates_sugar': 0,
+                                'fat': 0,
+                                'fat_saturated': 0,
+                                'fibres': 0,
+                                'sodium': 0}
 
-        # Only 2 decimal places, anything else doesn't make sense
-        for i in nutritional_info:
-            nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
+            # Get the calculated values from the meal item and add them
+            for item in self.mealitem_set.select_related():
+
+                values = item.get_nutritional_values(use_metric=use_metric)
+                for key in nutritional_info.keys():
+                    nutritional_info[key] += values[key]
+
+            # Only 2 decimal places, anything else doesn't make sense
+            for i in nutritional_info:
+                nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
+
+            # save the data in the cache for the next time
+            cache.set("nutritional_info", nutritional_info)
 
         return nutritional_info
 
