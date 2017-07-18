@@ -13,6 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
+import json
 import csv
 import datetime
 import logging
@@ -57,8 +58,6 @@ from wger.utils.generic_views import (
     WgerDeleteMixin,
     WgerMultiplePermissionRequiredMixin)
 from wger.utils.helpers import password_generator
-import json
-
 
 logger = logging.getLogger(__name__)
 
@@ -203,7 +202,6 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
 
     def get_context_data(self, **kwargs):
         """Pass other info to the template."""
-        # out2 = UserProfile.objects.filter(user_id=10).all()
         context = super(GymMemberComparisonView, self).get_context_data(**kwargs)
         context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
         context['name'] = "Members Comparison"
@@ -212,16 +210,16 @@ class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequired
                               'users': context['object_list']['users']}
         data = {}
         for member in context['members']['members']:
-            if member.calories:
-                calories = member.calories / 10
-            else:
-                calories = 0
+
+            calories = (member.calories / 10) if member.calories else 0
             data[member.user_id] = {"age": member.age, "height": member.height,
                                     "gender": member.gender,
                                     "work_intensity": member.work_intensity,
                                     "calories": calories,
                                     "freetime": member.freetime_hours * 10}
+        data_keys = ["age", "gender", "work_intensity", "calories", "freetime"]
         context['members_data'] = json.dumps(data)
+        context['data_keys'] = data_keys
         return context
 
 
