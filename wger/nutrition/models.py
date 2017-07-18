@@ -32,6 +32,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import translation
 from django.conf import settings
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 from wger.core.models import Language
 from wger.utils.constants import TWOPLACES
@@ -104,10 +106,9 @@ class NutritionPlan(models.Model):
         """Sum the nutritional info of all items in the plan."""
 
         # check if the data is saved in the cache
-        nutrition_plan_info = cache.get('nutrition_plan_info')
-
+        result = cache.get('nutrition_plan_info')
         # if the data is not in the cache, generate it
-        if not nutrition_plan_info:
+        if not result:
             use_metric = self.user.userprofile.use_metric
             unit = 'kg' if use_metric else 'lb'
             result = {'total': {'energy': 0,
@@ -154,7 +155,7 @@ class NutritionPlan(models.Model):
             # save the data in the cache for the next time
             cache.set("nutrition_plan_info", result)
 
-            return result
+        return result
 
     def get_closest_weight_entry(self):
         """Return the closest weight entry for the nutrition plan.

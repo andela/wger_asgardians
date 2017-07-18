@@ -20,9 +20,15 @@ from wger.core.tests import api_base_test
 from wger.core.tests.base_testcase import WorkoutManagerDeleteTestCase
 from wger.core.tests.base_testcase import WorkoutManagerEditTestCase
 from wger.core.tests.base_testcase import WorkoutManagerTestCase
+from django.test import override_settings
 from wger.nutrition.models import NutritionPlan
 
 
+@override_settings(CACHES={
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+})
 class PlanRepresentationTestCase(WorkoutManagerTestCase):
     """Test the representation of a model."""
 
@@ -131,6 +137,8 @@ class PlanDailyCaloriesTestCase(WorkoutManagerTestCase):
         plan.has_goal_calories = True
         plan.save()
 
+        # import pdb
+        # pdb.set_trace()
         # Can find goal calories text
         response = self.client.get(reverse('nutrition:plan:view', kwargs={'id': 1}))
         self.assertTrue(response.context['plan'].has_goal_calories)
