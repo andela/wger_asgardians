@@ -145,7 +145,8 @@ class NutritionPlan(models.Model):
             weight_entry = self.get_closest_weight_entry()
             if weight_entry:
                 for key in result['per_kg'].keys():
-                    result['per_kg'][key] = result['total'][key] / weight_entry.weight
+                    result['per_kg'][key] = result['total'][key] /
+                    weight_entry.weight
 
             # Only 2 decimal places, anything else doesn't make sense
             for key in result.keys():
@@ -643,7 +644,8 @@ class MealItem(models.Model):
             nutritional_info['fat'] += self.ingredient.fat * item_weight / 100
 
             if self.ingredient.fat_saturated:
-                nutritional_info['fat_saturated'] += self.ingredient.fat_saturated * item_weight / 100
+                nutritional_info['fat_saturated'] += \
+                    self.ingredient.fat_saturated * item_weight / 100
 
             if self.ingredient.fibres:
                 nutritional_info['fibres'] += self.ingredient.fibres * item_weight / 100
