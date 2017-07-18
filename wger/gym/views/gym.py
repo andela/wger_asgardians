@@ -13,6 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
+import json
 import csv
 import datetime
 import logging
@@ -38,6 +39,7 @@ from django.views.generic import (
     CreateView,
     UpdateView
 )
+from wger.core.models import UserProfile
 
 from wger.gym.forms import GymUserAddForm, GymUserPermisssionForm
 from wger.gym.helpers import (  # noqa
@@ -56,7 +58,6 @@ from wger.utils.generic_views import (
     WgerDeleteMixin,
     WgerMultiplePermissionRequiredMixin)
 from wger.utils.helpers import password_generator
-
 
 logger = logging.getLogger(__name__)
 
@@ -169,6 +170,56 @@ class GymUser2ListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, 
                                           _('Last activity'), _('Status'), ],
                                  'users': context['object_list']['members'],
                                  'is_inactive': 'True'}
+        return context
+
+
+class GymMemberComparisonView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, ListView):
+    """Overview of gym member comparison for a specific gym."""
+
+    model = User
+    permission_required = ('gym.manage_gym', 'gym.gym_trainer', 'gym.manage_gyms')
+    template_name = 'gym/member_comparison.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """Only managers and trainers for this gym can access the members."""
+        if request.user.has_perm('gym.manage_gyms') or\
+            ((request.user.has_perm('gym.manage_gym') or
+              request.user.has_perm('gym.gym_trainer')) and
+                request.user.userprofile.gym_id == int(self.kwargs['pk'])):
+            return super(GymMemberComparisonView, self).dispatch(request, *args, **kwargs)
+        return HttpResponseForbidden()
+
+    def get_queryset(self):
+        """Return a list with the users, not really a queryset."""
+        members = {'members': [],
+                   'users': []}
+        for member in UserProfile.objects.all():
+            members['members'].append(member)
+
+        for u in Gym.objects.get_members(self.kwargs['pk']).select_related('usercache'):
+            members['users'].append({'obj': u})
+        return members
+
+    def get_context_data(self, **kwargs):
+        """Pass other info to the template."""
+        context = super(GymMemberComparisonView, self).get_context_data(**kwargs)
+        context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
+        context['name'] = "Members Comparison"
+        context['user_table'] = {'keys': [_('ID'), _('Username'), _('Select')]}
+        context['members'] = {'members': context['object_list']['members'],
+                              'users': context['object_list']['users']}
+        data = {}
+        for member in context['members']['members']:
+
+            calories = (member.calories / 10) if member.calories else 0
+            data[member.user_id] = {"age": member.age, "height": member.height,
+                                    "gender": member.gender,
+                                    "work_intensity": member.work_intensity,
+                                    "calories": calories,
+                                    "freetime": member.freetime_hours * 10}
+        data_keys = ["age", "gender", "work_intensity", "calories", "freetime"]
+        context['members_data'] = json.dumps(data)
+        context['data_keys'] = data_keys
         return context
 
 

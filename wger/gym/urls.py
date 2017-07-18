@@ -69,6 +69,10 @@ patterns_gym = [
     url(r'^user/(?P<user_pk>\d+)/reset-user-password$',
         gym.reset_user_password,
         name='reset-user-password'),
+    url(r'^(?P<pk>\d+)/member-comparison$',
+        gym.GymMemberComparisonView.as_view(),
+        name='member-comparison'),
+
 ]
 
 # 'sub patterns' for gym config
@@ -193,5 +197,5 @@ urlpatterns = [
     url(r'^contract/', include(patterns_contracts, namespace="contract")),
     url(r'^contract-type/', include(patterns_contract_types, namespace="contract_type")),
     url(r'^contract-option/', include(patterns_contract_options, namespace="contract-option")),
-    url(r'^export/', include(patterns_export, namespace="export"))
+    url(r'^export/', include(patterns_export, namespace="export")),
 ]

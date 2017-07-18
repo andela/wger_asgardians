@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n staticfiles wger_extras django_bootstrap_breadcrumbs %}
+
+{% block title %}
+{% trans "Members Comparison" %}
+{% endblock %}
+
+{% block header %}
+<script src="{% static 'js/weight_comparison.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% if perms.gym.manage_gyms %}
+        {% breadcrumb "Gyms" "gym:gym:list" %}
+        {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
+        {% breadcrumb_raw name "gym:gym:member-comparison" %}
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+
+ <link rel="stylesheet" type="text/css" href="{% static 'bower_components/datatables/media/css/dataTables.bootstrap.min.css' %}">
+ <script src="{% static 'bower_components/datatables/media/js/jquery.dataTables.min.js' %}" ></script>
+ <script src="{% static 'bower_components/datatables/media/js/dataTables.bootstrap.min.js' %}" ></script>
+ <script type="text/javascript" src="{% static 'js/jquery.canvasjs.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/comparison.js' %}"></script>
+ <script>
+ $(document).ready( function () {
+     /* Make table sortable */
+     $('#main_member_list').DataTable({
+         paging: false,
+         bFilter: true,
+         bInfo : false
+     });
+ });
+ </script>
+
+ <table class="table table-hover comp_table" id="main_member_list">
+ <thead>
+ <tr>
+     {% for key in user_table.keys %}
+        <th>{{ key }}</th>
+    {% endfor %}
+ </tr>
+ </thead>
+ <tbody>
+{% for u in members.users %}
+     {% if u.obj.is_active %}
+        {% for m in members.members %}
+            {% if m.user_id = u.obj.pk %}
+             <tr id="member_row"
+                 data-memberdata="{{ members_data }}" >
+                     {% endif %}
+                     {% endfor %}
+                 <td>
+                     {{ u.obj.pk }}
+                 </td>
+                 <td>
+                        <a href="{% url 'core:user:overview' u.obj.pk %}">{{u.obj}}</a>
+                 </td>
+                 <td>
+                     <input type="checkbox" id="selected_member" name="person_selected">
+                 </td>
+            </tr>
+    {% endif %}
+ {% endfor %}
+ </tbody>
+ </table>
+
+
+{% endblock %}
+{{ array_data }}
+{% block content %}
+<div align="center" class="msg" id="msg"> <p>No user metrics to display.</p>Select at least two
+      users to enable comparison</div>
+<div class="disabled" id="chartContainer" style="height: 300px; width: 100%;"></div>
+{% endblock %}
