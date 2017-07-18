@@ -20,6 +20,7 @@ from decimal import Decimal
 
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
+from django.test import override_settings
 
 from wger.core.models import Language
 from wger.core.tests import api_base_test
@@ -174,6 +175,11 @@ class IngredientSearchTestCase(WorkoutManagerTestCase):
         self.search_ingredient()
 
 
+@override_settings(CACHES={
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+})
 class IngredientValuesTestCase(WorkoutManagerTestCase):
     """Tests the nutritional value calculator for an ingredient."""
 
