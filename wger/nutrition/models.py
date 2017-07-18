@@ -667,6 +667,11 @@ class MealItem(models.Model):
                 nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
 
             # save the data in the cache for the next time
-            cache.set("meal_item_info", nutritional_info)
+            cache.set('meal_item_info', nutritional_info)
 
         return nutritional_info
+
+
+@receiver(pre_save, sender=MealItem)
+def delete_cached_meal_item_info(sender, instance, **kwargs):
+    cache.delete("meal_item_info")
