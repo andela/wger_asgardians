@@ -201,6 +201,11 @@ class NutritionPlan(models.Model):
             return 4
 
 
+@receiver(pre_save, sender=NutritionPlan)
+def delete_cached_nutrition_plan_info(sender, instance, **kwargs):
+    cache.delete("nutrition_plan_info")
+
+
 @python_2_unicode_compatible
 class Ingredient(AbstractLicenseModel, models.Model):
     """An ingredient, with some approximate nutrition values."""
@@ -549,6 +554,11 @@ class Meal(models.Model):
             cache.set("nutritional_info", nutritional_info)
 
         return nutritional_info
+
+
+@receiver(pre_save, sender=Meal)
+def delete_cached_nutritional_info(sender, instance, **kwargs):
+    cache.delete("nutritional_info")
 
 
 @python_2_unicode_compatible
