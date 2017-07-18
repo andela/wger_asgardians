@@ -145,8 +145,8 @@ class NutritionPlan(models.Model):
             weight_entry = self.get_closest_weight_entry()
             if weight_entry:
                 for key in result['per_kg'].keys():
-                    result['per_kg'][key] = result['total'][key] /
-                    weight_entry.weight
+                    result['per_kg'][key] = \
+                        result['total'][key] / weight_entry.weight
 
             # Only 2 decimal places, anything else doesn't make sense
             for key in result.keys():
