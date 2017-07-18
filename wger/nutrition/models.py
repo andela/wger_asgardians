@@ -610,54 +610,63 @@ class MealItem(models.Model):
         :param use_metric Flag that controls the units used
 
         """
-        nutritional_info = {'energy': 0,
-                            'protein': 0,
-                            'carbohydrates': 0,
-                            'carbohydrates_sugar': 0,
-                            'fat': 0,
-                            'fat_saturated': 0,
-                            'fibres': 0,
-                            'sodium': 0}
-        # Calculate the base weight of the item
-        if self.get_unit_type() == MEALITEM_WEIGHT_GRAM:
-            item_weight = self.amount
-        else:
-            item_weight = (self.amount *
-                           self.weight_unit.amount *
-                           self.weight_unit.gram)
 
-        nutritional_info['energy'] += self.ingredient.energy * item_weight / 100
-        nutritional_info['protein'] += self.ingredient.protein * item_weight / 100
-        nutritional_info['carbohydrates'] += self.ingredient.carbohydrates * item_weight / 100
+        # check if the data is saved in the cache
+        nutritional_info = cache.get('meal_item_info')
 
-        if self.ingredient.carbohydrates_sugar:
-            nutritional_info['carbohydrates_sugar'] += self.ingredient.carbohydrates_sugar \
-                * item_weight / 100
+        # if the data is not in the cache, generate it
+        if not nutritional_info:
+            nutritional_info = {'energy': 0,
+                                'protein': 0,
+                                'carbohydrates': 0,
+                                'carbohydrates_sugar': 0,
+                                'fat': 0,
+                                'fat_saturated': 0,
+                                'fibres': 0,
+                                'sodium': 0}
+            # Calculate the base weight of the item
+            if self.get_unit_type() == MEALITEM_WEIGHT_GRAM:
+                item_weight = self.amount
+            else:
+                item_weight = (self.amount *
+                               self.weight_unit.amount *
+                               self.weight_unit.gram)
 
-        nutritional_info['fat'] += self.ingredient.fat * item_weight / 100
+            nutritional_info['energy'] += self.ingredient.energy * item_weight / 100
+            nutritional_info['protein'] += self.ingredient.protein * item_weight / 100
+            nutritional_info['carbohydrates'] += self.ingredient.carbohydrates * item_weight / 100
 
-        if self.ingredient.fat_saturated:
-            nutritional_info['fat_saturated'] += self.ingredient.fat_saturated * item_weight / 100
+            if self.ingredient.carbohydrates_sugar:
+                nutritional_info['carbohydrates_sugar'] += self.ingredient.carbohydrates_sugar \
+                    * item_weight / 100
 
-        if self.ingredient.fibres:
-            nutritional_info['fibres'] += self.ingredient.fibres * item_weight / 100
+            nutritional_info['fat'] += self.ingredient.fat * item_weight / 100
 
-        if self.ingredient.sodium:
-            nutritional_info['sodium'] += self.ingredient.sodium * item_weight / 100
+            if self.ingredient.fat_saturated:
+                nutritional_info['fat_saturated'] += self.ingredient.fat_saturated * item_weight / 100
 
-        # If necessary, convert weight units
-        if not use_metric:
-            for key, value in nutritional_info.items():
+            if self.ingredient.fibres:
+                nutritional_info['fibres'] += self.ingredient.fibres * item_weight / 100
 
-                # Energy is not a weight!
-                if key == 'energy':
-                    continue
+            if self.ingredient.sodium:
+                nutritional_info['sodium'] += self.ingredient.sodium * item_weight / 100
 
-                # Everything else, to ounces
-                nutritional_info[key] = AbstractWeight(value, 'g').oz
+            # If necessary, convert weight units
+            if not use_metric:
+                for key, value in nutritional_info.items():
 
-        # Only 2 decimal places, anything else doesn't make sense
-        for i in nutritional_info:
-            nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
+                    # Energy is not a weight!
+                    if key == 'energy':
+                        continue
+
+                    # Everything else, to ounces
+                    nutritional_info[key] = AbstractWeight(value, 'g').oz
+
+            # Only 2 decimal places, anything else doesn't make sense
+            for i in nutritional_info:
+                nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
+
+            # save the data in the cache for the next time
+            cache.set("meal_item_info", nutritional_info)
 
         return nutritional_info
