@@ -32,7 +32,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import translation
 from django.conf import settings
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_delete, post_save
 from django.dispatch import receiver
 
 from wger.core.models import Language
@@ -104,11 +104,10 @@ class NutritionPlan(models.Model):
 
     def get_nutritional_values(self):
         """Sum the nutritional info of all items in the plan."""
-
         # check if the data is saved in the cache
-        result = cache.get('nutrition_plan_info')
-        # if the data is not in the cache, generate it
+        result = cache.get('nutrition_plan_info-{0}'.format(self.id))
         if not result:
+            # if the data is not in the cache, generate it
             use_metric = self.user.userprofile.use_metric
             unit = 'kg' if use_metric else 'lb'
             result = {'total': {'energy': 0,
@@ -154,7 +153,7 @@ class NutritionPlan(models.Model):
                     result[key][i] = Decimal(result[key][i]).quantize(TWOPLACES)
 
             # save the data in the cache for the next time
-            cache.set("nutrition_plan_info", result)
+            cache.set("nutrition_plan_info-{0}".format(self.id), result)
 
         return result
 
@@ -202,9 +201,9 @@ class NutritionPlan(models.Model):
             return 4
 
 
-@receiver(pre_save, sender=NutritionPlan)
-def delete_cached_nutrition_plan_info(sender, instance, **kwargs):
-    cache.delete("nutrition_plan_info")
+@receiver(post_delete, sender=NutritionPlan)
+def save_cache_dict(sender, instance, **kwargs):
+    cache.delete("nutrition_plan_info-{0}".format(instance.id))
 
 
 @python_2_unicode_compatible
@@ -526,12 +525,7 @@ class Meal(models.Model):
 
         """
 
-        # check if the data is saved in the cache
-        nutritional_info = cache.get('nutritional_info')
-
-        # if the data is not in the cache, generate it
-        if not nutritional_info:
-            nutritional_info = {'energy': 0,
+        nutritional_info = {'energy': 0,
                                 'protein': 0,
                                 'carbohydrates': 0,
                                 'carbohydrates_sugar': 0,
@@ -540,26 +534,18 @@ class Meal(models.Model):
                                 'fibres': 0,
                                 'sodium': 0}
 
-            # Get the calculated values from the meal item and add them
-            for item in self.mealitem_set.select_related():
+        # Get the calculated values from the meal item and add them
+        for item in self.mealitem_set.select_related():
 
-                values = item.get_nutritional_values(use_metric=use_metric)
-                for key in nutritional_info.keys():
-                    nutritional_info[key] += values[key]
+            values = item.get_nutritional_values(use_metric=use_metric)
+            for key in nutritional_info.keys():
+                nutritional_info[key] += values[key]
 
-            # Only 2 decimal places, anything else doesn't make sense
-            for i in nutritional_info:
-                nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
-
-            # save the data in the cache for the next time
-            cache.set("nutritional_info", nutritional_info)
+        # Only 2 decimal places, anything else doesn't make sense
+        for i in nutritional_info:
+            nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
 
         return nutritional_info
-
-
-@receiver(pre_save, sender=Meal)
-def delete_cached_nutritional_info(sender, instance, **kwargs):
-    cache.delete("nutritional_info")
 
 
 @python_2_unicode_compatible
@@ -613,7 +599,7 @@ class MealItem(models.Model):
         """
 
         # check if the data is saved in the cache
-        nutritional_info = cache.get('meal_item_info')
+        nutritional_info = cache.get("meal_item_info-{0}".format(self.id))
 
         # if the data is not in the cache, generate it
         if not nutritional_info:
@@ -669,11 +655,17 @@ class MealItem(models.Model):
                 nutritional_info[i] = Decimal(nutritional_info[i]).quantize(TWOPLACES)
 
             # save the data in the cache for the next time
-            cache.set('meal_item_info', nutritional_info)
+            cache.set("meal_item_info-{0}".format(self.id), nutritional_info)
 
         return nutritional_info
 
 
-@receiver(pre_save, sender=MealItem)
-def delete_cached_meal_item_info(sender, instance, **kwargs):
-    cache.delete("meal_item_info")
+@receiver(post_delete, sender=MealItem)
+def delete_meal_item_cache_dict(sender, instance, **kwargs):
+    cache.delete("meal_item_info-{0}".format(instance.id))
+
+
+@receiver(post_delete, sender=MealItem)
+@receiver(post_save, sender=MealItem)
+def save_cached_meal_item_info(sender, instance, **kwargs):
+    cache.delete("nutrition_plan_info-{0}".format(instance.meal.plan.id))
