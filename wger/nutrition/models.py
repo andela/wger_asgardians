@@ -32,7 +32,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import translation
 from django.conf import settings
-from django.db.models.signals import pre_save, post_delete, post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
 from wger.core.models import Language
@@ -203,6 +203,11 @@ class NutritionPlan(models.Model):
 
 @receiver(post_delete, sender=NutritionPlan)
 def save_cache_dict(sender, instance, **kwargs):
+    """
+    Signal: post_delete
+    Sender: NutritionPlan
+    Delete nutrition_plan_info cache
+    """
     cache.delete("nutrition_plan_info-{0}".format(instance.id))
 
 
@@ -526,13 +531,13 @@ class Meal(models.Model):
         """
 
         nutritional_info = {'energy': 0,
-                                'protein': 0,
-                                'carbohydrates': 0,
-                                'carbohydrates_sugar': 0,
-                                'fat': 0,
-                                'fat_saturated': 0,
-                                'fibres': 0,
-                                'sodium': 0}
+                            'protein': 0,
+                            'carbohydrates': 0,
+                            'carbohydrates_sugar': 0,
+                            'fat': 0,
+                            'fat_saturated': 0,
+                            'fibres': 0,
+                            'sodium': 0}
 
         # Get the calculated values from the meal item and add them
         for item in self.mealitem_set.select_related():
@@ -662,10 +667,20 @@ class MealItem(models.Model):
 
 @receiver(post_delete, sender=MealItem)
 def delete_meal_item_cache_dict(sender, instance, **kwargs):
+    """
+    Signal: post_delete
+    Sender: MealItem
+    Delete meal_item_info cache
+    """
     cache.delete("meal_item_info-{0}".format(instance.id))
 
 
 @receiver(post_delete, sender=MealItem)
 @receiver(post_save, sender=MealItem)
 def save_cached_meal_item_info(sender, instance, **kwargs):
+    """
+    Signal: post_save, post_delete
+    Sender: MealItem
+    Delete nutrition_plan_info cache
+    """
     cache.delete("nutrition_plan_info-{0}".format(instance.meal.plan.id))
