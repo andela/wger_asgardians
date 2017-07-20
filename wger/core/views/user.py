@@ -505,3 +505,10 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
                                  'users': context['object_list']['members'],
                                  'is_user_list': 'True'}
         return context
+
+
+@login_required
+def allow_fitbit(request):
+    """Allow a user to import data from their fitbit account."""
+    template_data = {}
+    return render(request, 'user/fitbit.html', template_data)
