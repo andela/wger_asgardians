@@ -1,0 +1,11 @@
+{% extends "base_wide.html" %}
+{% load i18n staticfiles wger_extras %}
+{% block title %}{% trans "Import Data From Fitbit" %}{% endblock %}
+{% block content %}
+    <p class="text-info">You can pull in your data from Fitbit by clicking on the button below.<br>
+                        You will be redirected to the Fitbit authorization page
+    <br> <br>
+<a href="#" class="btn btn-success btn-sm pull-left">
+    {% trans "Import Weight Data" %}
+</a>
+{% endblock %}
