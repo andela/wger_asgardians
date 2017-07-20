@@ -16,6 +16,9 @@
 # You should have received a copy of the GNU Affero General Public License
 
 import logging
+import os
+import datetime
+import requests
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
@@ -64,6 +67,7 @@ from wger.gym.models import (
     GymUserConfig,
     Contract
 )
+from fitbit import FitbitOauth2Client
 
 logger = logging.getLogger(__name__)
 
@@ -508,7 +512,76 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
 
 @login_required
-def allow_fitbit(request):
+def allow_fitbit(request, code=None):
     """Allow a user to import data from their fitbit account."""
+    FITBIT_CLIENT_ID = "228NXD"
+    FITBIT_SECRET = "3bd6d1353c957ced38e12204b743f7b7"
     template_data = {}
+    client_id = FITBIT_CLIENT_ID
+    client_secret = FITBIT_SECRET
+
+    fitbit_client = FitbitOauth2Client(client_id, client_secret)
+
+    # if request is coming from fitbit site, get token
+    if 'code' in request.GET:
+        code = request.GET.get("code", "")
+        form = {
+          'client_secret': client_secret,
+          'code': code,
+          'client_id': client_id,
+          'grant_type': 'authorization_code',
+          'redirect_uri': 'http://127.0.0.1:8000/en/dashboard'
+        }
+        headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          "Authorization":
+          'Basic MjI4RERCOmZiZjJiZGFlYjMwYjllOGI1ZmQyNmQ5Y2MxYmU4YTVh'
+          }
+
+        # Get user weight data from fitbit
+        response = requests.post(fitbit_client.request_token_url, form,
+                                 headers=headers).json()
+        if "access_token" in response:
+            token = response['access_token']
+            user_id = response['user_id']
+            headers['Authorization'] = 'Bearer ' + token
+
+            if 'weight' in response['scope']:
+                period = "30d"
+                end_date = datetime.datetime.today().strftime('%Y-%m-%d')
+
+                uri = user_id + '/body/log/weight/date/{}/{}.json'.format(
+                  end_date, period)
+                response_weight = requests.get(
+                  'https://api.fitbit.com/1/user/' + uri,
+                  headers=headers)
+
+                weight = response_weight.json()['weight']
+                try:
+                    for w in weight:
+                        entry = WeightEntry()
+                        entry.weight = w['weight']
+                        entry.user = request.user
+                        entry.date = datetime.datetime.strptime(w['date'],
+                                                                '%Y-%m-%d')
+                        entry.save()
+
+                    messages.success(request, _(
+                                   'Successfully synced weight data.'))
+
+                except Exception as error:
+                    if "UNIQUE constraint failed" in str(error):
+                        messages.info(request, _(
+                          'Already synced up for today.'))
+                    else:
+                        messages.warning(request, _(
+                          'Couldnt sync the weight data.'))
+        else:
+            messages.warning(request, _('Something went wrong.'))
+
+    # link to page that makes user authorize wger to access their fitbit
+    template_data['fitbit_auth_link'] = \
+        fitbit_client.authorize_token_url(
+        redirect_uri='http://127.0.0.1:8000/en/dashboard',
+        prompt='consent')[0]
     return render(request, 'user/fitbit.html', template_data)
