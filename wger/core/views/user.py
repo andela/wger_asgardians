@@ -530,7 +530,7 @@ def allow_fitbit(request, code=None):
           'code': code,
           'client_id': client_id,
           'grant_type': 'authorization_code',
-          'redirect_uri': 'http://127.0.0.1:8000/en/dashboard'
+          'redirect_uri': 'http://127.0.0.1:8000/en/fitbit'
         }
         headers = {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -582,6 +582,6 @@ def allow_fitbit(request, code=None):
     # link to page that makes user authorize wger to access their fitbit
     template_data['fitbit_auth_link'] = \
         fitbit_client.authorize_token_url(
-        redirect_uri='http://127.0.0.1:8000/en/dashboard',
+        redirect_uri='http://127.0.0.1:8000/en/fitbit',
         prompt='consent')[0]
     return render(request, 'user/fitbit.html', template_data)
