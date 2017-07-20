@@ -160,9 +160,9 @@ urlpatterns = i18n_patterns(
         {'sitemaps': sitemaps},
         name='sitemap'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
+    # fitbit page
+    url(r'^fitbit/', allow_fitbit, name='fitbit'),
 )
-
-#
 # URLs without language prefix
 #
 urlpatterns += [
@@ -182,8 +182,7 @@ urlpatterns += [
         nutrition_api_views.search,
         name='ingredient-search'),
     url(r'^api/v2/', include(router.urls)),
-    # fitbit page
-    url(r'^fitbit/', allow_fitbit, name='fitbit'),
+
 ]
 
 #
