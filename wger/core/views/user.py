@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 
 import logging
-import os
 import datetime
 import requests
 
@@ -525,18 +524,14 @@ def allow_fitbit(request, code=None):
     # if request is coming from fitbit site, get token
     if 'code' in request.GET:
         code = request.GET.get("code", "")
-        form = {
-          'client_secret': client_secret,
-          'code': code,
-          'client_id': client_id,
-          'grant_type': 'authorization_code',
-          'redirect_uri': 'http://127.0.0.1:8000/en/fitbit'
-        }
-        headers = {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          "Authorization":
-          'Basic MjI4RERCOmZiZjJiZGFlYjMwYjllOGI1ZmQyNmQ5Y2MxYmU4YTVh'
-          }
+        form = {'client_secret': client_secret,
+                'code': code,
+                'client_id': client_id,
+                'grant_type': 'authorization_code',
+                'redirect_uri': 'http://127.0.0.1:8000/en/fitbit'}
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   "Authorization":
+                   'Basic MjI4RERCOmZiZjJiZGFlYjMwYjllOGI1ZmQyNmQ5Y2MxYmU4YTVh'}
 
         # Get user weight data from fitbit
         response = requests.post(fitbit_client.request_token_url, form,
@@ -551,10 +546,9 @@ def allow_fitbit(request, code=None):
                 end_date = datetime.datetime.today().strftime('%Y-%m-%d')
 
                 uri = user_id + '/body/log/weight/date/{}/{}.json'.format(
-                  end_date, period)
+                    end_date, period)
                 response_weight = requests.get(
-                  'https://api.fitbit.com/1/user/' + uri,
-                  headers=headers)
+                    'https://api.fitbit.com/1/user/' + uri, headers=headers)
 
                 weight = response_weight.json()['weight']
                 try:
@@ -566,16 +560,13 @@ def allow_fitbit(request, code=None):
                                                                 '%Y-%m-%d')
                         entry.save()
 
-                    messages.success(request, _(
-                                   'Successfully synced weight data.'))
+                    messages.success(request, _('Successfully synced weight data.'))
 
                 except Exception as error:
                     if "UNIQUE constraint failed" in str(error):
-                        messages.info(request, _(
-                          'Already synced up for today.'))
+                        messages.info(request, _('Already synced up for today.'))
                     else:
-                        messages.warning(request, _(
-                          'Couldnt sync the weight data.'))
+                        messages.warning(request, _('Couldnt sync the weight data.'))
         else:
             messages.warning(request, _('Something went wrong.'))
 
