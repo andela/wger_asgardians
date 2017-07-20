@@ -80,7 +80,7 @@ class Muscle(models.Model):
 
 
 @receiver(post_delete, sender=Muscle)
-def update_cache_on_delete(sender, instance, *args, **kwargs):
+def reset_cache_on_delete(sender, instance, *args, **kwargs):
     cache.clear()
 
 
