@@ -41,6 +41,7 @@ from wger.core.api import views as core_api_views
 from wger.exercises.api import views as exercises_api_views
 from wger.nutrition.api import views as nutrition_api_views
 from wger.weight.api import views as weight_api_views
+from wger.core.views.user import allow_fitbit
 
 #
 # REST API
@@ -181,6 +182,8 @@ urlpatterns += [
         nutrition_api_views.search,
         name='ingredient-search'),
     url(r'^api/v2/', include(router.urls)),
+    # fitbit page
+    url(r'^fitbit/', allow_fitbit, name='fitbit'),
 ]
 
 #
