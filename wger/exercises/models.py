@@ -21,6 +21,9 @@ import logging
 import bleach
 
 from django.db import models
+# import signals
+from django.db.models.signals import post_save, post_delete, pre_save, pre_delete
+
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify  # django.utils.text.slugify in django 1.5!
 from django.contrib.auth.models import User
@@ -33,6 +36,8 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.validators import MinLengthValidator
 from django.conf import settings
+
+from django.dispatch import receiver
 
 from wger.core.models import Language
 from wger.utils.helpers import smart_capitalize
@@ -72,6 +77,11 @@ class Muscle(models.Model):
     def get_owner_object(self):
         """Muscle has no owner information."""
         return False
+
+
+@receiver(post_delete, sender=Muscle)
+def update_cache_on_delete(sender, instance, *args, **kwargs):
+    cache.clear()
 
 
 @python_2_unicode_compatible
